@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano Estratégico 10 Anos — Thiago Carvalho</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f0f4f8;
+        color: #1e293b;
+        line-height: 1.6;
+        padding: 20px;
+    }
+    .container {
+        max-width: 1320px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    header {
+        background: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0369a1 100%);
+        color: #fff;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    header h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+        font-weight: 700;
+    }
+    header .subtitle {
+        font-size: 17px;
+        opacity: 0.95;
+        margin-bottom: 18px;
+        position: relative;
+        z-index: 1;
+    }
+    header .badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        backdrop-filter: blur(10px);
+    }
+    header .meta {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+    header .meta span {
+        background: rgba(255,255,255,0.2);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        backdrop-filter: blur(10px);
+    }
+
+    .content { padding: 40px; }
+
+    section {
+        margin-bottom: 50px;
+        padding-bottom: 35px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    section:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    h2 {
+        font-size: 24px;
+        color: #0c4a6e;
+        margin-bottom: 8px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .section-subtitle {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 25px;
+        font-style: italic;
+    }
+    h3 {
+        font-size: 18px;
+        color: #0369a1;
+        margin: 25px 0 15px;
+        font-weight: 600;
+    }
+
+    /* INTRO */
+    .intro-box {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 2px solid #f59e0b;
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin: 20px 0;
+    }
+    .intro-box .intro-title {
+        font-weight: 700;
+        color: #78350f;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+    .intro-box .intro-text {
+        font-size: 14px;
+        color: #7c2d12;
+    }
+
+    /* HERO METRICS */
+    .hero-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+    .hero-card {
+        background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+        border-radius: 14px;
+        padding: 22px;
+        border-top: 5px solid;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .hero-card.green { border-top-color: #10b981; }
+    .hero-card.blue { border-top-color: #3b82f6; }
+    .hero-card.orange { border-top-color: #f59e0b; }
+    .hero-card.red { border-top-color: #ef4444; }
+    .hero-card.purple { border-top-color: #8b5cf6; }
+
+    .hero-card .icon-big {
+        font-size: 28px;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .hero-card .label-big {
+        font-size: 12px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+    .hero-card .value-big {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+    }
+    .hero-card .desc-big {
+        font-size: 11px;
+        color: #94a3b8;
+    }
+
+    /* CHART */
+    .chart-container {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: 1px solid #e2e8f0;
+    }
+    .chart-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 5px;
+    }
+    .chart-subtitle {
+        font-size: 13px;
+        color: #64748b;
+        margin-bottom: 20px;
+    }
+    .chart-wrapper {
+        position: relative;
+        height: 360px;
+    }
+    .chart-wrapper.tall {
+        height: 440px;
+    }
+    .chart-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    @media (max-width: 768px) {
+        .chart-grid { grid-template-columns: 1fr; }
+    }
+
+    /* TABLE */
+    .table-wrapper {
+        overflow-x: auto;
+        margin: 15px 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 12px;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        min-width: 900px;
+    }
+    thead { background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); color: #fff; }
+    th {
+        padding: 11px 10px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    td {
+        padding: 9px 10px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    tbody tr:hover { background: #f0f9ff; }
+    tbody tr:last-child td { border-bottom: none; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .center { text-align: center; }
+    tfoot {
+        background: #e0f2fe;
+        font-weight: 700;
+    }
+    tfoot td {
+        padding: 11px 10px;
+        border-top: 2px solid #0369a1;
+        color: #0c4a6e;
+    }
+
+    .row-divider td {
+        background: #e0f2fe !important;
+        font-weight: 700;
+        color: #0c4a6e;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        padding: 8px 10px;
+    }
+    .row-total td {
+        background: #fef3c7 !important;
+        font-weight: 700;
+        color: #78350f;
+        border-top: 2px solid #f59e0b;
+    }
+    .row-result td {
+        background: #d1fae5 !important;
+        font-weight: 700;
+        color: #064e3b;
+        border-top: 2px solid #10b981;
+    }
+    .row-debt td {
+        background: #fee2e2 !important;
+        font-weight: 600;
+        color: #7f1d1d;
+    }
+    .row-pe td {
+        background: #ede9fe !important;
+        font-weight: 600;
+        color: #5b21b6;
+    }
+
+    /* PILLAR */
+    .pillar-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+        margin: 20px 0;
+    }
+    .pillar {
+        background: #fff;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 22px;
+        position: relative;
+        transition: all 0.2s;
+    }
+    .pillar:hover {
+        border-color: #0369a1;
+        box-shadow: 0 4px 16px rgba(3,105,161,0.15);
+    }
+    .pillar-num {
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: linear-gradient(135deg, #0c4a6e, #0369a1);
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(12,74,110,0.3);
+    }
+    .pillar-title {
+        font-weight: 700;
+        color: #0c4a6e;
+        font-size: 15px;
+        margin-bottom: 8px;
+        margin-top: 10px;
+    }
+    .pillar-desc {
+        font-size: 13px;
+        color: #475569;
+        line-height: 1.55;
+    }
+
+    /* SENSIBILIDADE */
+    .sens-block {
+        background: #f8fafc;
+        border-radius: 14px;
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid #e2e8f0;
+    }
+    .sens-block-title {
+        font-weight: 700;
+        color: #0c4a6e;
+        font-size: 16px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .sens-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 2px;
+        font-size: 11px;
+    }
+    .sens-table th {
+        background: #0369a1;
+        color: #fff;
+        padding: 8px 6px;
+        text-align: center;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+    .sens-table td {
+        padding: 9px 6px;
+        text-align: center;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+    .sens-table .row-label {
+        background: #1e293b;
+        color: #fff;
+        text-align: center;
+    }
+    /* Cores graduais para sensibilidade */
+    .sens-vh { background: #064e3b; color: #fff; } /* verde muito alto */
+    .sens-h  { background: #10b981; color: #fff; } /* verde alto */
+    .sens-mh { background: #6ee7b7; color: #064e3b; } /* verde médio */
+    .sens-n  { background: #fef3c7; color: #78350f; } /* neutro */
+    .sens-ml { background: #fca5a5; color: #7f1d1d; } /* vermelho médio */
+    .sens-l  { background: #ef4444; color: #fff; } /* vermelho */
+    .sens-vl { background: #7f1d1d; color: #fff; } /* vermelho muito */
+
+    .sens-base {
+        background: #fde68a !important;
+        color: #78350f !important;
+        border: 2px solid #f59e0b !important;
+        font-weight: 800 !important;
+    }
+
+    .sens-legend {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+        font-size: 11px;
+    }
+    .sens-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .sens-legend-color {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+    /* ALERTS */
+    .alert {
+        padding: 16px 20px;
+        border-radius: 10px;
+        margin: 18px 0;
+        font-size: 14px;
+        border-left: 5px solid;
+    }
+    .alert strong { display: block; margin-bottom: 6px; font-size: 15px; }
+    .alert-warning { background: #fef3c7; border-color: #f59e0b; color: #78350f; }
+    .alert-success { background: #d1fae5; border-color: #10b981; color: #064e3b; }
+    .alert-danger { background: #fee2e2; border-color: #dc2626; color: #7f1d1d; }
+    .alert-info { background: #dbeafe; border-color: #2563eb; color: #1e3a8a; }
+
+    /* TIMELINE */
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+        margin: 20px 0;
+    }
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, #0c4a6e, #0369a1);
+        border-radius: 2px;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 18px;
+        padding: 14px 18px;
+        background: #f0f9ff;
+        border-radius: 10px;
+        border-left: 4px solid #0369a1;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -28px;
+        top: 18px;
+        width: 16px;
+        height: 16px;
+        background: #0369a1;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 3px #0369a1;
+    }
+    .timeline-year {
+        font-weight: 700;
+        color: #0c4a6e;
+        font-size: 13px;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .timeline-desc {
+        font-size: 13px;
+        color: #334155;
+    }
+
+    /* PREMISES BOX */
+    .premise-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin: 18px 0;
+    }
+    .premise-card {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        border-radius: 10px;
+        padding: 16px;
+        text-align: center;
+        border: 1px solid #bae6fd;
+    }
+    .premise-card .p-label {
+        font-size: 11px;
+        color: #075985;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+    .premise-card .p-value {
+        font-size: 20px;
+        font-weight: 800;
+        color: #0c4a6e;
+    }
+    .premise-card .p-sub {
+        font-size: 11px;
+        color: #475569;
+        margin-top: 2px;
+    }
+
+    /* PE CARDS */
+    .pe-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+        margin: 20px 0;
+    }
+    .pe-card {
+        background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+        border: 2px solid #8b5cf6;
+        border-radius: 14px;
+        padding: 22px;
+        position: relative;
+    }
+    .pe-card .pe-icon {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        font-size: 32px;
+        opacity: 0.4;
+    }
+    .pe-card .pe-year {
+        font-size: 12px;
+        color: #5b21b6;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+    .pe-card .pe-cultura {
+        font-size: 18px;
+        font-weight: 700;
+        color: #4c1d95;
+        margin-bottom: 14px;
+    }
+    .pe-card .pe-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 8px 0;
+        border-bottom: 1px dashed rgba(139,92,246,0.3);
+    }
+    .pe-card .pe-line:last-child { border-bottom: none; }
+    .pe-card .pe-label {
+        font-size: 12px;
+        color: #5b21b6;
+        font-weight: 600;
+    }
+    .pe-card .pe-value {
+        font-size: 16px;
+        font-weight: 800;
+        color: #4c1d95;
+    }
+    .pe-card .pe-margin {
+        background: rgba(255,255,255,0.6);
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin-top: 12px;
+        text-align: center;
+    }
+    .pe-card .pe-margin-label {
+        font-size: 10px;
+        color: #5b21b6;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+    }
+    .pe-card .pe-margin-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: #166534;
+        margin-top: 2px;
+    }
+
+    /* FINAL MESSAGE */
+    .final-message {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        color: #fff;
+        border-radius: 16px;
+        padding: 30px;
+        margin: 25px 0;
+        text-align: center;
+    }
+    .final-message h3 {
+        color: #fff;
+        font-size: 22px;
+        margin-bottom: 14px;
+    }
+    .final-message p {
+        font-size: 15px;
+        opacity: 0.95;
+        max-width: 800px;
+        margin: 0 auto 14px;
+    }
+
+    /* CREDENTIALS / FOOTER */
+    .credentials {
+        background: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0369a1 100%);
+        color: #fff;
+        padding: 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .credentials::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        left: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .credentials::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .credentials-content { position: relative; z-index: 1; }
+    .credentials .cred-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 0.85;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+    .credentials .cred-name {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        letter-spacing: 0.5px;
+    }
+    .credentials .cred-title {
+        font-size: 15px;
+        opacity: 0.95;
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+    .credentials .cred-spec {
+        font-size: 13px;
+        opacity: 0.9;
+        margin-bottom: 18px;
+    }
+    .credentials .cred-tagline {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 18px 24px;
+        max-width: 700px;
+        margin: 0 auto 20px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .credentials .cred-tagline-line {
+        font-size: 14px;
+        margin: 4px 0;
+        font-style: italic;
+        opacity: 0.95;
+    }
+    .credentials .cred-contacts {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+    }
+    .credentials .cred-contact {
+        background: rgba(255,255,255,0.18);
+        padding: 10px 18px;
+        border-radius: 24px;
+        font-size: 13px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.25);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+    }
+    .credentials .cred-divider {
+        width: 60px;
+        height: 3px;
+        background: rgba(255,255,255,0.4);
+        margin: 14px auto;
+        border-radius: 2px;
+    }
+
+    @media print {
+        body { background: #fff; padding: 0; }
+        .container { box-shadow: none; }
+        section { page-break-inside: avoid; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <span class="badge">📋 Documento Estratégico — Uma das Saídas Possíveis</span>
+        <h1>🌾 Plano Estratégico de 10 Anos</h1>
+        <div class="subtitle">Reestruturação financeira completa com carência bancária e amortização escalonada — Safra 26/27 a 35/36</div>
+        <div class="meta">
+            <span>👤 Thiago Carvalho Matias</span>
+            <span>📅 Maio/2026</span>
+            <span>🌾 Faz. Água Rica</span>
+            <span>🎯 Horizonte: 2027 a 2036</span>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <!-- INTRO -->
+        <section>
+            <h2>📌 Sobre Este Documento</h2>
+            <div class="section-subtitle">Uma proposta de saída — não é a única, é a primeira a ser estruturada</div>
+
+            <div class="intro-box">
+                <div class="intro-title">⚠️ Contexto importante para a sua leitura, Thiago</div>
+                <div class="intro-text">
+                    Este documento apresenta <strong>uma das estratégias possíveis</strong> para estruturar sua reestruturação financeira completa, considerando os 10 próximos anos. Não é a única saída — é a primeira a ser modelada e validada com base nos seus números de produtividade, preço e custo. Após sua análise e validação, vamos pensar em <strong>planos alternativos complementares</strong> que possam dar ainda mais robustez à sua operação.
+                </div>
+            </div>
+
+            <h3>🎯 O que este plano propõe, em uma frase</h3>
+            <div class="alert alert-info">
+                <strong>📍 A ideia central</strong>
+                Negociar com bancos uma <strong>carência total de 2 anos</strong> (2027 e 2028) — via negocial ou jurídica — para você quitar a dívida da praça (fornecedores e prestadores) com seu próprio caixa, recompor capital de giro e, a partir de 2029, iniciar a amortização escalonada dos R$ 11,5 mi de dívida bancária ao longo de 8 anos.
+            </div>
+        </section>
+
+        <!-- PREMISSAS -->
+        <section>
+            <h2>📐 Premissas do Plano</h2>
+            <div class="section-subtitle">Os números que sustentam toda a projeção</div>
+
+            <h3>🌱 Soja — Produtividade e Preço</h3>
+            <div class="premise-grid">
+                <div class="premise-card">
+                    <div class="p-label">Soja 2027</div>
+                    <div class="p-value">65 sc/ha</div>
+                    <div class="p-sub">a R$ 110,00/sc</div>
+                </div>
+                <div class="premise-card">
+                    <div class="p-label">Soja 2028</div>
+                    <div class="p-value">65 sc/ha</div>
+                    <div class="p-sub">a R$ 115,00/sc</div>
+                </div>
+                <div class="premise-card">
+                    <div class="p-label">Soja 2029</div>
+                    <div class="p-value">66 sc/ha</div>
+                    <div class="p-sub">a R$ 125,00/sc</div>
+                </div>
+            </div>
+
+            <h3>🌽 Milho Safrinha — Produtividade e Preço</h3>
+            <div class="premise-grid">
+                <div class="premise-card">
+                    <div class="p-label">Milho 2027</div>
+                    <div class="p-value">110 sc/ha</div>
+                    <div class="p-sub">a R$ 53,00/sc</div>
+                </div>
+                <div class="premise-card">
+                    <div class="p-label">Milho 2028</div>
+                    <div class="p-value">110 sc/ha</div>
+                    <div class="p-sub">a R$ 53,00/sc</div>
+                </div>
+                <div class="premise-card">
+                    <div class="p-label">Milho 2029</div>
+                    <div class="p-value">110 sc/ha</div>
+                    <div class="p-sub">a R$ 55,00/sc</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PONTO DE EQUILÍBRIO -->
+        <section>
+            <h2>⚖️ Ponto de Equilíbrio — O Piso da Viabilidade</h2>
+            <div class="section-subtitle">Os números mínimos que sua operação precisa atingir para não dar prejuízo</div>
+
+            <div class="alert alert-info">
+                <strong>📐 O que é o Ponto de Equilíbrio</strong>
+                É o valor mínimo de preço (em R$/saca) ou de produtividade (em sc/ha) que cobre exatamente o custo total — sem lucro, mas sem prejuízo. <strong>Saber esse número é o primeiro passo da gestão de risco.</strong> Abaixo dele, você está perdendo dinheiro.
+            </div>
+
+            <h3>🌱 Soja — Ponto de Equilíbrio Anual</h3>
+            <div class="chart-container">
+                <div class="chart-title">Preço Atual vs Ponto de Equilíbrio em Valor (Soja)</div>
+                <div class="chart-subtitle">Quanto de margem de segurança você tem em cada ano</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartPESoja"></canvas>
+                </div>
+            </div>
+
+            <div class="pe-grid">
+                <div class="pe-card">
+                    <span class="pe-icon">🌱</span>
+                    <div class="pe-year">2027</div>
+                    <div class="pe-cultura">Soja</div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Valor (R$/sc):</span>
+                        <span class="pe-value">R$ 97,13</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Quantidade (sc/ha):</span>
+                        <span class="pe-value">57,40 sc/ha</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">Preço Plano:</span>
+                        <span class="pe-value">R$ 110,00</span>
+                    </div>
+                    <div class="pe-margin">
+                        <div class="pe-margin-label">Margem de Segurança</div>
+                        <div class="pe-margin-value">R$ 12,87/sc (+13,2%)</div>
+                    </div>
+                </div>
+                <div class="pe-card">
+                    <span class="pe-icon">🌱</span>
+                    <div class="pe-year">2028</div>
+                    <div class="pe-cultura">Soja</div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Valor (R$/sc):</span>
+                        <span class="pe-value">R$ 99,80</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Quantidade (sc/ha):</span>
+                        <span class="pe-value">56,41 sc/ha</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">Preço Plano:</span>
+                        <span class="pe-value">R$ 115,00</span>
+                    </div>
+                    <div class="pe-margin">
+                        <div class="pe-margin-label">Margem de Segurança</div>
+                        <div class="pe-margin-value">R$ 15,20/sc (+15,2%)</div>
+                    </div>
+                </div>
+                <div class="pe-card">
+                    <span class="pe-icon">🌱</span>
+                    <div class="pe-year">2029</div>
+                    <div class="pe-cultura">Soja</div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Valor (R$/sc):</span>
+                        <span class="pe-value">R$ 102,78</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Quantidade (sc/ha):</span>
+                        <span class="pe-value">54,27 sc/ha</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">Preço Plano:</span>
+                        <span class="pe-value">R$ 125,00</span>
+                    </div>
+                    <div class="pe-margin">
+                        <div class="pe-margin-label">Margem de Segurança</div>
+                        <div class="pe-margin-value">R$ 22,22/sc (+21,6%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>🌽 Milho — Ponto de Equilíbrio Anual</h3>
+            <div class="chart-container">
+                <div class="chart-title">Preço Atual vs Ponto de Equilíbrio em Valor (Milho)</div>
+                <div class="chart-subtitle">Margem de segurança apertada — atenção ao milho safrinha</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartPEMilho"></canvas>
+                </div>
+            </div>
+
+            <div class="pe-grid">
+                <div class="pe-card">
+                    <span class="pe-icon">🌽</span>
+                    <div class="pe-year">2027</div>
+                    <div class="pe-cultura">Milho</div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Valor (R$/sc):</span>
+                        <span class="pe-value">R$ 38,82</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Quantidade (sc/ha):</span>
+                        <span class="pe-value">80,57 sc/ha</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">Preço Plano:</span>
+                        <span class="pe-value">R$ 53,00</span>
+                    </div>
+                    <div class="pe-margin">
+                        <div class="pe-margin-label">Margem de Segurança</div>
+                        <div class="pe-margin-value">R$ 14,18/sc (+36,5%)</div>
+                    </div>
+                </div>
+                <div class="pe-card">
+                    <span class="pe-icon">🌽</span>
+                    <div class="pe-year">2028</div>
+                    <div class="pe-cultura">Milho</div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Valor (R$/sc):</span>
+                        <span class="pe-value">R$ 40,06</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Quantidade (sc/ha):</span>
+                        <span class="pe-value">83,15 sc/ha</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">Preço Plano:</span>
+                        <span class="pe-value">R$ 53,00</span>
+                    </div>
+                    <div class="pe-margin">
+                        <div class="pe-margin-label">Margem de Segurança</div>
+                        <div class="pe-margin-value">R$ 12,94/sc (+32,3%)</div>
+                    </div>
+                </div>
+                <div class="pe-card">
+                    <span class="pe-icon">🌽</span>
+                    <div class="pe-year">2029</div>
+                    <div class="pe-cultura">Milho</div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Valor (R$/sc):</span>
+                        <span class="pe-value">R$ 39,73</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">PE em Quantidade (sc/ha):</span>
+                        <span class="pe-value">79,45 sc/ha</span>
+                    </div>
+                    <div class="pe-line">
+                        <span class="pe-label">Preço Plano:</span>
+                        <span class="pe-value">R$ 55,00</span>
+                    </div>
+                    <div class="pe-margin">
+                        <div class="pe-margin-label">Margem de Segurança</div>
+                        <div class="pe-margin-value">R$ 15,27/sc (+38,4%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>📋 Ponto de Equilíbrio — Visão Completa 10 Anos</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Indicador</th>
+                            <th class="num">2027</th>
+                            <th class="num">2028</th>
+                            <th class="num">2029</th>
+                            <th class="num">2030</th>
+                            <th class="num">2031</th>
+                            <th class="num">2032</th>
+                            <th class="num">2033</th>
+                            <th class="num">2034</th>
+                            <th class="num">2035</th>
+                            <th class="num">2036</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-divider"><td colspan="11">🌱 SOJA — Ponto de Equilíbrio</td></tr>
+                        <tr class="row-pe"><td>PE Valor (R$/sc)</td><td class="num">97,13</td><td class="num">99,80</td><td class="num">102,78</td><td class="num">103,16</td><td class="num">108,71</td><td class="num">109,16</td><td class="num">113,53</td><td class="num">113,83</td><td class="num">116,81</td><td class="num">118,33</td></tr>
+                        <tr class="row-pe"><td>PE Qtd (sc/ha)</td><td class="num">57,40</td><td class="num">56,41</td><td class="num">54,27</td><td class="num">54,47</td><td class="num">53,15</td><td class="num">53,37</td><td class="num">53,52</td><td class="num">53,66</td><td class="num">51,40</td><td class="num">52,06</td></tr>
+
+                        <tr class="row-divider"><td colspan="11">🌽 MILHO — Ponto de Equilíbrio</td></tr>
+                        <tr class="row-pe"><td>PE Valor (R$/sc)</td><td class="num">38,82</td><td class="num">40,06</td><td class="num">39,73</td><td class="num">40,86</td><td class="num">41,49</td><td class="num">43,66</td><td class="num">44,29</td><td class="num">45,69</td><td class="num">46,18</td><td class="num">47,27</td></tr>
+                        <tr class="row-pe"><td>PE Qtd (sc/ha)</td><td class="num">80,57</td><td class="num">83,15</td><td class="num">79,45</td><td class="num">81,73</td><td class="num">81,50</td><td class="num">84,26</td><td class="num">84,00</td><td class="num">85,19</td><td class="num">84,67</td><td class="num">86,67</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>✅ Margem de segurança confortável em ambas culturas</strong>
+                A soja opera com margem de 13% a 22% acima do PE em preço — espaço razoável para suportar volatilidade. O milho tem margem ainda maior (32% a 38%), o que é coerente com o papel dele como complemento ao caixa principal da soja.
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ Atenção ao crescimento do PE da soja ao longo do tempo</strong>
+                O ponto de equilíbrio em valor da soja sobe de R$ 97,13 (2027) para R$ 118,33 (2036) — um crescimento de 22% em 10 anos. Se o preço da soja não acompanhar essa curva, a operação fica espremida nos anos finais do plano. <strong>Esse é um ponto de monitoramento contínuo.</strong>
+            </div>
+        </section>
+
+        <!-- VISÃO GERAL 10 ANOS -->
+        <section>
+            <h2>📊 Visão Geral — Fluxo de 10 Anos</h2>
+            <div class="section-subtitle">Como sua operação se comporta entre 2027 e 2036</div>
+
+            <div class="hero-metrics">
+                <div class="hero-card blue">
+                    <span class="icon-big">💵</span>
+                    <div class="label-big">Faturamento Acumulado</div>
+                    <div class="value-big">R$ 116,38 mi</div>
+                    <div class="desc-big">Soma 2027-2036</div>
+                </div>
+                <div class="hero-card orange">
+                    <span class="icon-big">💸</span>
+                    <div class="label-big">Custo Acumulado</div>
+                    <div class="value-big">R$ 92,15 mi</div>
+                    <div class="desc-big">Inclui depreciação</div>
+                </div>
+                <div class="hero-card green">
+                    <span class="icon-big">📈</span>
+                    <div class="label-big">Resultado Acumulado</div>
+                    <div class="value-big">R$ 24,23 mi</div>
+                    <div class="desc-big">Margem média 19,8%</div>
+                </div>
+                <div class="hero-card red">
+                    <span class="icon-big">🏦</span>
+                    <div class="label-big">Total Amortização</div>
+                    <div class="value-big">R$ 13,95 mi</div>
+                    <div class="desc-big">Praça + Bancos</div>
+                </div>
+                <div class="hero-card purple">
+                    <span class="icon-big">💰</span>
+                    <div class="label-big">Saldo Líquido Final</div>
+                    <div class="value-big">R$ 10,28 mi</div>
+                    <div class="desc-big">Capital acumulado em 2036</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Faturamento, Custo e Resultado — 2027 a 2036</div>
+                <div class="chart-subtitle">Evolução dos 3 indicadores chave da operação</div>
+                <div class="chart-wrapper tall">
+                    <canvas id="chartFaturamento"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Margem Operacional Anual</div>
+                    <div class="chart-subtitle">% do faturamento que vira resultado</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chartMargem"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Composição da Receita</div>
+                    <div class="chart-subtitle">Soja vs Milho safrinha</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chartReceita"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABELA COMPLETA -->
+        <section>
+            <h2>📋 Fluxo Detalhado — 10 Anos</h2>
+            <div class="section-subtitle">Tabela completa de custos, faturamento, resultado, ponto de equilíbrio e amortizações</div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th class="num">2027</th>
+                            <th class="num">2028</th>
+                            <th class="num">2029</th>
+                            <th class="num">2030</th>
+                            <th class="num">2031</th>
+                            <th class="num">2032</th>
+                            <th class="num">2033</th>
+                            <th class="num">2034</th>
+                            <th class="num">2035</th>
+                            <th class="num">2036</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-divider"><td colspan="11">🌱 SOJA — CUSTO</td></tr>
+                        <tr><td>Insumos</td><td class="num">3.838.000</td><td class="num">3.888.500</td><td class="num">3.989.500</td><td class="num">3.989.500</td><td class="num">4.161.200</td><td class="num">4.161.200</td><td class="num">4.343.000</td><td class="num">4.343.000</td><td class="num">4.343.000</td><td class="num">4.444.000</td></tr>
+                        <tr><td>Operacional</td><td class="num">1.111.000</td><td class="num">1.161.500</td><td class="num">1.262.500</td><td class="num">1.262.500</td><td class="num">1.363.500</td><td class="num">1.363.500</td><td class="num">1.414.000</td><td class="num">1.414.000</td><td class="num">1.515.000</td><td class="num">1.515.000</td></tr>
+                        <tr><td>Depreciação</td><td class="num">353.500</td><td class="num">378.750</td><td class="num">378.750</td><td class="num">404.000</td><td class="num">404.000</td><td class="num">434.300</td><td class="num">444.400</td><td class="num">464.600</td><td class="num">464.600</td><td class="num">464.600</td></tr>
+                        <tr><td>Arrendo</td><td class="num">1.072.115</td><td class="num">1.120.847</td><td class="num">1.218.312</td><td class="num">1.218.312</td><td class="num">1.315.778</td><td class="num">1.315.778</td><td class="num">1.364.510</td><td class="num">1.364.510</td><td class="num">1.461.975</td><td class="num">1.461.975</td></tr>
+                        <tr class="row-total"><td>Total Soja</td><td class="num">6.376.642</td><td class="num">6.551.625</td><td class="num">6.851.091</td><td class="num">6.876.342</td><td class="num">7.246.508</td><td class="num">7.276.809</td><td class="num">7.567.943</td><td class="num">7.588.144</td><td class="num">7.786.610</td><td class="num">7.887.611</td></tr>
+                        <tr class="row-pe"><td>P.E. Valor (R$/sc)</td><td class="num">97,13</td><td class="num">99,80</td><td class="num">102,78</td><td class="num">103,16</td><td class="num">108,71</td><td class="num">109,16</td><td class="num">113,53</td><td class="num">113,83</td><td class="num">116,81</td><td class="num">118,33</td></tr>
+                        <tr class="row-pe"><td>P.E. Qtd (sc/ha)</td><td class="num">57,40</td><td class="num">56,41</td><td class="num">54,27</td><td class="num">54,47</td><td class="num">53,15</td><td class="num">53,37</td><td class="num">53,52</td><td class="num">53,66</td><td class="num">51,40</td><td class="num">52,06</td></tr>
+
+                        <tr class="row-divider"><td colspan="11">🌽 MILHO — CUSTO</td></tr>
+                        <tr><td>Insumos</td><td class="num">1.925.000</td><td class="num">1.925.000</td><td class="num">1.870.000</td><td class="num">1.870.000</td><td class="num">1.870.000</td><td class="num">1.925.000</td><td class="num">1.925.000</td><td class="num">1.996.500</td><td class="num">1.996.500</td><td class="num">2.062.500</td></tr>
+                        <tr><td>Operacional</td><td class="num">121.000</td><td class="num">189.750</td><td class="num">206.250</td><td class="num">275.000</td><td class="num">297.000</td><td class="num">371.250</td><td class="num">385.000</td><td class="num">385.000</td><td class="num">412.500</td><td class="num">412.500</td></tr>
+                        <tr><td>Depreciação</td><td class="num">192.500</td><td class="num">192.500</td><td class="num">206.250</td><td class="num">206.250</td><td class="num">220.000</td><td class="num">220.000</td><td class="num">242.000</td><td class="num">253.000</td><td class="num">253.000</td><td class="num">253.000</td></tr>
+                        <tr><td>Arrendo</td><td class="num">110.000</td><td class="num">116.600</td><td class="num">121.000</td><td class="num">121.000</td><td class="num">123.200</td><td class="num">125.400</td><td class="num">127.600</td><td class="num">129.800</td><td class="num">132.000</td><td class="num">132.000</td></tr>
+                        <tr class="row-total"><td>Total Milho</td><td class="num">2.348.500</td><td class="num">2.423.850</td><td class="num">2.403.500</td><td class="num">2.472.250</td><td class="num">2.510.200</td><td class="num">2.641.650</td><td class="num">2.679.600</td><td class="num">2.764.300</td><td class="num">2.794.000</td><td class="num">2.860.000</td></tr>
+                        <tr class="row-pe"><td>P.E. Valor (R$/sc)</td><td class="num">38,82</td><td class="num">40,06</td><td class="num">39,73</td><td class="num">40,86</td><td class="num">41,49</td><td class="num">43,66</td><td class="num">44,29</td><td class="num">45,69</td><td class="num">46,18</td><td class="num">47,27</td></tr>
+                        <tr class="row-pe"><td>P.E. Qtd (sc/ha)</td><td class="num">80,57</td><td class="num">83,15</td><td class="num">79,45</td><td class="num">81,73</td><td class="num">81,50</td><td class="num">84,26</td><td class="num">84,00</td><td class="num">85,19</td><td class="num">84,67</td><td class="num">86,67</td></tr>
+
+                        <tr class="row-divider"><td colspan="11">💵 FATURAMENTO</td></tr>
+                        <tr><td>Soja</td><td class="num">7.221.500</td><td class="num">7.549.750</td><td class="num">8.332.500</td><td class="num">8.332.500</td><td class="num">8.999.100</td><td class="num">8.999.100</td><td class="num">9.332.400</td><td class="num">9.332.400</td><td class="num">9.999.000</td><td class="num">9.999.000</td></tr>
+                        <tr><td>Milho</td><td class="num">3.206.500</td><td class="num">3.206.500</td><td class="num">3.327.500</td><td class="num">3.327.500</td><td class="num">3.388.000</td><td class="num">3.448.500</td><td class="num">3.509.000</td><td class="num">3.569.500</td><td class="num">3.630.000</td><td class="num">3.630.000</td></tr>
+                        <tr class="row-total"><td>Total Faturamento</td><td class="num">10.428.000</td><td class="num">10.756.250</td><td class="num">11.660.000</td><td class="num">11.660.000</td><td class="num">12.387.100</td><td class="num">12.447.600</td><td class="num">12.841.400</td><td class="num">12.901.900</td><td class="num">13.629.000</td><td class="num">13.629.000</td></tr>
+
+                        <tr class="row-result"><td>Resultado Operacional</td><td class="num">1.702.858</td><td class="num">1.780.775</td><td class="num">2.405.408</td><td class="num">2.311.408</td><td class="num">2.630.391</td><td class="num">2.529.140</td><td class="num">2.593.857</td><td class="num">2.549.456</td><td class="num">3.048.390</td><td class="num">2.881.389</td></tr>
+
+                        <tr class="row-divider"><td colspan="11">🏦 AMORTIZAÇÕES</td></tr>
+                        <tr class="row-debt"><td>Dívida Praça</td><td class="num">1.803.795</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+                        <tr class="row-debt"><td>Dívida Banco</td><td class="num">— (carência)</td><td class="num">— (carência)</td><td class="num">1.000.000</td><td class="num">1.100.000</td><td class="num">1.250.000</td><td class="num">1.400.000</td><td class="num">1.600.000</td><td class="num">1.800.000</td><td class="num">2.000.000</td><td class="num">2.000.000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4 PILARES -->
+        <section>
+            <h2>🏛️ Os 4 Pilares Estratégicos</h2>
+            <div class="section-subtitle">Os fundamentos que sustentam o plano</div>
+
+            <div class="pillar-grid">
+                <div class="pillar">
+                    <div class="pillar-num">1</div>
+                    <div class="pillar-title">Quitar a Praça em 2027</div>
+                    <div class="pillar-desc">Usar o resultado operacional do primeiro ano (R$ 1,7 mi) para quitar integralmente a dívida com fornecedores e prestadores (R$ 1,8 mi). Limpa a frente operacional e mantém relacionamentos para safras futuras.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">2</div>
+                    <div class="pillar-title">Carência Total de 2 Anos</div>
+                    <div class="pillar-desc">Negociar com bancos suspensão total de amortizações em 2027 e 2028. Pode ser via Plano Safra ou caminho jurídico. Permite recompor capital de giro sem pressão.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">3</div>
+                    <div class="pillar-title">Amortização Escalonada</div>
+                    <div class="pillar-desc">Iniciar pagamento bancário em 2029 com R$ 1,0 mi e crescer gradualmente até R$ 2,0 mi/ano. Total de R$ 11,5 mi pagos em 8 anos (2029 a 2036).</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">4</div>
+                    <div class="pillar-title">Margem Operacional Crescente</div>
+                    <div class="pillar-desc">Operação sai de margem de 16,3% (2027) para 22,4% (2035), via diluição de custos fixos, ganho de produtividade e estabilização operacional pós-reestruturação.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AMORTIZAÇÃO -->
+        <section>
+            <h2>🏦 Cronograma de Amortização Bancária</h2>
+            <div class="section-subtitle">Como você vai pagar os R$ 11,5 milhões ao longo de 8 anos</div>
+
+            <div class="chart-container">
+                <div class="chart-title">Amortização Anual e Saldo Devedor</div>
+                <div class="chart-subtitle">Pagamentos crescentes com saldo declinante</div>
+                <div class="chart-wrapper tall">
+                    <canvas id="chartAmortizacao"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">% do Resultado Operacional Comprometido com Banco</div>
+                <div class="chart-subtitle">Quanto do seu lucro vai para amortização a cada ano</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartComprometimento"></canvas>
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ Atenção ao crescimento do comprometimento</strong>
+                A partir de 2032 mais de 50% do seu resultado vai para o banco. Em 2034, chega a 70%. Isso significa pouco espaço para novos investimentos ou imprevistos. O plano funciona, mas exige <strong>disciplina financeira muito firme</strong> e provisão para imprevistos.
+            </div>
+        </section>
+
+        <!-- SENSIBILIDADE 2027 -->
+        <section>
+            <h2>🎯 Sensibilidade — Safra 2026/2027</h2>
+            <div class="section-subtitle">O que acontece com seu resultado se preço ou produtividade variarem (ano-base do plano)</div>
+
+            <div class="alert alert-info">
+                <strong>📐 Como ler as tabelas</strong>
+                As linhas mostram variação de <strong>produtividade</strong> e as colunas mostram variação de <strong>preço</strong>. O quadrado central destacado é o <strong>cenário-base</strong> do plano. Cores indicam impacto: verde = melhor que o base; vermelho = pior que o base.
+            </div>
+
+            <div class="sens-block">
+                <div class="sens-block-title">🌱 SOJA 2027 — Resultado Operacional (Base: 65 sc/ha × R$ 110,00 = R$ 0,84 mi)</div>
+                <table class="sens-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width:130px;">Produtividade</th>
+                            <th colspan="7">Preço da Soja (R$/sc)</th>
+                        </tr>
+                        <tr>
+                            <th>R$ 88<br><small>(-20%)</small></th>
+                            <th>R$ 93,50<br><small>(-15%)</small></th>
+                            <th>R$ 99<br><small>(-10%)</small></th>
+                            <th>R$ 110<br><small>(BASE)</small></th>
+                            <th>R$ 121<br><small>(+10%)</small></th>
+                            <th>R$ 126,50<br><small>(+15%)</small></th>
+                            <th>R$ 132<br><small>(+20%)</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">52 sc/ha (-20%)</td>
+                            <td class="sens-vl">-1.522</td>
+                            <td class="sens-vl">-1.298</td>
+                            <td class="sens-l">-1.073</td>
+                            <td class="sens-ml">-624</td>
+                            <td class="sens-n">-176</td>
+                            <td class="sens-mh">49</td>
+                            <td class="sens-h">273</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">58 sc/ha (-10%)</td>
+                            <td class="sens-l">-820</td>
+                            <td class="sens-ml">-569</td>
+                            <td class="sens-ml">-318</td>
+                            <td class="sens-n">183</td>
+                            <td class="sens-mh">685</td>
+                            <td class="sens-h">936</td>
+                            <td class="sens-h">1.187</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">62 sc/ha (-5%)</td>
+                            <td class="sens-l">-470</td>
+                            <td class="sens-ml">-202</td>
+                            <td class="sens-n">66</td>
+                            <td class="sens-mh">602</td>
+                            <td class="sens-h">1.137</td>
+                            <td class="sens-h">1.405</td>
+                            <td class="sens-vh">1.673</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label sens-base">65 sc/ha (BASE)</td>
+                            <td class="sens-ml">-261</td>
+                            <td class="sens-n">21</td>
+                            <td class="sens-mh">302</td>
+                            <td class="sens-base">865</td>
+                            <td class="sens-h">1.428</td>
+                            <td class="sens-vh">1.709</td>
+                            <td class="sens-vh">1.991</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">68 sc/ha (+5%)</td>
+                            <td class="sens-n">-52</td>
+                            <td class="sens-mh">243</td>
+                            <td class="sens-h">538</td>
+                            <td class="sens-h">1.128</td>
+                            <td class="sens-vh">1.718</td>
+                            <td class="sens-vh">2.013</td>
+                            <td class="sens-vh">2.308</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">72 sc/ha (+10%)</td>
+                            <td class="sens-mh">228</td>
+                            <td class="sens-h">540</td>
+                            <td class="sens-h">853</td>
+                            <td class="sens-vh">1.479</td>
+                            <td class="sens-vh">2.105</td>
+                            <td class="sens-vh">2.418</td>
+                            <td class="sens-vh">2.730</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="sens-legend">
+                    <span class="sens-legend-item"><span class="sens-legend-color sens-vh"></span> Excelente</span>
+                    <span class="sens-legend-item"><span class="sens-legend-color sens-h"></span> Muito Bom</span>
+                    <span class="sens-legend-item"><span class="sens-legend-color sens-mh"></span> Bom</span>
+                    <span class="sens-legend-item"><span class="sens-legend-color sens-n"></span> Neutro</span>
+                    <span class="sens-legend-item"><span class="sens-legend-color sens-ml"></span> Atenção</span>
+                    <span class="sens-legend-item"><span class="sens-legend-color sens-l"></span> Crítico</span>
+                    <span class="sens-legend-item"><span class="sens-legend-color sens-vl"></span> Muito Crítico</span>
+                </div>
+                <div style="font-size: 11px; color: #64748b; margin-top: 10px; font-style: italic;">
+                    Valores em R$ mil. Mostra o resultado operacional total (faturamento – custos), com sinal positivo ou negativo conforme o cenário.
+                </div>
+            </div>
+
+            <div class="sens-block">
+                <div class="sens-block-title">🌽 MILHO 2027 — Resultado Operacional (Base: 110 sc/ha × R$ 53,00 = R$ 0,86 mi)</div>
+                <table class="sens-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width:130px;">Produtividade</th>
+                            <th colspan="7">Preço do Milho (R$/sc)</th>
+                        </tr>
+                        <tr>
+                            <th>R$ 42,40<br><small>(-20%)</small></th>
+                            <th>R$ 45,05<br><small>(-15%)</small></th>
+                            <th>R$ 47,70<br><small>(-10%)</small></th>
+                            <th>R$ 53,00<br><small>(BASE)</small></th>
+                            <th>R$ 58,30<br><small>(+10%)</small></th>
+                            <th>R$ 60,95<br><small>(+15%)</small></th>
+                            <th>R$ 63,60<br><small>(+20%)</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">88 sc/ha (-20%)</td>
+                            <td class="sens-vl">-792</td>
+                            <td class="sens-l">-739</td>
+                            <td class="sens-l">-686</td>
+                            <td class="sens-ml">-580</td>
+                            <td class="sens-ml">-475</td>
+                            <td class="sens-n">-422</td>
+                            <td class="sens-n">-369</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">99 sc/ha (-10%)</td>
+                            <td class="sens-l">-538</td>
+                            <td class="sens-ml">-478</td>
+                            <td class="sens-ml">-419</td>
+                            <td class="sens-n">-300</td>
+                            <td class="sens-mh">-181</td>
+                            <td class="sens-mh">-122</td>
+                            <td class="sens-h">-63</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">105 sc/ha (-5%)</td>
+                            <td class="sens-l">-410</td>
+                            <td class="sens-ml">-348</td>
+                            <td class="sens-n">-285</td>
+                            <td class="sens-mh">-159</td>
+                            <td class="sens-h">-34</td>
+                            <td class="sens-h">29</td>
+                            <td class="sens-vh">92</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label sens-base">110 sc/ha (BASE)</td>
+                            <td class="sens-ml">-303</td>
+                            <td class="sens-n">-238</td>
+                            <td class="sens-mh">-172</td>
+                            <td class="sens-base">858</td>
+                            <td class="sens-vh">1.218</td>
+                            <td class="sens-vh">1.394</td>
+                            <td class="sens-vh">1.569</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">115 sc/ha (+5%)</td>
+                            <td class="sens-n">-197</td>
+                            <td class="sens-mh">-128</td>
+                            <td class="sens-h">-60</td>
+                            <td class="sens-vh">77</td>
+                            <td class="sens-vh">214</td>
+                            <td class="sens-vh">282</td>
+                            <td class="sens-vh">351</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">121 sc/ha (+10%)</td>
+                            <td class="sens-mh">-69</td>
+                            <td class="sens-h">3</td>
+                            <td class="sens-h">74</td>
+                            <td class="sens-vh">217</td>
+                            <td class="sens-vh">361</td>
+                            <td class="sens-vh">432</td>
+                            <td class="sens-vh">503</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="font-size: 11px; color: #64748b; margin-top: 10px; font-style: italic;">
+                    Valores em R$ mil. Resultado total da safra de milho (faturamento total – custo total), com sinal positivo ou negativo conforme o cenário.
+                </div>
+            </div>
+
+            <div class="alert alert-danger">
+                <strong>🚨 Pontos críticos da safra 2027</strong>
+                Queda simultânea de 10% em preço e 10% em produtividade da soja já reduz o resultado em ~R$ 880 mil — comprometendo seriamente o pagamento da praça. <strong>Esta é a safra mais sensível do plano</strong>, sem margem para imprevistos.
+            </div>
+        </section>
+
+        <!-- SENSIBILIDADE 2028 -->
+        <section>
+            <h2>🎯 Sensibilidade — Safra 2027/2028</h2>
+            <div class="section-subtitle">Segundo ano de carência — fôlego para recompor caixa</div>
+
+            <div class="sens-block">
+                <div class="sens-block-title">🌱 SOJA 2028 — Resultado Operacional (Base: 65 sc/ha × R$ 115,00 = R$ 0,99 mi)</div>
+                <table class="sens-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width:130px;">Produtividade</th>
+                            <th colspan="7">Preço da Soja (R$/sc)</th>
+                        </tr>
+                        <tr>
+                            <th>R$ 92<br><small>(-20%)</small></th>
+                            <th>R$ 97,75<br><small>(-15%)</small></th>
+                            <th>R$ 103,50<br><small>(-10%)</small></th>
+                            <th>R$ 115<br><small>(BASE)</small></th>
+                            <th>R$ 126,50<br><small>(+10%)</small></th>
+                            <th>R$ 132,25<br><small>(+15%)</small></th>
+                            <th>R$ 138<br><small>(+20%)</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">52 sc/ha (-20%)</td>
+                            <td class="sens-vl">-1.795</td>
+                            <td class="sens-l">-1.560</td>
+                            <td class="sens-l">-1.326</td>
+                            <td class="sens-ml">-857</td>
+                            <td class="sens-n">-388</td>
+                            <td class="sens-n">-153</td>
+                            <td class="sens-mh">81</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">58 sc/ha (-10%)</td>
+                            <td class="sens-l">-1.060</td>
+                            <td class="sens-ml">-797</td>
+                            <td class="sens-n">-535</td>
+                            <td class="sens-mh">-9</td>
+                            <td class="sens-h">516</td>
+                            <td class="sens-h">779</td>
+                            <td class="sens-vh">1.041</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">62 sc/ha (-5%)</td>
+                            <td class="sens-ml">-694</td>
+                            <td class="sens-n">-414</td>
+                            <td class="sens-mh">-134</td>
+                            <td class="sens-h">427</td>
+                            <td class="sens-h">988</td>
+                            <td class="sens-vh">1.268</td>
+                            <td class="sens-vh">1.548</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label sens-base">65 sc/ha (BASE)</td>
+                            <td class="sens-ml">-475</td>
+                            <td class="sens-n">-180</td>
+                            <td class="sens-mh">115</td>
+                            <td class="sens-base">998</td>
+                            <td class="sens-vh">1.294</td>
+                            <td class="sens-vh">1.589</td>
+                            <td class="sens-vh">1.884</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">68 sc/ha (+5%)</td>
+                            <td class="sens-n">-256</td>
+                            <td class="sens-mh">53</td>
+                            <td class="sens-h">362</td>
+                            <td class="sens-vh">980</td>
+                            <td class="sens-vh">1.598</td>
+                            <td class="sens-vh">1.907</td>
+                            <td class="sens-vh">2.216</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">72 sc/ha (+10%)</td>
+                            <td class="sens-mh">38</td>
+                            <td class="sens-h">365</td>
+                            <td class="sens-h">692</td>
+                            <td class="sens-vh">1.346</td>
+                            <td class="sens-vh">2.001</td>
+                            <td class="sens-vh">2.328</td>
+                            <td class="sens-vh">2.655</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="sens-block">
+                <div class="sens-block-title">🌽 MILHO 2028 — Resultado Operacional (Base: 110 sc/ha × R$ 53,00 = R$ 0,78 mi)</div>
+                <table class="sens-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width:130px;">Produtividade</th>
+                            <th colspan="7">Preço do Milho (R$/sc)</th>
+                        </tr>
+                        <tr>
+                            <th>R$ 42,40<br><small>(-20%)</small></th>
+                            <th>R$ 45,05<br><small>(-15%)</small></th>
+                            <th>R$ 47,70<br><small>(-10%)</small></th>
+                            <th>R$ 53,00<br><small>(BASE)</small></th>
+                            <th>R$ 58,30<br><small>(+10%)</small></th>
+                            <th>R$ 60,95<br><small>(+15%)</small></th>
+                            <th>R$ 63,60<br><small>(+20%)</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">88 sc/ha (-20%)</td>
+                            <td class="sens-vl">-868</td>
+                            <td class="sens-l">-815</td>
+                            <td class="sens-l">-762</td>
+                            <td class="sens-ml">-656</td>
+                            <td class="sens-ml">-551</td>
+                            <td class="sens-n">-498</td>
+                            <td class="sens-n">-445</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">99 sc/ha (-10%)</td>
+                            <td class="sens-l">-613</td>
+                            <td class="sens-ml">-554</td>
+                            <td class="sens-ml">-495</td>
+                            <td class="sens-n">-375</td>
+                            <td class="sens-mh">-256</td>
+                            <td class="sens-mh">-197</td>
+                            <td class="sens-h">-138</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">105 sc/ha (-5%)</td>
+                            <td class="sens-l">-486</td>
+                            <td class="sens-ml">-423</td>
+                            <td class="sens-n">-360</td>
+                            <td class="sens-mh">-235</td>
+                            <td class="sens-h">-109</td>
+                            <td class="sens-h">-46</td>
+                            <td class="sens-vh">17</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label sens-base">110 sc/ha (BASE)</td>
+                            <td class="sens-ml">-379</td>
+                            <td class="sens-n">-313</td>
+                            <td class="sens-mh">-248</td>
+                            <td class="sens-base">783</td>
+                            <td class="sens-vh">1.143</td>
+                            <td class="sens-vh">1.319</td>
+                            <td class="sens-vh">1.494</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">115 sc/ha (+5%)</td>
+                            <td class="sens-n">-272</td>
+                            <td class="sens-mh">-204</td>
+                            <td class="sens-h">-135</td>
+                            <td class="sens-vh">2</td>
+                            <td class="sens-vh">139</td>
+                            <td class="sens-vh">207</td>
+                            <td class="sens-vh">276</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">121 sc/ha (+10%)</td>
+                            <td class="sens-mh">-144</td>
+                            <td class="sens-h">-72</td>
+                            <td class="sens-h">-1</td>
+                            <td class="sens-vh">142</td>
+                            <td class="sens-vh">285</td>
+                            <td class="sens-vh">357</td>
+                            <td class="sens-vh">428</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SENSIBILIDADE 2029 -->
+        <section>
+            <h2>🎯 Sensibilidade — Safra 2028/2029</h2>
+            <div class="section-subtitle">Início da amortização bancária — primeiro teste real do plano</div>
+
+            <div class="sens-block">
+                <div class="sens-block-title">🌱 SOJA 2029 — Resultado Operacional (Base: 66 sc/ha × R$ 125,00 = R$ 1,48 mi)</div>
+                <table class="sens-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width:130px;">Produtividade</th>
+                            <th colspan="7">Preço da Soja (R$/sc)</th>
+                        </tr>
+                        <tr>
+                            <th>R$ 100<br><small>(-20%)</small></th>
+                            <th>R$ 106,25<br><small>(-15%)</small></th>
+                            <th>R$ 112,50<br><small>(-10%)</small></th>
+                            <th>R$ 125<br><small>(BASE)</small></th>
+                            <th>R$ 137,50<br><small>(+10%)</small></th>
+                            <th>R$ 143,75<br><small>(+15%)</small></th>
+                            <th>R$ 150<br><small>(+20%)</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">53 sc/ha (-20%)</td>
+                            <td class="sens-vl">-1.690</td>
+                            <td class="sens-l">-1.431</td>
+                            <td class="sens-l">-1.171</td>
+                            <td class="sens-ml">-651</td>
+                            <td class="sens-n">-131</td>
+                            <td class="sens-mh">128</td>
+                            <td class="sens-h">388</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">59 sc/ha (-10%)</td>
+                            <td class="sens-ml">-872</td>
+                            <td class="sens-n">-583</td>
+                            <td class="sens-mh">-294</td>
+                            <td class="sens-h">285</td>
+                            <td class="sens-vh">863</td>
+                            <td class="sens-vh">1.152</td>
+                            <td class="sens-vh">1.441</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">63 sc/ha (-5%)</td>
+                            <td class="sens-n">-466</td>
+                            <td class="sens-mh">-159</td>
+                            <td class="sens-h">147</td>
+                            <td class="sens-vh">762</td>
+                            <td class="sens-vh">1.376</td>
+                            <td class="sens-vh">1.683</td>
+                            <td class="sens-vh">1.989</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label sens-base">66 sc/ha (BASE)</td>
+                            <td class="sens-mh">-222</td>
+                            <td class="sens-h">100</td>
+                            <td class="sens-vh">422</td>
+                            <td class="sens-base">1.481</td>
+                            <td class="sens-vh">1.711</td>
+                            <td class="sens-vh">2.033</td>
+                            <td class="sens-vh">2.355</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">69 sc/ha (+5%)</td>
+                            <td class="sens-h">22</td>
+                            <td class="sens-vh">358</td>
+                            <td class="sens-vh">695</td>
+                            <td class="sens-vh">1.371</td>
+                            <td class="sens-vh">2.046</td>
+                            <td class="sens-vh">2.383</td>
+                            <td class="sens-vh">2.720</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">73 sc/ha (+10%)</td>
+                            <td class="sens-vh">347</td>
+                            <td class="sens-vh">703</td>
+                            <td class="sens-vh">1.060</td>
+                            <td class="sens-vh">1.774</td>
+                            <td class="sens-vh">2.488</td>
+                            <td class="sens-vh">2.844</td>
+                            <td class="sens-vh">3.201</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="sens-block">
+                <div class="sens-block-title">🌽 MILHO 2029 — Resultado Operacional (Base: 110 sc/ha × R$ 55,00 = R$ 0,92 mi)</div>
+                <table class="sens-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width:130px;">Produtividade</th>
+                            <th colspan="7">Preço do Milho (R$/sc)</th>
+                        </tr>
+                        <tr>
+                            <th>R$ 44,00<br><small>(-20%)</small></th>
+                            <th>R$ 46,75<br><small>(-15%)</small></th>
+                            <th>R$ 49,50<br><small>(-10%)</small></th>
+                            <th>R$ 55,00<br><small>(BASE)</small></th>
+                            <th>R$ 60,50<br><small>(+10%)</small></th>
+                            <th>R$ 63,25<br><small>(+15%)</small></th>
+                            <th>R$ 66,00<br><small>(+20%)</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">88 sc/ha (-20%)</td>
+                            <td class="sens-vl">-779</td>
+                            <td class="sens-l">-724</td>
+                            <td class="sens-l">-669</td>
+                            <td class="sens-ml">-559</td>
+                            <td class="sens-ml">-448</td>
+                            <td class="sens-n">-393</td>
+                            <td class="sens-mh">-338</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">99 sc/ha (-10%)</td>
+                            <td class="sens-l">-515</td>
+                            <td class="sens-ml">-453</td>
+                            <td class="sens-n">-392</td>
+                            <td class="sens-n">-268</td>
+                            <td class="sens-mh">-144</td>
+                            <td class="sens-h">-83</td>
+                            <td class="sens-h">-21</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">105 sc/ha (-5%)</td>
+                            <td class="sens-ml">-382</td>
+                            <td class="sens-n">-317</td>
+                            <td class="sens-mh">-252</td>
+                            <td class="sens-h">-122</td>
+                            <td class="sens-vh">8</td>
+                            <td class="sens-vh">73</td>
+                            <td class="sens-vh">138</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label sens-base">110 sc/ha (BASE)</td>
+                            <td class="sens-n">-272</td>
+                            <td class="sens-mh">-204</td>
+                            <td class="sens-h">-136</td>
+                            <td class="sens-base">924</td>
+                            <td class="sens-vh">1.244</td>
+                            <td class="sens-vh">1.395</td>
+                            <td class="sens-vh">1.546</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">115 sc/ha (+5%)</td>
+                            <td class="sens-mh">-161</td>
+                            <td class="sens-h">-90</td>
+                            <td class="sens-vh">-19</td>
+                            <td class="sens-vh">123</td>
+                            <td class="sens-vh">265</td>
+                            <td class="sens-vh">336</td>
+                            <td class="sens-vh">407</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">121 sc/ha (+10%)</td>
+                            <td class="sens-h">-29</td>
+                            <td class="sens-vh">47</td>
+                            <td class="sens-vh">122</td>
+                            <td class="sens-vh">272</td>
+                            <td class="sens-vh">423</td>
+                            <td class="sens-vh">498</td>
+                            <td class="sens-vh">574</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>✅ 2029 é o ano-chave da virada</strong>
+                Pelo preço base mais alto (R$ 125/sc na soja e R$ 55/sc no milho) e leve ganho de produtividade (66 sc/ha na soja), 2029 mostra <strong>resultado robusto mesmo em cenários de queda</strong>. Mantém a operação saudável mesmo com início da amortização bancária (R$ 1,0 mi).
+            </div>
+        </section>
+
+        <!-- ANÁLISE DE RISCO -->
+        <section>
+            <h2>⚠️ Análise de Risco — O Que Pode Dar Errado</h2>
+            <div class="section-subtitle">Cenários que precisam ser monitorados ao longo do plano</div>
+
+            <div class="chart-container">
+                <div class="chart-title">Resultado da Soja em 3 Cenários — 2027 a 2029</div>
+                <div class="chart-subtitle">Comparativo entre cenário base, otimista e pessimista</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartCenarios"></canvas>
+                </div>
+            </div>
+
+            <div class="pillar-grid">
+                <div class="pillar" style="border-color:#dc2626;">
+                    <div class="pillar-num" style="background:linear-gradient(135deg,#dc2626,#ef4444);">!</div>
+                    <div class="pillar-title" style="color:#7f1d1d;">Quebra de Safra</div>
+                    <div class="pillar-desc">Produtividade abaixo de 58 sc/ha já comprometeria seriamente o pagamento da praça em 2027. Mitigação: seguro PROAGRO + diversificação soja/milho.</div>
+                </div>
+                <div class="pillar" style="border-color:#f59e0b;">
+                    <div class="pillar-num" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);">!</div>
+                    <div class="pillar-title" style="color:#78350f;">Queda Forte de Preço</div>
+                    <div class="pillar-desc">Soja abaixo de R$ 99/sc em 2027 inviabiliza o pagamento integral da praça. Mitigação: venda antecipada de 30-40% da produção via CPR-F.</div>
+                </div>
+                <div class="pillar" style="border-color:#8b5cf6;">
+                    <div class="pillar-num" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);">!</div>
+                    <div class="pillar-title" style="color:#5b21b6;">Banco Recusar Carência</div>
+                    <div class="pillar-desc">Se 2-3 bancos recusarem a carência negocial, plano B é ação judicial individual contra recalcitrantes. Custo: 10-15% do passivo.</div>
+                </div>
+                <div class="pillar" style="border-color:#0369a1;">
+                    <div class="pillar-num" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);">!</div>
+                    <div class="pillar-title" style="color:#0c4a6e;">Quebra de Máquina Crítica</div>
+                    <div class="pillar-desc">Frota com idade avançada — quebra grande em 2027 ou 2028 pode custar R$ 80-200 mil. Mitigação: reserva técnica + manutenção programada.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRONOGRAMA DE EXECUÇÃO -->
+        <section>
+            <h2>📅 Cronograma de Execução</h2>
+            <div class="section-subtitle">Movimentos ano a ano para tornar o plano realidade</div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">📌 Maio a Dezembro/2026</div>
+                    <div class="timeline-desc">
+                        Negociação extrajudicial com fornecedores e prestadores (R$ 485k de entrada).<br>
+                        Início de tratativa com bancos para carência de 2 anos.<br>
+                        Barter de insumos para safra 26/27 com Buriti, Corteva e Nutrien.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">🌱 2027 — Ano-Chave</div>
+                    <div class="timeline-desc">
+                        <strong>Resultado projetado: R$ 1,7 mi</strong><br>
+                        Quitação integral da dívida da praça (R$ 1,8 mi).<br>
+                        Banco em carência total (R$ 0 de amortização).<br>
+                        Disciplina máxima de caixa — monitoramento semanal.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">🌾 2028 — Reorganização</div>
+                    <div class="timeline-desc">
+                        <strong>Resultado projetado: R$ 1,78 mi</strong><br>
+                        Banco ainda em carência — ano para recompor capital de giro.<br>
+                        Acumular folga financeira para suportar 2029 em diante.<br>
+                        Avaliar renovação de implementos críticos (CAPEX).
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">🏦 2029 — Início da Amortização</div>
+                    <div class="timeline-desc">
+                        <strong>Resultado projetado: R$ 2,40 mi</strong><br>
+                        Primeira parcela bancária: R$ 1,0 mi (41% do resultado).<br>
+                        Margem confortável — primeiro teste real do plano.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">📈 2030 a 2032 — Estabilização</div>
+                    <div class="timeline-desc">
+                        Amortização cresce de R$ 1,1 mi para R$ 1,4 mi/ano.<br>
+                        Comprometimento sobe de 47% para 55% do resultado.<br>
+                        Operação madura, margens entre 19% e 21%.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">⚠️ 2033 a 2036 — Fase Crítica</div>
+                    <div class="timeline-desc">
+                        Amortização sobe para R$ 1,6-2,0 mi/ano.<br>
+                        Comprometimento 62% a 70% do resultado — pouca folga.<br>
+                        <strong>Disciplina financeira firme</strong> — qualquer imprevisto exige ação rápida.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">🎯 2036 — Fim do Plano</div>
+                    <div class="timeline-desc">
+                        <strong>Dívida bancária integralmente quitada</strong>.<br>
+                        Capital acumulado em caixa: ~R$ 10,28 mi.<br>
+                        Operação livre, com fôlego para investimentos e expansão.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENSAGEM FINAL -->
+        <section>
+            <h2>💬 Mensagens-Chave para Você, Thiago</h2>
+            <div class="section-subtitle">O que precisa ficar claro sobre este plano</div>
+
+            <div class="alert alert-success">
+                <strong>✅ Este plano é tecnicamente viável</strong>
+                Os números fecham: margem média de 19,8%, faturamento crescente, amortização escalonada. Em 2036, sua operação está completamente livre da dívida bancária e com R$ 10 mi de capital acumulado.
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ 2027 é o ano mais delicado</strong>
+                A quitação da praça em um único ano (R$ 1,8 mi) com resultado de R$ 1,7 mi exige perfeição operacional. Sem margem para imprevistos. Por isso a venda antecipada parcial da soja é estratégia recomendada.
+            </div>
+
+            <div class="alert alert-info">
+                <strong>📌 A carência é o coração do plano</strong>
+                Sem 2 anos de carência total, o plano não funciona. Esse será o ponto mais difícil da negociação com bancos — mas é absolutamente justificável tecnicamente. Se necessário, caminho jurídico (revisional ou recuperação) é alternativa real.
+            </div>
+
+            <div class="alert alert-danger">
+                <strong>🚨 Disciplina financeira é não-negociável</strong>
+                Com comprometimento crescente do resultado (chegando a 70% em 2034), qualquer descontrole de caixa quebra o plano. Monitoramento mensal, gatilhos de alerta e provisão para imprevistos são obrigatórios.
+            </div>
+
+            <div class="final-message">
+                <h3>🎯 Em uma frase</h3>
+                <p>Este plano é <strong>uma das saídas possíveis</strong> — apresenta um caminho tecnicamente sólido para você sair da reestruturação em 10 anos, com sua operação intacta, dívida quitada e R$ 10 milhões em caixa.</p>
+                <p>É um plano <strong>apertado mas executável</strong>. A partir da sua validação, vamos pensar em <strong>planos alternativos</strong> que possam dar ainda mais robustez ou flexibilidade — incluindo redução de área, parcerias estratégicas ou modelos híbridos.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- CREDENTIALS -->
+    <div class="credentials">
+        <div class="credentials-content">
+            <div class="cred-label">Análise e Construção</div>
+            <div class="cred-name">Dr. Sidney Souza</div>
+            <div class="cred-title">Economista e Adm. Agrícola — Estrategista Econômico do Produtor</div>
+            <div class="cred-spec">Especialista em economia da fazenda e gestão de risco no agro</div>
+
+            <div class="cred-divider"></div>
+
+            <div class="cred-tagline">
+                <div class="cred-tagline-line">"Transformamos dados da fazenda em decisões econômicas"</div>
+                <div class="cred-tagline-line">"Ajudamos produtores a entender se o mercado sustenta seu negócio"</div>
+            </div>
+
+            <div class="cred-contacts">
+                <div class="cred-contact">✉️ sidneyagro@gmail.com</div>
+                <div class="cred-contact">📱 (64) 9 9226-6886</div>
+                <div class="cred-contact">📸 @ruralin.ai</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+Chart.defaults.font.family = "'Segoe UI', Tahoma, sans-serif";
+Chart.defaults.color = '#475569';
+
+const fmtBRL = (v) => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+const anos = ['2027','2028','2029','2030','2031','2032','2033','2034','2035','2036'];
+
+// 1. Faturamento, Custo, Resultado
+new Chart(document.getElementById('chartFaturamento'), {
+    type: 'bar',
+    data: {
+        labels: anos,
+        datasets: [
+            {
+                label: 'Faturamento',
+                data: [10428000,10756250,11660000,11660000,12387100,12447600,12841400,12901900,13629000,13629000],
+                backgroundColor: '#3b82f6',
+                borderRadius: 6,
+                order: 2
+            },
+            {
+                label: 'Custo Total',
+                data: [8725142,8975475,9254591,9348592,9756708,9918459,10247543,10352444,10580610,10747611],
+                backgroundColor: '#ef4444',
+                borderRadius: 6,
+                order: 2
+            },
+            {
+                label: 'Resultado Operacional',
+                data: [1702858,1780775,2405408,2311408,2630391,2529140,2593857,2549456,3048390,2881389],
+                type: 'line',
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16,185,129,0.2)',
+                borderWidth: 3,
+                tension: 0.3,
+                pointRadius: 5,
+                pointBackgroundColor: '#10b981',
+                fill: false,
+                order: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + (v/1000000).toFixed(1) + 'M' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+
+// 2. Margem
+new Chart(document.getElementById('chartMargem'), {
+    type: 'line',
+    data: {
+        labels: anos,
+        datasets: [{
+            label: 'Margem Operacional %',
+            data: [16.3,16.6,20.6,19.8,21.2,20.3,20.2,19.8,22.4,21.1],
+            borderColor: '#0369a1',
+            backgroundColor: 'rgba(3,105,161,0.15)',
+            borderWidth: 3,
+            tension: 0.3,
+            pointRadius: 5,
+            pointBackgroundColor: '#0369a1',
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: false,
+                min: 14,
+                max: 24,
+                ticks: { callback: (v) => v + '%' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (c) => 'Margem: ' + c.parsed.y + '%' } }
+        }
+    }
+});
+
+// 3. Composição Receita
+new Chart(document.getElementById('chartReceita'), {
+    type: 'bar',
+    data: {
+        labels: anos,
+        datasets: [
+            {
+                label: 'Soja',
+                data: [7221500,7549750,8332500,8332500,8999100,8999100,9332400,9332400,9999000,9999000],
+                backgroundColor: '#10b981',
+                borderRadius: 4
+            },
+            {
+                label: 'Milho',
+                data: [3206500,3206500,3327500,3327500,3388000,3448500,3509000,3569500,3630000,3630000],
+                backgroundColor: '#f59e0b',
+                borderRadius: 4
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: { stacked: true },
+            y: {
+                stacked: true,
+                ticks: { callback: (v) => 'R$ ' + (v/1000000).toFixed(0) + 'M' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: { callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) } }
+        }
+    }
+});
+
+// 4. PE Soja
+new Chart(document.getElementById('chartPESoja'), {
+    type: 'bar',
+    data: {
+        labels: anos,
+        datasets: [
+            {
+                label: 'Preço Plano (R$/sc)',
+                data: [110,115,125,125,135,135,140,140,150,150],
+                backgroundColor: '#10b981',
+                borderRadius: 6,
+                order: 2
+            },
+            {
+                label: 'Ponto de Equilíbrio (R$/sc)',
+                data: [97.13,99.80,102.78,103.16,108.71,109.16,113.53,113.83,116.81,118.33],
+                backgroundColor: '#8b5cf6',
+                borderRadius: 6,
+                order: 2
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + v }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: { callbacks: { label: (c) => c.dataset.label + ': R$ ' + c.parsed.y.toFixed(2) } }
+        }
+    }
+});
+
+// 5. PE Milho
+new Chart(document.getElementById('chartPEMilho'), {
+    type: 'bar',
+    data: {
+        labels: anos,
+        datasets: [
+            {
+                label: 'Preço Plano (R$/sc)',
+                data: [53,53,55,55,56,57,58,59,60,60],
+                backgroundColor: '#f59e0b',
+                borderRadius: 6
+            },
+            {
+                label: 'Ponto de Equilíbrio (R$/sc)',
+                data: [38.82,40.06,39.73,40.86,41.49,43.66,44.29,45.69,46.18,47.27],
+                backgroundColor: '#8b5cf6',
+                borderRadius: 6
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + v }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: { callbacks: { label: (c) => c.dataset.label + ': R$ ' + c.parsed.y.toFixed(2) } }
+        }
+    }
+});
+
+// 6. Amortização
+new Chart(document.getElementById('chartAmortizacao'), {
+    type: 'bar',
+    data: {
+        labels: anos,
+        datasets: [
+            {
+                label: 'Amortização Anual',
+                data: [0,0,1000000,1100000,1250000,1400000,1600000,1800000,2000000,2000000],
+                backgroundColor: anos.map((_,i) => i < 2 ? '#94a3b8' : '#0369a1'),
+                borderRadius: 6,
+                order: 2
+            },
+            {
+                label: 'Saldo Devedor',
+                data: [11500000,11500000,10500000,9400000,8150000,6750000,5150000,3350000,1350000,0],
+                type: 'line',
+                borderColor: '#dc2626',
+                backgroundColor: 'rgba(220,38,38,0.1)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 5,
+                pointBackgroundColor: '#dc2626',
+                fill: false,
+                order: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + (v/1000000).toFixed(1) + 'M' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: { callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) } }
+        }
+    }
+});
+
+// 7. Comprometimento
+const result = [1702858,1780775,2405408,2311408,2630391,2529140,2593857,2549456,3048390,2881389];
+const amort = [0,0,1000000,1100000,1250000,1400000,1600000,1800000,2000000,2000000];
+const compr = result.map((r,i) => amort[i] > 0 ? (amort[i]/r*100) : 0);
+
+new Chart(document.getElementById('chartComprometimento'), {
+    type: 'bar',
+    data: {
+        labels: anos,
+        datasets: [{
+            label: '% do Resultado para Banco',
+            data: compr,
+            backgroundColor: compr.map(v => {
+                if (v === 0) return '#94a3b8';
+                if (v < 50) return '#10b981';
+                if (v < 65) return '#f59e0b';
+                return '#dc2626';
+            }),
+            borderRadius: 6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 80,
+                ticks: { callback: (v) => v + '%' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: (c) => 'Comprometimento: ' + c.parsed.y.toFixed(1) + '%' }
+            }
+        }
+    }
+});
+
+// 8. Cenários
+new Chart(document.getElementById('chartCenarios'), {
+    type: 'line',
+    data: {
+        labels: ['2027','2028','2029'],
+        datasets: [
+            {
+                label: 'Otimista (+10% preço, +5% prod)',
+                data: [1718000,1907000,2383000],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16,185,129,0.15)',
+                borderWidth: 3,
+                tension: 0.3,
+                pointRadius: 5
+            },
+            {
+                label: 'Base (premissas do plano)',
+                data: [865000,998000,1481000],
+                borderColor: '#0369a1',
+                backgroundColor: 'rgba(3,105,161,0.15)',
+                borderWidth: 3,
+                tension: 0.3,
+                pointRadius: 5
+            },
+            {
+                label: 'Pessimista (-10% preço, -5% prod)',
+                data: [-202000,-414000,-159000],
+                borderColor: '#dc2626',
+                backgroundColor: 'rgba(220,38,38,0.15)',
+                borderWidth: 3,
+                tension: 0.3,
+                pointRadius: 5,
+                borderDash: [6, 4]
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

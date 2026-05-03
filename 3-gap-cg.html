@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital de Giro Safra 26/27 — Thiago Carvalho</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f0f4f8;
+        color: #1e293b;
+        line-height: 1.6;
+        padding: 20px;
+    }
+    .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    header {
+        background: linear-gradient(135deg, #7c2d12 0%, #c2410c 50%, #ea580c 100%);
+        color: #fff;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    header h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+        font-weight: 700;
+    }
+    header .subtitle {
+        font-size: 17px;
+        opacity: 0.95;
+        margin-bottom: 18px;
+        position: relative;
+        z-index: 1;
+    }
+    header .meta {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+    header .meta span {
+        background: rgba(255,255,255,0.2);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        backdrop-filter: blur(10px);
+    }
+
+    .content { padding: 40px; }
+
+    section {
+        margin-bottom: 50px;
+        padding-bottom: 35px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    section:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    h2 {
+        font-size: 24px;
+        color: #7c2d12;
+        margin-bottom: 8px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .section-subtitle {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 25px;
+        font-style: italic;
+    }
+    h3 {
+        font-size: 18px;
+        color: #9a3412;
+        margin: 25px 0 15px;
+        font-weight: 600;
+    }
+
+    /* GAP HERO */
+    .gap-hero {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 50%, #fca5a5 100%);
+        border: 3px solid #dc2626;
+        border-radius: 18px;
+        padding: 35px;
+        text-align: center;
+        margin: 25px 0;
+        position: relative;
+        overflow: hidden;
+    }
+    .gap-hero::before {
+        content: '⚠️';
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 40px;
+        opacity: 0.3;
+    }
+    .gap-hero .gap-label {
+        font-size: 14px;
+        color: #7f1d1d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    .gap-hero .gap-value {
+        font-size: 56px;
+        font-weight: 800;
+        color: #991b1b;
+        margin: 10px 0;
+        line-height: 1;
+    }
+    .gap-hero .gap-desc {
+        font-size: 15px;
+        color: #7f1d1d;
+        max-width: 700px;
+        margin: 12px auto 0;
+    }
+
+    /* HERO METRICS */
+    .hero-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+    .hero-card {
+        background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+        border-radius: 14px;
+        padding: 22px;
+        border-top: 5px solid;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        transition: transform 0.2s;
+    }
+    .hero-card:hover { transform: translateY(-3px); }
+    .hero-card.caixa { border-top-color: #10b981; }
+    .hero-card.pagto { border-top-color: #ef4444; }
+    .hero-card.necessidade { border-top-color: #f59e0b; }
+    .hero-card.gap { border-top-color: #7c2d12; }
+
+    .hero-card .icon-big {
+        font-size: 28px;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .hero-card .label-big {
+        font-size: 12px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+    .hero-card .value-big {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+    }
+    .hero-card .desc-big {
+        font-size: 11px;
+        color: #94a3b8;
+    }
+
+    /* CHART */
+    .chart-container {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: 1px solid #e2e8f0;
+    }
+    .chart-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 5px;
+    }
+    .chart-subtitle {
+        font-size: 13px;
+        color: #64748b;
+        margin-bottom: 20px;
+    }
+    .chart-wrapper {
+        position: relative;
+        height: 340px;
+    }
+    .chart-wrapper.tall {
+        height: 420px;
+    }
+    .chart-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    @media (max-width: 768px) {
+        .chart-grid { grid-template-columns: 1fr; }
+    }
+
+    /* TABLE */
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 13px;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        margin: 15px 0;
+    }
+    thead { background: linear-gradient(135deg, #7c2d12 0%, #c2410c 100%); color: #fff; }
+    th {
+        padding: 12px 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    td {
+        padding: 10px 14px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    tbody tr:hover { background: #fef3c7; }
+    tbody tr:last-child td { border-bottom: none; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .center { text-align: center; }
+    tfoot {
+        background: #fef3c7;
+        font-weight: 700;
+    }
+    tfoot td {
+        padding: 12px 14px;
+        border-top: 2px solid #c2410c;
+        color: #7c2d12;
+    }
+
+    /* SOLUTION CARDS */
+    .solution-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+        margin: 20px 0;
+    }
+    .solution-card {
+        border-radius: 14px;
+        padding: 22px;
+        border: 2px solid;
+        position: relative;
+        background: #fff;
+    }
+    .solution-card.s1 { border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); }
+    .solution-card.s2 { border-color: #3b82f6; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
+    .solution-card.s3 { border-color: #8b5cf6; background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%); }
+    .solution-card.s4 { border-color: #f59e0b; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
+    .solution-card.s5 { border-color: #ec4899; background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); }
+    .solution-card.s6 { border-color: #6b7280; background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%); }
+
+    .solution-num {
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: #fff;
+        color: #1e293b;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 15px;
+        border: 3px solid currentColor;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .solution-card.s1 .solution-num { color: #10b981; }
+    .solution-card.s2 .solution-num { color: #3b82f6; }
+    .solution-card.s3 .solution-num { color: #8b5cf6; }
+    .solution-card.s4 .solution-num { color: #f59e0b; }
+    .solution-card.s5 .solution-num { color: #ec4899; }
+    .solution-card.s6 .solution-num { color: #6b7280; }
+
+    .solution-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 10px;
+        margin-top: 12px;
+    }
+    .solution-impact {
+        background: #fff;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin: 12px 0;
+        text-align: center;
+        border: 1px dashed #94a3b8;
+    }
+    .solution-impact .impact-label {
+        font-size: 10px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+    }
+    .solution-impact .impact-value {
+        font-size: 22px;
+        font-weight: 800;
+        color: #15803d;
+        margin-top: 2px;
+    }
+    .solution-desc {
+        font-size: 13px;
+        color: #475569;
+        line-height: 1.55;
+    }
+    .solution-tag {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .tag-easy { background: #d1fae5; color: #065f46; }
+    .tag-medium { background: #fef3c7; color: #92400e; }
+    .tag-hard { background: #fee2e2; color: #991b1b; }
+
+    /* TIMELINE */
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+        margin: 20px 0;
+    }
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, #c2410c, #ea580c);
+        border-radius: 2px;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 18px;
+        padding: 14px 18px;
+        background: #fff7ed;
+        border-radius: 10px;
+        border-left: 4px solid #ea580c;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -28px;
+        top: 18px;
+        width: 16px;
+        height: 16px;
+        background: #ea580c;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 3px #ea580c;
+    }
+    .timeline-month {
+        font-weight: 700;
+        color: #7c2d12;
+        font-size: 13px;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .timeline-desc {
+        font-size: 13px;
+        color: #334155;
+    }
+    .timeline-value {
+        font-weight: 700;
+        color: #c2410c;
+    }
+
+    /* ALERTS */
+    .alert {
+        padding: 16px 20px;
+        border-radius: 10px;
+        margin: 18px 0;
+        font-size: 14px;
+        border-left: 5px solid;
+    }
+    .alert strong { display: block; margin-bottom: 6px; font-size: 15px; }
+    .alert-warning { background: #fef3c7; border-color: #f59e0b; color: #78350f; }
+    .alert-success { background: #d1fae5; border-color: #10b981; color: #064e3b; }
+    .alert-danger { background: #fee2e2; border-color: #dc2626; color: #7f1d1d; }
+    .alert-info { background: #dbeafe; border-color: #2563eb; color: #1e3a8a; }
+
+    /* PROGRESS */
+    .progress-stack {
+        background: #f1f5f9;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 18px 0;
+    }
+    .progress-row {
+        margin-bottom: 14px;
+    }
+    .progress-row:last-child { margin-bottom: 0; }
+    .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #475569;
+    }
+    .progress-bar-container {
+        background: #e2e8f0;
+        border-radius: 20px;
+        height: 28px;
+        overflow: hidden;
+        position: relative;
+    }
+    .progress-bar {
+        height: 100%;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        padding-left: 12px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 12px;
+        transition: width 0.5s;
+    }
+    .progress-cobertura { background: linear-gradient(90deg, #10b981, #34d399); }
+    .progress-falta { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+    /* SCENARIO BUILDER */
+    .scenario-builder {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        color: #fff;
+        border-radius: 16px;
+        padding: 30px;
+        margin: 25px 0;
+    }
+    .scenario-builder h3 {
+        color: #fff;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 20px;
+    }
+    .builder-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 14px;
+        margin: 18px 0;
+    }
+    .builder-item {
+        background: rgba(255,255,255,0.08);
+        border-radius: 10px;
+        padding: 16px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.15);
+    }
+    .builder-item .b-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        opacity: 0.8;
+        margin-bottom: 4px;
+    }
+    .builder-item .b-value {
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .builder-item.positive .b-value { color: #34d399; }
+    .builder-item.negative .b-value { color: #f87171; }
+    .builder-result {
+        background: rgba(34,197,94,0.2);
+        border: 2px solid #34d399;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .builder-result.danger {
+        background: rgba(239,68,68,0.2);
+        border-color: #f87171;
+    }
+    .builder-result .r-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        opacity: 0.9;
+        margin-bottom: 6px;
+    }
+    .builder-result .r-value {
+        font-size: 36px;
+        font-weight: 800;
+    }
+
+    footer {
+        background: linear-gradient(135deg, #7c2d12 0%, #c2410c 100%);
+        color: #fff;
+        padding: 25px 40px;
+        text-align: center;
+        font-size: 13px;
+    }
+    footer .sig { opacity: 0.9; margin-top: 4px; font-size: 12px; }
+
+    @media print {
+        body { background: #fff; padding: 0; }
+        .container { box-shadow: none; }
+        section { page-break-inside: avoid; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>🎯 Capital de Giro — Safra 26/27</h1>
+        <div class="subtitle">Análise do gap operacional e estratégias complementares à negociação dos credores</div>
+        <div class="meta">
+            <span>👤 Thiago Carvalho Matias</span>
+            <span>📅 Maio/2026</span>
+            <span>🌾 Faz. Água Rica — 785 ha soja + 230 ha milho</span>
+            <span>🎯 Horizonte: até 30/04/2027</span>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <!-- 1. O DIAGNÓSTICO -->
+        <section>
+            <h2>🔍 Diagnóstico — A Realidade do Caixa</h2>
+            <div class="section-subtitle">Mesmo com sucesso total na negociação dos credores, há um gap material a ser coberto</div>
+
+            <div class="hero-metrics">
+                <div class="hero-card caixa">
+                    <span class="icon-big">💰</span>
+                    <div class="label-big">Caixa Real Hoje</div>
+                    <div class="value-big">R$ 1.220.962</div>
+                    <div class="desc-big">Líquido (sem cessão Buriti)</div>
+                </div>
+                <div class="hero-card pagto">
+                    <span class="icon-big">🤝</span>
+                    <div class="label-big">Pagto. Negociação</div>
+                    <div class="value-big">R$ 485.563</div>
+                    <div class="desc-big">21% médio aos credores</div>
+                </div>
+                <div class="hero-card necessidade">
+                    <span class="icon-big">🌱</span>
+                    <div class="label-big">Custo Operacional 26/27</div>
+                    <div class="value-big">R$ 1.158.000</div>
+                    <div class="desc-big">Sem insumos (cenário mínimo)</div>
+                </div>
+                <div class="hero-card gap">
+                    <span class="icon-big">⚠️</span>
+                    <div class="label-big">GAP de Capital</div>
+                    <div class="value-big">R$ 422.601</div>
+                    <div class="desc-big">A descoberto até abr/27</div>
+                </div>
+            </div>
+
+            <div class="gap-hero">
+                <div class="gap-label">⚠️ Gap de Capital de Giro até 30/04/2027</div>
+                <div class="gap-value">R$ 422.601</div>
+                <div class="gap-desc">
+                    Esse é o valor mínimo que <strong>falta</strong> mesmo executando perfeitamente a negociação dos credores. Considera apenas custo operacional (combustível, manutenção, mão de obra, frete, tercerização e administração) — <strong>sem insumos</strong>, que precisam ser cobertos por barter ou financiamento de fornecedor.
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Evolução do Caixa — Cenário Atual</div>
+                <div class="chart-subtitle">Da posição atual (mai/26) até o fechamento da safra 26/27 (abr/27)</div>
+                <div class="chart-wrapper tall">
+                    <canvas id="chartEvolucao"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PROJEÇÃO DE CUSTO -->
+        <section>
+            <h2>📊 Projeção do Custo Operacional 26/27</h2>
+            <div class="section-subtitle">Baseada no histórico real da safra 23/24 da Faz. Água Rica + inflação operacional</div>
+
+            <div class="alert alert-info">
+                <strong>📐 Metodologia da projeção</strong>
+                Análise de centenas de lançamentos da safra 23/24 (planilha "Fluxo Caixa Faz. Água Rica"). Aplicada inflação operacional de 20% acumulada (combustível, peças, mão de obra, fretes) para chegar à safra 26/27.
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Distribuição do Custo Operacional Projetado</div>
+                <div class="chart-subtitle">Onde o caixa será consumido na safra 26/27</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartCustos"></canvas>
+                </div>
+            </div>
+
+            <h3>📋 Detalhamento do Custo Operacional Projetado</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th class="num">Safra 23/24</th>
+                        <th class="num">Safra 26/27 (+20%)</th>
+                        <th>% Caixa</th>
+                        <th>Criticidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Combustível</strong></td><td class="num">R$ 315.000</td><td class="num">R$ 378.000</td><td>32,6%</td><td>🔴 Alta</td></tr>
+                    <tr><td><strong>Manutenção Máquinas</strong></td><td class="num">R$ 275.000</td><td class="num">R$ 330.000</td><td>28,5%</td><td>🟠 Média-Alta</td></tr>
+                    <tr><td><strong>Tercerização Colheita</strong></td><td class="num">R$ 247.500</td><td class="num">R$ 297.000</td><td>25,6%</td><td>🔴 Alta</td></tr>
+                    <tr><td><strong>Frete Externo</strong></td><td class="num">R$ 80.000</td><td class="num">R$ 96.000</td><td>8,3%</td><td>🟠 Média</td></tr>
+                    <tr><td><strong>Mão de Obra</strong></td><td class="num">R$ 97.500</td><td class="num">R$ 117.000</td><td>10,1%</td><td>🟡 Recorrente</td></tr>
+                    <tr><td><strong>Despesas Admin.</strong></td><td class="num">R$ 62.500</td><td class="num">R$ 75.000</td><td>6,5%</td><td>🟢 Otimizável</td></tr>
+                    <tr><td><strong>Manutenção Benfeitorias</strong></td><td class="num">R$ 22.500</td><td class="num">R$ 27.000</td><td>2,3%</td><td>🟢 Baixa</td></tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>TOTAL OPERACIONAL (sem insumos)</td>
+                        <td class="num">R$ 1.100.000</td>
+                        <td class="num">R$ 1.320.000*</td>
+                        <td>100%</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div style="font-size: 12px; color: #64748b; margin-top: 8px; font-style: italic;">
+                *Cenário médio. Faixa estimada: R$ 1.158.000 (mínimo) a R$ 1.482.000 (máximo). Para projeção do gap, usamos R$ 1.158.000 (mínimo).
+            </div>
+        </section>
+
+        <!-- 3. SAZONALIDADE / PICOS -->
+        <section>
+            <h2>📅 Sazonalidade — Os 3 Picos Críticos</h2>
+            <div class="section-subtitle">O caixa não cai linearmente — tem picos concentrados que exigem reserva específica</div>
+
+            <div class="chart-container">
+                <div class="chart-title">Distribuição Mensal de Desembolsos — Safra 26/27</div>
+                <div class="chart-subtitle">Quando o caixa precisa estar disponível, mês a mês</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartSazonalidade"></canvas>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-month">🔴 Pico 1 — Setembro/Outubro 2026</div>
+                    <div class="timeline-desc">Plantio Soja: combustível + mão de obra temporária + manutenção pré-plantio. Necessidade: <span class="timeline-value">R$ 200-280k</span></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">🟠 Pico 2 — Novembro/Dezembro 2026</div>
+                    <div class="timeline-desc">Tratos culturais soja: combustível recorrente + manutenção + mão de obra. Necessidade: <span class="timeline-value">R$ 220-260k</span></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">🟡 Janeiro/Fevereiro 2027</div>
+                    <div class="timeline-desc">Manejo final + início colheita + frete inicial. Necessidade: <span class="timeline-value">R$ 180-220k</span></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">🔴 Pico 3 CRÍTICO — Março/Abril 2027</div>
+                    <div class="timeline-desc"><strong>MOMENTO MAIS DELICADO:</strong> tercerização colheita (R$ 235-300k) + frete intenso + plantio milho safrinha. Necessidade: <span class="timeline-value">R$ 350-450k</span></div>
+                </div>
+            </div>
+
+            <div class="alert alert-danger">
+                <strong>🚨 Atenção ao Pico 3</strong>
+                Março e Abril/2027 concentram <strong>~30% do desembolso anual em 60 dias</strong>. Se a venda da soja não fluir antes dessa janela, o produtor precisa ter R$ 350-450k disponíveis simultaneamente. Esse é o pico onde a falta de crédito mais machuca.
+            </div>
+        </section>
+
+        <!-- 4. O CENÁRIO REAL -->
+        <section>
+            <h2>💰 O Cenário Atual em Detalhes</h2>
+            <div class="section-subtitle">Como o caixa se distribui entre as obrigações já assumidas e o que sobra</div>
+
+            <div class="chart-container">
+                <div class="chart-title">Cobertura do Caixa Atual vs Necessidades</div>
+                <div class="chart-subtitle">Visualização do quanto falta para cobrir o operacional 26/27</div>
+
+                <div class="progress-stack">
+                    <div class="progress-row">
+                        <div class="progress-label">
+                            <span>Cobertura do Custo Operacional 26/27 com caixa pós-negociação</span>
+                            <span>R$ 735.399 de R$ 1.158.000 (63,5%)</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar progress-cobertura" style="width: 63.5%;">63,5% Coberto</div>
+                        </div>
+                    </div>
+                    <div class="progress-row">
+                        <div class="progress-label">
+                            <span>Gap a descoberto</span>
+                            <span>R$ 422.601 (36,5%)</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar progress-falta" style="width: 36.5%;">36,5% Descoberto</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Composição do Caixa Atual</div>
+                    <div class="chart-subtitle">R$ 1.220.962 disponível</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chartCaixaAtual"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Para Onde Vai o Caixa</div>
+                    <div class="chart-subtitle">Distribuição completa</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chartParaOndeVai"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. O GAP EM NÚMEROS -->
+        <section>
+            <h2>📐 O Gap em Números — Cenários</h2>
+            <div class="section-subtitle">Quanto falta dependendo do nível de operação que se deseja sustentar</div>
+
+            <div class="chart-container">
+                <div class="chart-title">Gap de Capital de Giro por Cenário Operacional</div>
+                <div class="chart-subtitle">Quanto falta em cada situação</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartGapCenarios"></canvas>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cenário</th>
+                        <th class="num">Custo Total</th>
+                        <th class="num">Caixa Disponível*</th>
+                        <th class="num">GAP</th>
+                        <th>Viabilidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#f0fdf4;">
+                        <td><strong>Mínimo Operacional</strong><br><small>Sem insumos (barter total)</small></td>
+                        <td class="num">R$ 1.158.000</td>
+                        <td class="num">R$ 735.399</td>
+                        <td class="num"><strong style="color:#dc2626;">– R$ 422.601</strong></td>
+                        <td>🟡 Possível com soluções</td>
+                    </tr>
+                    <tr style="background:#fffbeb;">
+                        <td><strong>Realista</strong><br><small>50% insumos via barter</small></td>
+                        <td class="num">R$ 2.200.000</td>
+                        <td class="num">R$ 735.399</td>
+                        <td class="num"><strong style="color:#dc2626;">– R$ 1.464.601</strong></td>
+                        <td>🟠 Exige múltiplas alavancas</td>
+                    </tr>
+                    <tr style="background:#fef2f2;">
+                        <td><strong>Confortável</strong><br><small>Insumos integralmente em caixa</small></td>
+                        <td class="num">R$ 3.000.000</td>
+                        <td class="num">R$ 735.399</td>
+                        <td class="num"><strong style="color:#dc2626;">– R$ 2.264.601</strong></td>
+                        <td>🔴 Inviável sem crédito</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="font-size: 12px; color: #64748b; margin-top: 8px; font-style: italic;">
+                *Caixa disponível considera R$ 1.220.962 atual menos R$ 485.563 da negociação com credores.
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>📌 Foco operacional</strong>
+                A análise a seguir trabalha com o <strong>Cenário Mínimo Operacional</strong> (gap de R$ 422.601), pois é o piso de viabilidade. Insumos serão tratados via barter agressivo — abordagem detalhada nas estratégias.
+            </div>
+        </section>
+
+        <!-- 6. SOLUÇÕES COMPLEMENTARES -->
+        <section>
+            <h2>🛠️ 6 Soluções Complementares para Cobrir o Gap</h2>
+            <div class="section-subtitle">Estratégias além da negociação com credores — combinadas, fecham o R$ 422.601</div>
+
+            <div class="solution-grid">
+                <div class="solution-card s1">
+                    <div class="solution-num">1</div>
+                    <div class="solution-title">Barter Agressivo de Insumos</div>
+                    <div class="solution-impact">
+                        <div class="impact-label">Alívio de Caixa</div>
+                        <div class="impact-value">R$ 600-800k</div>
+                    </div>
+                    <div class="solution-desc">
+                        Trocar 100% dos insumos da safra 26/27 (sementes, adubos, defensivos) por sacas futuras com Buriti, Corteva, Nutrien e demais. <strong>Não reduz o custo, mas tira do caixa imediato</strong> e empurra o pagamento para pós-colheita.
+                    </div>
+                    <span class="solution-tag tag-easy">Viabilidade Alta</span>
+                </div>
+
+                <div class="solution-card s2">
+                    <div class="solution-num">2</div>
+                    <div class="solution-title">Otimização Operacional</div>
+                    <div class="solution-impact">
+                        <div class="impact-label">Economia Estimada</div>
+                        <div class="impact-value">R$ 140-230k</div>
+                    </div>
+                    <div class="solution-desc">
+                        5 alavancas identificadas no histórico: manutenção programada (R$ 60-100k), redução de despesas adm. (R$ 30-50k), contrato de combustível (R$ 50-80k). Reduz o custo operacional em <strong>15-20%</strong>.
+                    </div>
+                    <span class="solution-tag tag-medium">Viabilidade Média</span>
+                </div>
+
+                <div class="solution-card s3">
+                    <div class="solution-num">3</div>
+                    <div class="solution-title">Parcelamento da Tercerização</div>
+                    <div class="solution-impact">
+                        <div class="impact-label">Alívio do Pico 3</div>
+                        <div class="impact-value">R$ 200-280k</div>
+                    </div>
+                    <div class="solution-desc">
+                        Negociar com a empresa de colheita pagamento em <strong>3-4 parcelas pós-colheita</strong> (mai/jun/jul de 2027), em vez de à vista. Suaviza o pico crítico de mar/abr/27. Custo adicional: 3-5% de juros (~R$ 12k).
+                    </div>
+                    <span class="solution-tag tag-easy">Viabilidade Alta</span>
+                </div>
+
+                <div class="solution-card s4">
+                    <div class="solution-num">4</div>
+                    <div class="solution-title">Venda Antecipada de Soja</div>
+                    <div class="solution-impact">
+                        <div class="impact-label">Antecipação</div>
+                        <div class="impact-value">R$ 300-500k</div>
+                    </div>
+                    <div class="solution-desc">
+                        Vender 30-40% da produção esperada via contrato a termo (CPR financeira ou venda antecipada com travamento de preço). Recebe parte agora, entrega na colheita. <strong>Risco: trava preço, perde upside.</strong>
+                    </div>
+                    <span class="solution-tag tag-medium">Viabilidade Média</span>
+                </div>
+
+                <div class="solution-card s5">
+                    <div class="solution-num">5</div>
+                    <div class="solution-title">Redução de Área Plantada</div>
+                    <div class="solution-impact">
+                        <div class="impact-label">Economia Proporcional</div>
+                        <div class="impact-value">R$ 150-300k</div>
+                    </div>
+                    <div class="solution-desc">
+                        Reduzir 100-200 ha da área de soja para safra 26/27 (de 785 para 585-685 ha). Prioriza áreas com melhor produtividade e menor custo logístico. <strong>Reduz receita, mas reduz exposição.</strong>
+                    </div>
+                    <span class="solution-tag tag-hard">Decisão Difícil</span>
+                </div>
+
+                <div class="solution-card s6">
+                    <div class="solution-num">6</div>
+                    <div class="solution-title">Venda de Ativos Subutilizados</div>
+                    <div class="solution-impact">
+                        <div class="impact-label">Geração de Caixa</div>
+                        <div class="impact-value">R$ 100-300k</div>
+                    </div>
+                    <div class="solution-desc">
+                        Avaliar venda de implementos antigos com baixa utilização (parte da causa do alto custo de manutenção). Ex: trator antigo, plantadeira velha, veículos. <strong>Requer inventário detalhado.</strong>
+                    </div>
+                    <span class="solution-tag tag-medium">Viabilidade Média</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. SIMULADOR -->
+        <section>
+            <h2>🎯 Simulador — Combinação de Soluções</h2>
+            <div class="section-subtitle">Combinando as soluções, é possível fechar o gap com folga</div>
+
+            <div class="scenario-builder">
+                <h3>📊 Cenário Recomendado: Combinação Equilibrada</h3>
+                <div class="builder-grid">
+                    <div class="builder-item negative">
+                        <div class="b-label">Gap Inicial</div>
+                        <div class="b-value">– R$ 422.601</div>
+                    </div>
+                    <div class="builder-item positive">
+                        <div class="b-label">Sol. 1 — Barter (parcial)</div>
+                        <div class="b-value">+ R$ 0</div>
+                    </div>
+                    <div class="builder-item positive">
+                        <div class="b-label">Sol. 2 — Otimização</div>
+                        <div class="b-value">+ R$ 180.000</div>
+                    </div>
+                    <div class="builder-item positive">
+                        <div class="b-label">Sol. 3 — Parcelar Colheita</div>
+                        <div class="b-value">+ R$ 240.000</div>
+                    </div>
+                    <div class="builder-item positive">
+                        <div class="b-label">Sol. 4 — Venda Antec. (30%)</div>
+                        <div class="b-value">+ R$ 350.000</div>
+                    </div>
+                    <div class="builder-item positive">
+                        <div class="b-label">Sol. 6 — Venda Ativos</div>
+                        <div class="b-value">+ R$ 150.000</div>
+                    </div>
+                </div>
+                <div class="builder-result">
+                    <div class="r-label">Saldo Final do Caixa após Combinação</div>
+                    <div class="r-value">+ R$ 497.399</div>
+                    <p style="margin-top: 12px; font-size: 13px; opacity: 0.9;">Sobra de capital de giro mesmo após cobrir o operacional 26/27 — folga para imprevistos</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Visualização: Como cada Solução Contribui para Fechar o Gap</div>
+                <div class="chart-subtitle">Efeito cumulativo das estratégias combinadas</div>
+                <div class="chart-wrapper tall">
+                    <canvas id="chartWaterfall"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. PLANO DE AÇÃO -->
+        <section>
+            <h2>✅ Plano de Ação Recomendado</h2>
+            <div class="section-subtitle">Sequência de movimentos para fechar o gap e chegar em 30/04/2027 com folga</div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-month">🟢 Maio/2026 — IMEDIATO</div>
+                    <div class="timeline-desc">
+                        <strong>Iniciar negociação com credores</strong> (estratégia já validada — R$ 485.563 de entrada)<br>
+                        <strong>Iniciar abordagem Buriti</strong> para liberação da cessão de R$ 393.997<br>
+                        <strong>Iniciar barter de insumos 26/27</strong> com Corteva, Nutrien e Buriti
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">🟢 Junho/2026</div>
+                    <div class="timeline-desc">
+                        <strong>Inventário de máquinas e implementos</strong> — identificar ativos para venda (Sol. 6)<br>
+                        <strong>Estudo de redução de área</strong> — cenário com 685 ha vs 785 ha (Sol. 5)<br>
+                        <strong>Cotação de contrato de combustível</strong> com volume da safra (Sol. 2)
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">🟡 Julho/Agosto 2026</div>
+                    <div class="timeline-desc">
+                        <strong>Fechar barter de insumos</strong> — meta: 100% das compras 26/27<br>
+                        <strong>Negociar parcelamento da tercerização</strong> com empresa de colheita (Sol. 3)<br>
+                        <strong>Avaliar venda antecipada de 30% da soja</strong> via CPR-F ou contrato (Sol. 4)
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">🟡 Setembro/Outubro 2026</div>
+                    <div class="timeline-desc">
+                        <strong>Plantio Soja 26/27</strong> — Pico 1 de caixa (~R$ 250k)<br>
+                        <strong>Executar otimizações operacionais</strong> (manutenção programada + despesas adm.)
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">🟡 Nov/26 a Fev/27</div>
+                    <div class="timeline-desc">
+                        <strong>Tratos culturais e início da colheita</strong> — Picos 2 e início do 3<br>
+                        <strong>Monitorar caixa semanalmente</strong> — alerta se desvio > 10% do projetado<br>
+                        <strong>Pagar credores nas datas acordadas</strong> conforme cronograma
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">🔴 Março/Abril 2027 — PICO CRÍTICO</div>
+                    <div class="timeline-desc">
+                        <strong>Pico 3:</strong> tercerização colheita + frete + plantio milho<br>
+                        <strong>Receita esperada da soja</strong> entra no caixa (com venda antecipada já parcialmente recebida)<br>
+                        <strong>Saldo previsto em 30/04/27:</strong> ~R$ 497.399 de folga
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. POSIÇÃO PROJETADA -->
+        <section>
+            <h2>🎯 Posição Projetada em 30/04/2027</h2>
+            <div class="section-subtitle">Como chega ao final da safra 26/27 com a estratégia combinada</div>
+
+            <div class="chart-container">
+                <div class="chart-title">Caixa Projetado — Linha do Tempo Maio/26 → Abril/27</div>
+                <div class="chart-subtitle">Evolução com aplicação das soluções complementares</div>
+                <div class="chart-wrapper tall">
+                    <canvas id="chartProjecaoFinal"></canvas>
+                </div>
+            </div>
+
+            <div class="hero-metrics">
+                <div class="hero-card caixa">
+                    <span class="icon-big">📅</span>
+                    <div class="label-big">Hoje (Mai/26)</div>
+                    <div class="value-big">R$ 1.220.962</div>
+                    <div class="desc-big">Caixa real disponível</div>
+                </div>
+                <div class="hero-card pagto">
+                    <span class="icon-big">💸</span>
+                    <div class="label-big">Após Pagamentos</div>
+                    <div class="value-big">R$ 735.399</div>
+                    <div class="desc-big">Pós-negociação credores</div>
+                </div>
+                <div class="hero-card necessidade">
+                    <span class="icon-big">🌱</span>
+                    <div class="label-big">Pós-Operacional</div>
+                    <div class="value-big">R$ 0</div>
+                    <div class="desc-big">Sem soluções complementares</div>
+                </div>
+                <div class="hero-card caixa">
+                    <span class="icon-big">🎯</span>
+                    <div class="label-big">Em 30/04/2027</div>
+                    <div class="value-big">R$ 497.399</div>
+                    <div class="desc-big">Com soluções combinadas</div>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>✅ A estratégia combinada FECHA o gap com folga</strong>
+                Combinando otimização operacional + parcelamento da colheita + venda antecipada parcial + venda de ativos subutilizados, chega em <strong>30/04/2027 com R$ 497.399 de caixa</strong>. Isso representa uma folga de <strong>R$ 920 mil sobre o cenário sem soluções complementares</strong>.
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ Pré-requisitos críticos para o sucesso</strong>
+                Esta projeção depende de: <strong>(1)</strong> sucesso integral do barter de insumos, <strong>(2)</strong> execução disciplinada das otimizações operacionais, <strong>(3)</strong> aceitação do parcelamento pela empresa de colheita, <strong>(4)</strong> venda antecipada com preço aceitável, e <strong>(5)</strong> produtividade média da soja (mínimo 55-60 sc/ha).
+            </div>
+        </section>
+
+        <!-- 10. RISCOS -->
+        <section>
+            <h2>⚠️ Riscos e Mitigações</h2>
+            <div class="section-subtitle">Cenários de risco que podem comprometer a projeção e como mitigá-los</div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Risco</th>
+                        <th>Probabilidade</th>
+                        <th>Impacto no Gap</th>
+                        <th>Mitigação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Quebra de safra (clima)</strong></td>
+                        <td>🟡 Média</td>
+                        <td>R$ 300-600k</td>
+                        <td>Seguro agrícola PROAGRO + diversificação soja/milho</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Queda no preço da soja</strong></td>
+                        <td>🟠 Média-Alta</td>
+                        <td>R$ 200-400k</td>
+                        <td>Venda antecipada com preço travado (Sol. 4)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quebra grande de máquina</strong></td>
+                        <td>🔴 Alta (frota antiga)</td>
+                        <td>R$ 80-200k</td>
+                        <td>Reserva técnica + manutenção programada (Sol. 2)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recusa do barter por fornecedores</strong></td>
+                        <td>🟡 Média</td>
+                        <td>R$ 600-800k</td>
+                        <td>Diversificar 4-5 fornecedores no barter</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bancos exigirem garantias adicionais</strong></td>
+                        <td>🟠 Média-Alta</td>
+                        <td>R$ 200-500k</td>
+                        <td>Estratégia jurídica antecipada com advogado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Buriti não liberar a cessão</strong></td>
+                        <td>🟡 Média</td>
+                        <td>R$ 393.997 trava no caixa</td>
+                        <td>Plano B: vender 30% antecipado para gerar caixa equivalente</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 11. CONCLUSÃO -->
+        <section>
+            <h2>📌 Mensagens-Chave</h2>
+            <div class="section-subtitle">O que precisa ficar claro sobre a situação e o caminho à frente</div>
+
+            <div class="alert alert-danger">
+                <strong>🚨 A negociação dos credores é necessária, mas não é suficiente</strong>
+                Mesmo executando perfeitamente a estratégia de R$ 485.563 com fornecedores e prestadores, ainda faltam <strong>R$ 422.601</strong> para cobrir o operacional mínimo da safra 26/27. Isso precisa ser endereçado <strong>desde já</strong>.
+            </div>
+
+            <div class="alert alert-success">
+                <strong>✅ O gap é fechável — mas exige disciplina e múltiplas frentes</strong>
+                Combinando barter de insumos, otimização operacional, parcelamento da tercerização e venda antecipada parcial da soja, é possível chegar em <strong>30/04/2027 com folga de R$ 497.399</strong>. Não é só uma alavanca — são <strong>4-5 movimentos coordenados</strong>.
+            </div>
+
+            <div class="alert alert-info">
+                <strong>📌 Disciplina mensal de caixa será essencial</strong>
+                A safra 26/27 deve ser tocada com <strong>monitoramento semanal de caixa</strong> e gatilhos automáticos de alerta. Qualquer desvio acima de 10% do projetado precisa de ação corretiva imediata. Sem disciplina, o plano se desfaz.
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ Decisão estratégica pendente: reduzir área?</strong>
+                Mesmo com o plano combinado funcionando, vale considerar a <strong>redução de 100 ha</strong> da área plantada para reduzir exposição. Isso transforma um cenário "apertado" em um cenário "confortável" — vale a discussão honesta sobre o trade-off entre receita e segurança.
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <strong>Rural In</strong> — Gestão Inteligente Com Tecnologia No Agro<br>
+        <div class="sig">Análise de Capital de Giro e Estratégias Complementares — Dr. Sidney Souza | Maio/2026</div>
+    </footer>
+
+</div>
+
+<script>
+Chart.defaults.font.family = "'Segoe UI', Tahoma, sans-serif";
+Chart.defaults.color = '#475569';
+
+const fmtBRL = (v) => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+
+// 1. Evolução do Caixa - Cenário Atual
+new Chart(document.getElementById('chartEvolucao'), {
+    type: 'line',
+    data: {
+        labels: ['Mai/26', 'Jun/26', 'Jul/26', 'Ago/26', 'Set/26', 'Out/26', 'Nov/26', 'Dez/26', 'Jan/27', 'Fev/27', 'Mar/27', 'Abr/27'],
+        datasets: [
+            {
+                label: 'Caixa Projetado (sem soluções complementares)',
+                data: [1220962, 735399, 720000, 700000, 580000, 380000, 200000, 50000, -100000, -200000, -350000, -422601],
+                borderColor: '#dc2626',
+                backgroundColor: 'rgba(220,38,38,0.1)',
+                borderWidth: 3,
+                tension: 0.3,
+                fill: true,
+                pointRadius: 5,
+                pointBackgroundColor: '#dc2626'
+            },
+            {
+                label: 'Linha de Custo Acumulado',
+                data: [0, 485563, 510000, 540000, 670000, 870000, 1000000, 1100000, 1200000, 1280000, 1320000, 1320000],
+                borderColor: '#f59e0b',
+                borderWidth: 2,
+                borderDash: [8, 4],
+                tension: 0.2,
+                pointRadius: 3,
+                fill: false
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) }
+            },
+            annotation: {
+                annotations: {
+                    line1: {
+                        type: 'line',
+                        yMin: 0,
+                        yMax: 0,
+                        borderColor: '#000',
+                        borderWidth: 1
+                    }
+                }
+            }
+        }
+    }
+});
+
+// 2. Custos
+new Chart(document.getElementById('chartCustos'), {
+    type: 'bar',
+    data: {
+        labels: ['Combustível', 'Manutenção Máq.', 'Tercer. Colheita', 'Mão de Obra', 'Frete', 'Desp. Adm.', 'Manut. Benfeit.'],
+        datasets: [{
+            label: 'Custo Operacional 26/27',
+            data: [378000, 330000, 297000, 117000, 96000, 75000, 27000],
+            backgroundColor: ['#dc2626','#ea580c','#f59e0b','#10b981','#3b82f6','#8b5cf6','#6b7280'],
+            borderRadius: 8
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: (c) => fmtBRL(c.parsed.x) }
+            }
+        }
+    }
+});
+
+// 3. Sazonalidade
+new Chart(document.getElementById('chartSazonalidade'), {
+    type: 'bar',
+    data: {
+        labels: ['Mai/26','Jun/26','Jul/26','Ago/26','Set/26','Out/26','Nov/26','Dez/26','Jan/27','Fev/27','Mar/27','Abr/27'],
+        datasets: [{
+            label: 'Desembolso Mensal',
+            data: [40000, 30000, 35000, 50000, 130000, 200000, 130000, 100000, 100000, 80000, 220000, 210000],
+            backgroundColor: (ctx) => {
+                const v = ctx.parsed?.y || 0;
+                if (v >= 200000) return '#dc2626';
+                if (v >= 130000) return '#ea580c';
+                if (v >= 80000) return '#f59e0b';
+                return '#10b981';
+            },
+            borderRadius: 6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: (c) => 'Desembolso: ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+
+// 4. Caixa Atual
+new Chart(document.getElementById('chartCaixaAtual'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Soja Livre (6.201 sc)', 'Caixa em Conta', 'Soja Livre (1.357 sc)', 'Soja Livre (256 sc)'],
+        datasets: [{
+            data: [651105, 400000, 142831, 27026],
+            backgroundColor: ['#10b981', '#16a085', '#34d399', '#6ee7b7'],
+            borderWidth: 3,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } },
+            tooltip: { callbacks: { label: (c) => c.label + ': ' + fmtBRL(c.parsed) } }
+        }
+    }
+});
+
+// 5. Para onde vai o caixa
+new Chart(document.getElementById('chartParaOndeVai'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Pagto. Credores (21%)', 'Operacional 26/27', 'GAP a descoberto'],
+        datasets: [{
+            data: [485563, 735399, 422601],
+            backgroundColor: ['#ef4444', '#f59e0b', '#7c2d12'],
+            borderWidth: 3,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } },
+            tooltip: { callbacks: { label: (c) => c.label + ': ' + fmtBRL(c.parsed) } }
+        }
+    }
+});
+
+// 6. Gap por Cenário
+new Chart(document.getElementById('chartGapCenarios'), {
+    type: 'bar',
+    data: {
+        labels: ['Mínimo Operacional', 'Realista (50% barter)', 'Confortável (sem barter)'],
+        datasets: [
+            {
+                label: 'Caixa Disponível',
+                data: [735399, 735399, 735399],
+                backgroundColor: '#10b981',
+                borderRadius: 6
+            },
+            {
+                label: 'GAP a Descoberto',
+                data: [422601, 1464601, 2264601],
+                backgroundColor: '#dc2626',
+                borderRadius: 6
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: { stacked: true },
+            y: {
+                stacked: true,
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+
+// 7. Waterfall (efeito cumulativo)
+new Chart(document.getElementById('chartWaterfall'), {
+    type: 'bar',
+    data: {
+        labels: ['Gap Inicial', 'Sol. 2: Otimização', 'Sol. 3: Parcelar', 'Sol. 4: Venda Antec.', 'Sol. 6: Venda Ativos', 'Saldo Final'],
+        datasets: [{
+            label: 'Saldo Acumulado',
+            data: [-422601, -242601, -2601, 347399, 497399, 497399],
+            backgroundColor: ['#dc2626', '#f87171', '#fbbf24', '#34d399', '#10b981', '#059669'],
+            borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: (c) => 'Saldo após esta solução: ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+
+// 8. Projeção Final
+new Chart(document.getElementById('chartProjecaoFinal'), {
+    type: 'line',
+    data: {
+        labels: ['Mai/26', 'Jun/26', 'Jul/26', 'Ago/26', 'Set/26', 'Out/26', 'Nov/26', 'Dez/26', 'Jan/27', 'Fev/27', 'Mar/27', 'Abr/27'],
+        datasets: [
+            {
+                label: 'Cenário SEM Soluções Complementares',
+                data: [1220962, 735399, 720000, 700000, 580000, 380000, 200000, 50000, -100000, -200000, -350000, -422601],
+                borderColor: '#dc2626',
+                backgroundColor: 'rgba(220,38,38,0.08)',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                tension: 0.3,
+                fill: false,
+                pointRadius: 4
+            },
+            {
+                label: 'Cenário COM Soluções Combinadas',
+                data: [1220962, 735399, 870000, 1020000, 970000, 850000, 780000, 700000, 650000, 580000, 520000, 497399],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16,185,129,0.15)',
+                borderWidth: 3,
+                tension: 0.3,
+                fill: true,
+                pointRadius: 5,
+                pointBackgroundColor: '#10b981'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

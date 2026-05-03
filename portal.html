@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Faz. Água Rica — Plano de Reestruturação Financeira</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --verde-escuro: #14532d;
+        --verde-medio: #166534;
+        --verde-claro: #15803d;
+        --dourado: #fbbf24;
+        --dourado-escuro: #d97706;
+        --bg: #f4f6f9;
+        --texto: #1e293b;
+        --cinza: #64748b;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f4f6f9 0%, #e2e8f0 100%);
+        color: var(--texto);
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    /* HEADER PRINCIPAL */
+    .hero {
+        background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde-medio) 50%, var(--verde-claro) 100%);
+        color: #fff;
+        padding: 60px 30px 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '🌾';
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        font-size: 280px;
+        opacity: 0.06;
+        transform: rotate(-15deg);
+    }
+
+    .hero::after {
+        content: '🌱';
+        position: absolute;
+        bottom: -30px;
+        left: -30px;
+        font-size: 200px;
+        opacity: 0.06;
+        transform: rotate(15deg);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .hero-badge {
+        display: inline-block;
+        background: rgba(251,191,36,0.2);
+        color: #fde68a;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(251,191,36,0.4);
+        backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+        font-size: 42px;
+        font-weight: 800;
+        margin-bottom: 14px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .hero h2 {
+        font-size: 18px;
+        font-weight: 400;
+        opacity: 0.95;
+        margin-bottom: 28px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-meta {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(10px);
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 13px;
+        border: 1px solid rgba(255,255,255,0.2);
+        font-weight: 500;
+    }
+
+    /* INDICADOR DE PROGRESSO */
+    .progresso-bar {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        max-width: 700px;
+        margin: 30px auto 0;
+        padding: 18px 24px;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .progresso-titulo {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #fde68a;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .progresso-track {
+        background: rgba(0,0,0,0.2);
+        height: 10px;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .progresso-fill {
+        background: linear-gradient(90deg, #fbbf24, #f59e0b);
+        height: 100%;
+        width: 0%;
+        border-radius: 10px;
+        transition: width 0.6s ease;
+        box-shadow: 0 0 10px rgba(251,191,36,0.5);
+    }
+
+    .progresso-label {
+        font-size: 11px;
+        color: #fff;
+        margin-top: 8px;
+        opacity: 0.9;
+    }
+
+    /* CONTAINER PRINCIPAL */
+    .container {
+        max-width: 1300px;
+        margin: -50px auto 0;
+        padding: 0 25px 60px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* SEÇÃO DE BOAS-VINDAS */
+    .welcome {
+        background: #fff;
+        border-radius: 16px;
+        padding: 30px 36px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        margin-bottom: 40px;
+        border-left: 6px solid var(--dourado);
+    }
+
+    .welcome-titulo {
+        font-size: 22px;
+        color: var(--verde-escuro);
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .welcome-texto {
+        font-size: 14.5px;
+        color: var(--texto);
+        line-height: 1.75;
+    }
+
+    .welcome-texto strong { color: var(--verde-escuro); }
+
+    /* TÍTULO DAS SEÇÕES */
+    .secao-titulo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 40px 0 20px;
+        padding-bottom: 12px;
+        border-bottom: 3px solid var(--verde-claro);
+    }
+
+    .secao-titulo-numero {
+        background: linear-gradient(135deg, var(--verde-medio), var(--verde-claro));
+        color: #fff;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 800;
+        box-shadow: 0 4px 12px rgba(21,128,61,0.25);
+    }
+
+    .secao-titulo-texto h3 {
+        font-size: 20px;
+        color: var(--verde-escuro);
+        font-weight: 700;
+    }
+
+    .secao-titulo-texto p {
+        font-size: 12px;
+        color: var(--cinza);
+        margin-top: 2px;
+    }
+
+    /* GRID DE DOCUMENTOS */
+    .docs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+        gap: 22px;
+    }
+
+    /* CARD DO DOCUMENTO */
+    .doc-card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 1px solid #e2e8f0;
+        position: relative;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .doc-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(20,83,45,0.18);
+        border-color: var(--verde-claro);
+    }
+
+    .doc-card-header {
+        background: linear-gradient(135deg, var(--verde-medio), var(--verde-claro));
+        color: #fff;
+        padding: 22px 24px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .doc-card-header::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        right: -10%;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .doc-card-numero {
+        position: absolute;
+        top: 16px;
+        right: 18px;
+        background: var(--dourado);
+        color: var(--verde-escuro);
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 800;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        z-index: 2;
+    }
+
+    .doc-card-icone {
+        font-size: 38px;
+        margin-bottom: 6px;
+        display: block;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-card-tag {
+        display: inline-block;
+        background: rgba(251,191,36,0.25);
+        color: #fde68a;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 9.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        border: 1px solid rgba(251,191,36,0.4);
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-card-titulo {
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.3;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-card-body {
+        padding: 20px 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .doc-card-descricao {
+        font-size: 13px;
+        color: var(--texto);
+        line-height: 1.6;
+        margin-bottom: 14px;
+        flex: 1;
+    }
+
+    .doc-card-tempo {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11.5px;
+        color: var(--cinza);
+        margin-bottom: 14px;
+        font-weight: 500;
+    }
+
+    .doc-card-cta {
+        background: var(--verde-escuro);
+        color: #fff;
+        padding: 11px 16px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .doc-card:hover .doc-card-cta {
+        background: var(--dourado-escuro);
+        color: #fff;
+    }
+
+    .doc-card-cta .arrow {
+        transition: transform 0.2s ease;
+    }
+
+    .doc-card:hover .doc-card-cta .arrow {
+        transform: translateX(4px);
+    }
+
+    /* CARD DESTAQUE (#1 e #4) */
+    .doc-card.destaque .doc-card-header {
+        background: linear-gradient(135deg, var(--verde-escuro), var(--verde-medio));
+    }
+
+    .doc-card.destaque::before {
+        content: '⭐ COMECE AQUI';
+        position: absolute;
+        top: 12px;
+        left: -32px;
+        background: var(--dourado);
+        color: var(--verde-escuro);
+        padding: 4px 36px;
+        font-size: 9.5px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+        transform: rotate(-45deg);
+        z-index: 3;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    /* SEPARADOR DE GRUPO */
+    .grupo-divisor {
+        margin: 50px 0 25px;
+        text-align: center;
+        position: relative;
+    }
+
+    .grupo-divisor::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #cbd5e1;
+    }
+
+    .grupo-divisor-texto {
+        background: var(--bg);
+        padding: 0 20px;
+        position: relative;
+        display: inline-block;
+        font-size: 12px;
+        color: var(--cinza);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+    }
+
+    /* CARD DE AJUDA / DICAS */
+    .ajuda-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+        margin-top: 40px;
+    }
+
+    .ajuda-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 22px 24px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-left: 5px solid var(--dourado);
+    }
+
+    .ajuda-card-titulo {
+        font-size: 14px;
+        color: var(--verde-escuro);
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .ajuda-card-texto {
+        font-size: 13px;
+        color: var(--texto);
+        line-height: 1.6;
+    }
+
+    /* ROTAS DE LEITURA */
+    .rotas {
+        background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde-medio) 100%);
+        color: #fff;
+        border-radius: 16px;
+        padding: 32px 36px;
+        margin-top: 50px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .rotas::before {
+        content: '';
+        position: absolute;
+        top: -40%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .rotas-titulo {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .rotas-subtitulo {
+        font-size: 13px;
+        opacity: 0.9;
+        margin-bottom: 24px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .rotas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .rota-item {
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 12px;
+        padding: 18px 22px;
+    }
+
+    .rota-item-titulo {
+        font-size: 14px;
+        color: var(--dourado);
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .rota-item-passos {
+        font-size: 12.5px;
+        line-height: 1.7;
+        opacity: 0.95;
+    }
+
+    .rota-item-passos span {
+        background: rgba(251,191,36,0.25);
+        padding: 2px 7px;
+        border-radius: 5px;
+        font-weight: 700;
+        margin: 0 2px;
+    }
+
+    /* RODAPÉ */
+    .footer {
+        background: linear-gradient(135deg, #052e16 0%, #14532d 100%);
+        color: #fff;
+        padding: 40px 30px;
+        text-align: center;
+        margin-top: 60px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--dourado), var(--dourado-escuro));
+    }
+
+    .footer-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .footer-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #fde68a;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .footer-nome {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .footer-titulo {
+        font-size: 13px;
+        opacity: 0.9;
+        margin-bottom: 18px;
+    }
+
+    .footer-divisor {
+        width: 50px;
+        height: 2px;
+        background: rgba(251,191,36,0.5);
+        margin: 14px auto;
+    }
+
+    .footer-tagline {
+        font-size: 13px;
+        font-style: italic;
+        opacity: 0.95;
+        margin-bottom: 18px;
+    }
+
+    .footer-contatos {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .footer-contato {
+        background: rgba(251,191,36,0.18);
+        padding: 8px 16px;
+        border-radius: 22px;
+        font-size: 12px;
+        border: 1px solid rgba(251,191,36,0.3);
+        font-weight: 500;
+    }
+
+    .footer-copy {
+        margin-top: 20px;
+        font-size: 11px;
+        opacity: 0.7;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+        .hero h1 { font-size: 28px; }
+        .hero h2 { font-size: 14px; }
+        .container { padding: 0 15px 40px; }
+        .docs-grid { grid-template-columns: 1fr; }
+        .welcome { padding: 22px; }
+    }
+
+    /* ANIMAÇÕES */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .doc-card { animation: fadeInUp 0.6s ease backwards; }
+    .doc-card:nth-child(1) { animation-delay: 0.05s; }
+    .doc-card:nth-child(2) { animation-delay: 0.1s; }
+    .doc-card:nth-child(3) { animation-delay: 0.15s; }
+    .doc-card:nth-child(4) { animation-delay: 0.2s; }
+    .doc-card:nth-child(5) { animation-delay: 0.25s; }
+    .doc-card:nth-child(6) { animation-delay: 0.3s; }
+    .doc-card:nth-child(7) { animation-delay: 0.35s; }
+    .doc-card:nth-child(8) { animation-delay: 0.4s; }
+    .doc-card:nth-child(9) { animation-delay: 0.45s; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-content">
+        <span class="hero-badge">🌾 Portal de Documentos do Plano</span>
+        <h1>Faz. Água Rica</h1>
+        <h2>Plano de Reestruturação Financeira Decenal — todos os documentos do seu plano em um só lugar, prontos para consulta a qualquer momento</h2>
+        <div class="hero-meta">
+            <div class="hero-meta-item">👨‍🌾 Thiago Carvalho Matias</div>
+            <div class="hero-meta-item">📍 Rio Verde / GO</div>
+            <div class="hero-meta-item">📅 Maio/2026</div>
+            <div class="hero-meta-item">📑 9 Documentos</div>
+        </div>
+
+        <div class="progresso-bar">
+            <div class="progresso-titulo">📊 Status do Plano</div>
+            <div class="progresso-track">
+                <div class="progresso-fill" id="progressoFill"></div>
+            </div>
+            <div class="progresso-label">Documentação completa entregue — pronta para apresentação a credores</div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTAINER PRINCIPAL -->
+<div class="container">
+
+    <!-- BOAS-VINDAS -->
+    <div class="welcome">
+        <div class="welcome-titulo">👋 Olá, Thiago — bem-vindo ao seu portal</div>
+        <div class="welcome-texto">
+            Este é o <strong>ponto central de acesso</strong> a toda a análise feita para a Faz. Água Rica. Aqui você encontra os <strong>9 documentos</strong> do plano, organizados em ordem lógica de leitura. Cada card abre um documento completo — leia no seu ritmo, volte quando precisar. <strong>Tudo foi construído para ficar ao seu alcance, sempre.</strong>
+        </div>
+    </div>
+
+    <!-- SEÇÃO 1 — DIAGNÓSTICO E PLANEJAMENTO -->
+    <div class="secao-titulo">
+        <div class="secao-titulo-numero">1</div>
+        <div class="secao-titulo-texto">
+            <h3>📋 Diagnóstico e Planejamento Estratégico</h3>
+            <p>Os documentos que mostram a situação atual e o caminho dos próximos 10 anos</p>
+        </div>
+    </div>
+
+    <div class="docs-grid">
+
+        <a href="1-estruturacao-divida.html" class="doc-card destaque">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">1</div>
+                <span class="doc-card-icone">📊</span>
+                <span class="doc-card-tag">Diagnóstico</span>
+                <div class="doc-card-titulo">Estruturação da Dívida</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    Diagnóstico financeiro completo: o quanto se deve, para quem, com que taxas e prazos. Ponto de partida de toda a análise.
+                </div>
+                <div class="doc-card-tempo">⏱️ Leitura: ~12 min</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="2-sugestao-reestruturacao.html" class="doc-card">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">2</div>
+                <span class="doc-card-icone">💡</span>
+                <span class="doc-card-tag">Estratégia</span>
+                <div class="doc-card-titulo">Sugestão de Reestruturação</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    A proposta de como renegociar e reorganizar as dívidas — o "como sair da situação atual" estruturado em ações concretas.
+                </div>
+                <div class="doc-card-tempo">⏱️ Leitura: ~15 min</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="3-gap-cg.html" class="doc-card">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">3</div>
+                <span class="doc-card-icone">📉</span>
+                <span class="doc-card-tag">Análise</span>
+                <div class="doc-card-titulo">GAP de Capital de Giro</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    Análise da diferença entre o capital necessário para operar e o disponível — onde está o "buraco" que precisa ser fechado.
+                </div>
+                <div class="doc-card-tempo">⏱️ Leitura: ~10 min</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="4-plano-10anos.html" class="doc-card destaque">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">4</div>
+                <span class="doc-card-icone">🎯</span>
+                <span class="doc-card-tag">Estratégia</span>
+                <div class="doc-card-titulo">Plano Decenal</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    O plano estratégico completo de 10 anos: metas, marcos, ações por fase. O "mapa do tesouro" da Faz. Água Rica.
+                </div>
+                <div class="doc-card-tempo">⏱️ Leitura: ~25 min</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="grupo-divisor">
+        <span class="grupo-divisor-texto">━━━ Análises Quantitativas ━━━</span>
+    </div>
+
+    <!-- SEÇÃO 2 — PROJEÇÕES E SIMULAÇÕES -->
+    <div class="secao-titulo">
+        <div class="secao-titulo-numero">2</div>
+        <div class="secao-titulo-texto">
+            <h3>📈 Projeções, Testes e Indicadores</h3>
+            <p>Como os números se comportam ao longo do tempo e sob estresse</p>
+        </div>
+    </div>
+
+    <div class="docs-grid">
+
+        <a href="5-projecao-decenal-caixa.html" class="doc-card">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">5</div>
+                <span class="doc-card-icone">💰</span>
+                <span class="doc-card-tag">Projeção</span>
+                <div class="doc-card-titulo">Projeção Decenal de Caixa</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    Fluxo de caixa ano a ano de 2027 a 2036: receitas, custos, investimentos e saldo final. O coração financeiro do plano.
+                </div>
+                <div class="doc-card-tempo">⏱️ Leitura: ~18 min</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="6-teste-stress.html" class="doc-card">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">6</div>
+                <span class="doc-card-icone">🔬</span>
+                <span class="doc-card-tag">Resiliência</span>
+                <div class="doc-card-titulo">Teste de Estresse</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    Simulações em cenários adversos: queda de preço, quebra de safra, alta de insumos. O quanto o plano aguenta antes de quebrar.
+                </div>
+                <div class="doc-card-tempo">⏱️ Leitura: ~14 min</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="7-indicadores-do-plano.html" class="doc-card">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">7</div>
+                <span class="doc-card-icone">📊</span>
+                <span class="doc-card-tag">Dashboard</span>
+                <div class="doc-card-titulo">Indicadores do Plano</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    Dashboard executivo com 12 indicadores-chave: saúde financeira, viabilidade econômica e risco — visão consolidada.
+                </div>
+                <div class="doc-card-tempo">⏱️ Leitura: ~10 min</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="8-analise-avancada.html" class="doc-card">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">8</div>
+                <span class="doc-card-icone">🎲</span>
+                <span class="doc-card-tag">Probabilística</span>
+                <div class="doc-card-titulo">Análise Avançada (Monte Carlo)</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    Simulação de 10.000 cenários para quantificar a robustez do plano — análise probabilística em padrão Basiléia III.
+                </div>
+                <div class="doc-card-tempo">⏱️ Leitura: ~20 min</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="grupo-divisor">
+        <span class="grupo-divisor-texto">━━━ Material de Apoio ━━━</span>
+    </div>
+
+    <!-- SEÇÃO 3 — REFERÊNCIA -->
+    <div class="secao-titulo">
+        <div class="secao-titulo-numero">3</div>
+        <div class="secao-titulo-texto">
+            <h3>📚 Referência e Aprendizado</h3>
+            <p>Material didático para consulta sempre que surgir uma dúvida</p>
+        </div>
+    </div>
+
+    <div class="docs-grid">
+
+        <a href="9-glossario.html" class="doc-card">
+            <div class="doc-card-header">
+                <div class="doc-card-numero">9</div>
+                <span class="doc-card-icone">📖</span>
+                <span class="doc-card-tag">Manual</span>
+                <div class="doc-card-titulo">Glossário Técnico</div>
+            </div>
+            <div class="doc-card-body">
+                <div class="doc-card-descricao">
+                    Manual didático com explicação de cada indicador usado no plano — com analogias agronômicas e exemplos aplicados à fazenda.
+                </div>
+                <div class="doc-card-tempo">⏱️ Consulta: livre</div>
+                <div class="doc-card-cta">
+                    Abrir Documento <span class="arrow">→</span>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- ROTAS DE LEITURA -->
+    <div class="rotas">
+        <div class="rotas-titulo">🗺️ Rotas de Leitura Recomendadas</div>
+        <div class="rotas-subtitulo">Não sabe por onde começar? Escolha o caminho que faz mais sentido para você agora:</div>
+
+        <div class="rotas-grid">
+
+            <div class="rota-item">
+                <div class="rota-item-titulo">⚡ Rota Rápida (30 min)</div>
+                <div class="rota-item-passos">
+                    Quero uma visão geral imediata.<br><br>
+                    <span>1</span> → <span>7</span> → <span>4</span><br><br>
+                    <small>Diagnóstico → Indicadores → Plano</small>
+                </div>
+            </div>
+
+            <div class="rota-item">
+                <div class="rota-item-titulo">📚 Rota Completa (2h)</div>
+                <div class="rota-item-passos">
+                    Quero entender tudo a fundo.<br><br>
+                    <span>1</span> → <span>2</span> → <span>3</span> → <span>4</span> → <span>5</span> → <span>6</span> → <span>7</span> → <span>8</span><br><br>
+                    <small>Sequência completa em ordem</small>
+                </div>
+            </div>
+
+            <div class="rota-item">
+                <div class="rota-item-titulo">🏦 Rota Banco/Credor</div>
+                <div class="rota-item-passos">
+                    Vou conversar com credores.<br><br>
+                    <span>7</span> → <span>5</span> → <span>6</span> → <span>8</span><br><br>
+                    <small>Indicadores → Caixa → Estresse → Monte Carlo</small>
+                </div>
+            </div>
+
+            <div class="rota-item">
+                <div class="rota-item-titulo">🎓 Rota Aprendizado</div>
+                <div class="rota-item-passos">
+                    Quero entender os conceitos.<br><br>
+                    <span>9</span> → <span>7</span> → <span>1</span> → <span>4</span><br><br>
+                    <small>Glossário → Indicadores → Diagnóstico → Plano</small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- AJUDA / DICAS -->
+    <div class="ajuda-grid">
+
+        <div class="ajuda-card">
+            <div class="ajuda-card-titulo">💡 Dica de Uso</div>
+            <div class="ajuda-card-texto">
+                Mantenha este portal salvo nos favoritos do navegador. Use-o como ponto de entrada sempre que precisar consultar qualquer documento.
+            </div>
+        </div>
+
+        <div class="ajuda-card">
+            <div class="ajuda-card-titulo">🔁 Voltar ao Portal</div>
+            <div class="ajuda-card-texto">
+                Em qualquer documento, use o botão "Voltar" do navegador (←) para retornar a este portal e continuar a navegação.
+            </div>
+        </div>
+
+        <div class="ajuda-card">
+            <div class="ajuda-card-titulo">📱 Funciona em Celular</div>
+            <div class="ajuda-card-texto">
+                Todos os documentos foram construídos com layout responsivo — acesse pelo computador, tablet ou celular, sem perder qualidade.
+            </div>
+        </div>
+
+        <div class="ajuda-card">
+            <div class="ajuda-card-titulo">❓ Dúvidas?</div>
+            <div class="ajuda-card-texto">
+                Se um termo financeiro não estiver claro, consulte o <strong>Glossário (Doc 9)</strong>. Para análises personalizadas, fale comigo diretamente.
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- RODAPÉ -->
+<div class="footer">
+    <div class="footer-content">
+        <div class="footer-label">Plano elaborado por</div>
+        <div class="footer-nome">Dr. Sidney Souza</div>
+        <div class="footer-titulo">Economista e Adm. Agrícola — Estrategista Econômico do Produtor</div>
+
+        <div class="footer-divisor"></div>
+
+        <div class="footer-tagline">
+            "Transformamos dados da fazenda em decisões econômicas"<br>
+            "Ajudamos produtores a entender se o mercado sustenta seu negócio"
+        </div>
+
+        <div class="footer-contatos">
+            <div class="footer-contato">✉️ sidneyagro@gmail.com</div>
+            <div class="footer-contato">📱 (64) 9 9226-6886</div>
+            <div class="footer-contato">📸 @ruralin.ai</div>
+        </div>
+
+        <div class="footer-copy">
+            Portal de Navegação — Faz. Água Rica — Maio/2026<br>
+            Material confidencial — uso exclusivo de Thiago Carvalho Matias e credores autorizados
+        </div>
+    </div>
+</div>
+
+<script>
+    // Animação da barra de progresso
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('progressoFill').style.width = '100%';
+        }, 300);
+    });
+
+    // Suaviza navegação
+    document.querySelectorAll('.doc-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            const href = card.getAttribute('href');
+            if (href && !href.startsWith('#')) {
+                // navegação normal — comportamento padrão
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

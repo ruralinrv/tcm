@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estruturação de Dívida — Thiago Carvalho Matias</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f6f9;
+        color: #2c3e50;
+        line-height: 1.6;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: #fff;
+        padding: 30px 40px;
+        text-align: center;
+    }
+
+    header h1 {
+        font-size: 28px;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    header h2 {
+        font-size: 16px;
+        font-weight: 400;
+        opacity: 0.9;
+    }
+
+    header .date {
+        margin-top: 12px;
+        font-size: 13px;
+        opacity: 0.8;
+    }
+
+    .content {
+        padding: 30px 40px;
+    }
+
+    .section {
+        margin-bottom: 40px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        color: #1e3c72;
+        border-bottom: 3px solid #1e3c72;
+        padding-bottom: 8px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .section-title .icon {
+        background: #1e3c72;
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .subsection {
+        margin-bottom: 25px;
+    }
+
+    .subsection-title {
+        font-size: 15px;
+        color: #2a5298;
+        font-weight: 600;
+        margin-bottom: 10px;
+        padding: 8px 12px;
+        background: #eaf0f8;
+        border-left: 4px solid #2a5298;
+        border-radius: 4px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    thead {
+        background: #1e3c72;
+        color: #fff;
+    }
+
+    th {
+        padding: 10px 12px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #ecf0f3;
+    }
+
+    tbody tr:hover {
+        background: #f9fbfd;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .total-row {
+        background: #fff3cd !important;
+        font-weight: 700;
+    }
+
+    .total-row td {
+        border-top: 2px solid #f0ad4e;
+        color: #8a6d3b;
+    }
+
+    .grand-total {
+        background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+        color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .grand-total .label {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.9;
+    }
+
+    .grand-total .value {
+        font-size: 32px;
+        font-weight: 700;
+        margin-top: 5px;
+    }
+
+    .summary-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: #fff;
+        border: 1px solid #e0e6ed;
+        border-radius: 8px;
+        padding: 18px;
+        text-align: center;
+        border-top: 4px solid #2a5298;
+    }
+
+    .card.titular-thiago { border-top-color: #2a5298; }
+    .card.titular-pai { border-top-color: #16a085; }
+    .card.fornecedores { border-top-color: #e67e22; }
+    .card.servicos { border-top-color: #8e44ad; }
+
+    .card .label {
+        font-size: 12px;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .card .value {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1e3c72;
+        margin-top: 5px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .badge-bb { background: #fff3cd; color: #856404; }
+    .badge-sicoob { background: #d4edda; color: #155724; }
+    .badge-cpr { background: #f8d7da; color: #721c24; }
+    .badge-rua { background: #fde2cf; color: #8a4a1f; }
+    .badge-prorrogada { background: #d1ecf1; color: #0c5460; }
+    .badge-pago { background: #d4edda; color: #155724; }
+    .badge-novo { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
+    .badge-quitar { background: #d4edda; color: #155724; }
+
+    .obs {
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        padding: 10px 15px;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #6e5b1a;
+        border-radius: 4px;
+    }
+
+    footer {
+        background: #2c3e50;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        font-size: 12px;
+    }
+
+    @media print {
+        body { background: #fff; padding: 0; }
+        .container { box-shadow: none; }
+        .section { page-break-inside: avoid; }
+    }
+
+    @media (max-width: 768px) {
+        .content { padding: 20px; }
+        header { padding: 20px; }
+        header h1 { font-size: 22px; }
+        table { font-size: 11px; }
+        th, td { padding: 6px 8px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>ESTRUTURAÇÃO DE DÍVIDA</h1>
+        <h2>Thiago Carvalho Matias &nbsp;|&nbsp; Ronimar Gonçalves Matias</h2>
+        <div class="date">Documento para reunião — Maio/2026 (atualizado)</div>
+    </header>
+
+    <div class="content">
+
+        <!-- RESUMO EXECUTIVO -->
+        <div class="section">
+            <div class="section-title"><span class="icon">1</span> Resumo Executivo</div>
+            <div class="summary-cards">
+                <div class="card titular-thiago">
+                    <div class="label">Dívida Bancária — Thiago</div>
+                    <div class="value">R$ 9.107.428,49</div>
+                </div>
+                <div class="card titular-pai">
+                    <div class="label">Dívida Bancária — Ronimar (Pai)</div>
+                    <div class="value">R$ 2.709.062,23</div>
+                </div>
+                <div class="card fornecedores">
+                    <div class="label">Fornecedores / Revendas</div>
+                    <div class="value">R$ 1.129.339,40</div>
+                </div>
+                <div class="card servicos">
+                    <div class="label">Prestadores de Serviços</div>
+                    <div class="value">R$ 1.160.019,00</div>
+                </div>
+            </div>
+
+            <div class="grand-total">
+                <div class="label">Dívida Total Consolidada</div>
+                <div class="value">R$ 14.105.849,12</div>
+            </div>
+        </div>
+
+        <!-- TITULAR THIAGO -->
+        <div class="section">
+            <div class="section-title"><span class="icon">2</span> Operações Bancárias — Thiago Carvalho Matias</div>
+
+            <!-- BB -->
+            <div class="subsection">
+                <div class="subsection-title">🏦 Banco do Brasil</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CCB</th>
+                            <th>Natureza</th>
+                            <th class="text-center">Taxa</th>
+                            <th class="text-right">Saldo Devedor</th>
+                            <th class="text-center">Vencimento Final</th>
+                            <th class="text-center">Observação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>367.006.562</td>
+                            <td>Custeio</td>
+                            <td class="text-center">18,15%</td>
+                            <td class="text-right">R$ 1.698.212,16</td>
+                            <td class="text-center">11/07/2026</td>
+                            <td class="text-center"><span class="badge badge-bb">Saldo aberto R$ 950.000 (consolidado c/ 367.006.570)</span></td>
+                        </tr>
+                        <tr>
+                            <td>367.006.570</td>
+                            <td>Custeio</td>
+                            <td class="text-center">18,15%</td>
+                            <td class="text-right">R$ 688.746,84</td>
+                            <td class="text-center">11/07/2026</td>
+                            <td class="text-center"><span class="badge badge-bb">Consolidado</span></td>
+                        </tr>
+                        <tr>
+                            <td>367.006.698</td>
+                            <td>Custeio</td>
+                            <td class="text-center">14,00%</td>
+                            <td class="text-right">R$ 442.795,96</td>
+                            <td class="text-center">07/2027</td>
+                            <td class="text-center"><span class="badge badge-prorrogada">Prorrogada Plano Safra</span></td>
+                        </tr>
+                        <tr>
+                            <td>367.006.697</td>
+                            <td>Custeio</td>
+                            <td class="text-center">14,00%</td>
+                            <td class="text-right">R$ 826.517,00</td>
+                            <td class="text-center">07/2027</td>
+                            <td class="text-center"><span class="badge badge-prorrogada">Prorrogada Plano Safra</span></td>
+                        </tr>
+                        <tr>
+                            <td>367.006.744</td>
+                            <td>Custeio</td>
+                            <td class="text-center">15,21%</td>
+                            <td class="text-right">R$ 1.742.264,04</td>
+                            <td class="text-center">13/12/2026</td>
+                            <td class="text-center">—</td>
+                        </tr>
+                        <tr>
+                            <td>367.006.728</td>
+                            <td>Custeio</td>
+                            <td class="text-center">10,00%</td>
+                            <td class="text-right">R$ 377.736,07</td>
+                            <td class="text-center">13/12/2026</td>
+                            <td class="text-center">—</td>
+                        </tr>
+                        <tr>
+                            <td>40/05082-3</td>
+                            <td>Investimento — Plantadeira JD 2117</td>
+                            <td class="text-center">18,90%</td>
+                            <td class="text-right">R$ 377.349,00</td>
+                            <td class="text-center">01/03/2027</td>
+                            <td class="text-center">2 parcelas em aberto</td>
+                        </tr>
+                        <tr>
+                            <td>40/05060-2 FCO</td>
+                            <td>Investimento — Pulverizador FuturJet 2022</td>
+                            <td class="text-center">5,90%</td>
+                            <td class="text-right">R$ 439.166,00</td>
+                            <td class="text-center">01/01/2031</td>
+                            <td class="text-center">6 parcelas em aberto</td>
+                        </tr>
+                        <tr>
+                            <td>40/05087-4 FCO</td>
+                            <td>Investimento — Orion Hunter / Trator JD 6210M</td>
+                            <td class="text-center">6,09%</td>
+                            <td class="text-right">R$ 1.247.519,18</td>
+                            <td class="text-center">01/04/2032</td>
+                            <td class="text-center">4 anos de carência</td>
+                        </tr>
+                        <tr>
+                            <td>40/05267-2</td>
+                            <td>Custeio Pecuário — Penhor 124+60 vacas</td>
+                            <td class="text-center">9,05%</td>
+                            <td class="text-right">R$ 704.134,47</td>
+                            <td class="text-center">01/09/2029</td>
+                            <td class="text-center">—</td>
+                        </tr>
+                        <tr>
+                            <td>367.006.974</td>
+                            <td>Custeio</td>
+                            <td class="text-center">15,66%</td>
+                            <td class="text-right">R$ 1.447.262,77</td>
+                            <td class="text-center">01/09/2029</td>
+                            <td class="text-center">—</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="3">Subtotal Banco do Brasil — Thiago</td>
+                            <td class="text-right">R$ 9.991.703,49</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="obs">
+                    ⚠️ Considerando o saldo consolidado de R$ 950.000,00 das CCBs 367.006.562 e 367.006.570, o subtotal ajustado do BB para Thiago é de <strong>R$ 8.555.428,49</strong>.
+                </div>
+            </div>
+
+            <!-- SICOOB -->
+            <div class="subsection">
+                <div class="subsection-title">🏦 Sicoob</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CCB</th>
+                            <th>Natureza</th>
+                            <th class="text-center">Taxa</th>
+                            <th class="text-right">Saldo Devedor</th>
+                            <th class="text-center">Vencimento</th>
+                            <th class="text-center">Observação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CCB Sicoob — Selic</td>
+                            <td>Capital de Giro</td>
+                            <td class="text-center">SELIC</td>
+                            <td class="text-right">R$ 552.000,00</td>
+                            <td class="text-center">15/05/2026</td>
+                            <td class="text-center"><span class="badge badge-sicoob">Pagamento único</span></td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="3">Subtotal Sicoob — Thiago</td>
+                            <td class="text-right">R$ 552.000,00</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grand-total" style="background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);">
+                <div class="label">Total Dívida Bancária — Thiago Carvalho</div>
+                <div class="value">R$ 9.107.428,49</div>
+            </div>
+        </div>
+
+        <!-- TITULAR PAI -->
+        <div class="section">
+            <div class="section-title"><span class="icon">3</span> Operações Bancárias — Ronimar Gonçalves Matias (Pai)</div>
+
+            <div class="subsection">
+                <div class="subsection-title">🏦 Banco do Brasil</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CCB</th>
+                            <th>Natureza</th>
+                            <th class="text-center">Taxa</th>
+                            <th class="text-right">Saldo Devedor</th>
+                            <th class="text-center">Vencimento Final</th>
+                            <th class="text-center">Observação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>367.005.353</td>
+                            <td>Custeio Pecuário — Penhor 44 vacas leiteiras</td>
+                            <td class="text-center">10,50%</td>
+                            <td class="text-right">R$ 162.976,00</td>
+                            <td class="text-center">15/12/2027</td>
+                            <td class="text-center">2 parcelas em aberto</td>
+                        </tr>
+                        <tr>
+                            <td>367.006.813</td>
+                            <td>Custeio Pecuário PRONAMP — 100 vacas leiteiras</td>
+                            <td class="text-center">10,00%</td>
+                            <td class="text-right">R$ 653.445,40</td>
+                            <td class="text-center">14/07/2026</td>
+                            <td class="text-center">Pagamento único</td>
+                        </tr>
+                        <tr>
+                            <td>367.006.716</td>
+                            <td>Custeio Pecuário — 300 novilhas</td>
+                            <td class="text-center">10,00%</td>
+                            <td class="text-right">R$ 786.360,83</td>
+                            <td class="text-center">03/03/2027</td>
+                            <td class="text-center">Pagamento único</td>
+                        </tr>
+                        <tr>
+                            <td>40/04780-6</td>
+                            <td>Custeio Pecuário — Penhor 100 vacas leiteiras</td>
+                            <td class="text-center">6,28%</td>
+                            <td class="text-right">R$ 106.280,00</td>
+                            <td class="text-center">01/06/2026</td>
+                            <td class="text-center">Última parcela</td>
+                        </tr>
+                        <tr>
+                            <td>CPR-F nº 797466</td>
+                            <td>2.688 @ Boi Gordo</td>
+                            <td class="text-center">20,15%</td>
+                            <td class="text-right">R$ 1.000.000,00</td>
+                            <td class="text-center">01/02/2026</td>
+                            <td class="text-center"><span class="badge badge-cpr">⚠️ Vencida</span></td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="3">Subtotal Banco do Brasil — Ronimar</td>
+                            <td class="text-right">R$ 2.709.062,23</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grand-total" style="background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);">
+                <div class="label">Total Dívida Bancária — Ronimar (Pai)</div>
+                <div class="value">R$ 2.709.062,23</div>
+            </div>
+        </div>
+
+        <!-- FORNECEDORES — ATUALIZADO -->
+        <div class="section">
+            <div class="section-title"><span class="icon">4</span> Fornecedores / Revendas (Insumos) — Atualizado</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Empresa</th>
+                        <th class="text-right">Valor</th>
+                        <th class="text-center">Vencimento</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Agro Amazônia</td><td class="text-right">R$ 113.584,00</td><td class="text-center">30/03/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Agro Martins</td><td class="text-right">R$ 30.400,00</td><td class="text-center">30/03/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Alvorada</td><td class="text-right">R$ 13.500,00</td><td class="text-center">20/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td><strong>Biocross do Brasil</strong></td><td class="text-right">R$ 3.468,00</td><td class="text-center">30/04/2026</td><td class="text-center"><span class="badge badge-quitar">Quitar à vista</span></td></tr>
+                    <tr><td>Conceito Agrícola</td><td class="text-right">R$ 63.000,00</td><td class="text-center">05/05/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Corteva</td><td class="text-right">R$ 96.860,00</td><td class="text-center">05/05/2026</td><td class="text-center">—</td></tr>
+                    <tr><td><strong>Milium</strong></td><td class="text-right">R$ 7.360,00</td><td class="text-center">05/05/2026</td><td class="text-center"><span class="badge badge-quitar">Quitar à vista</span></td></tr>
+                    <tr><td>Solus do Brasil</td><td class="text-right">R$ 25.956,00</td><td class="text-center">30/03/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Spaço Agrícola</td><td class="text-right">R$ 32.886,00</td><td class="text-center">20/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td><strong>Sphaira Nanotecnologia</strong></td><td class="text-right">R$ 2.800,00</td><td class="text-center">30/04/2026</td><td class="text-center"><span class="badge badge-quitar">Quitar à vista</span></td></tr>
+                    <tr><td>Spraytec</td><td class="text-right">R$ 34.560,00</td><td class="text-center">30/03/2026</td><td class="text-center">—</td></tr>
+                    <tr><td><strong>Buriti</strong> (4 títulos)</td><td class="text-right">R$ 404.286,99</td><td class="text-center">20/04/2026</td><td class="text-center"><span class="badge badge-rua">Prioridade 1º</span></td></tr>
+                    <tr><td>Priori</td><td class="text-right">R$ 69.305,00</td><td class="text-center">20/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Nutrien (1)</td><td class="text-right">R$ 34.419,40</td><td class="text-center">20/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Nutrien (2)</td><td class="text-right">R$ 15.621,00</td><td class="text-center">30/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>BR Agro</td><td class="text-right">R$ 15.140,00</td><td class="text-center">30/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Agrosalles</td><td class="text-right">R$ 49.750,00</td><td class="text-center">30/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Terram</td><td class="text-right">R$ 26.943,01</td><td class="text-center">30/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Montmaq (Piloto)</td><td class="text-right">R$ 37.000,00</td><td class="text-center">30/04/2026</td><td class="text-center">—</td></tr>
+                    <tr><td>Agrônomo - AT <span class="badge badge-novo">Novo</span></td><td class="text-right">R$ 52.500,00</td><td class="text-center">30/04/2026</td><td class="text-center">—</td></tr>
+                    <tr class="total-row">
+                        <td>Total Fornecedores em Aberto</td>
+                        <td class="text-right">R$ 1.129.339,40</td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="obs">
+                📋 <strong>Atualização aplicada:</strong> Removidos LDC (R$ 79.500) e Unigel (R$ 12.361,12) — quitados. Incluído novo credor <strong>Agrônomo - AT (R$ 52.500,00)</strong>. Buriti consolidado em linha única (4 títulos = R$ 404.286,99).
+            </div>
+
+            <div class="grand-total" style="background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%); margin-top: 20px;">
+                <div class="label">Total Fornecedores / Revendas em Aberto</div>
+                <div class="value">R$ 1.129.339,40</div>
+            </div>
+        </div>
+
+        <!-- SERVIÇOS — ATUALIZADO -->
+        <div class="section">
+            <div class="section-title"><span class="icon">5</span> Prestadores de Serviços — Atualizado</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo / Prestador</th>
+                        <th class="text-right">Valor</th>
+                        <th class="text-center">Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Colheita</td><td class="text-right">R$ 227.850,00</td><td class="text-center">—</td></tr>
+                    <tr><td>Arrendo</td><td class="text-right">R$ 265.755,00</td><td class="text-center"><span class="badge badge-rua">Crítico — área 26/27</span></td></tr>
+                    <tr><td>Frete</td><td class="text-right">R$ 105.000,00</td><td class="text-center">—</td></tr>
+                    <tr><td>Kleytinho</td><td class="text-right">R$ 405.000,00</td><td class="text-center">—</td></tr>
+                    <tr><td>Dr. Elvando</td><td class="text-right">R$ 104.000,00</td><td class="text-center">—</td></tr>
+                    <tr><td>Edmar</td><td class="text-right">R$ 10.204,00</td><td class="text-center">—</td></tr>
+                    <tr><td>Participação Colaborador <span class="badge badge-novo">Novo</span></td><td class="text-right">R$ 42.210,00</td><td class="text-center">Negociável</td></tr>
+                    <tr class="total-row">
+                        <td>Total Serviços</td>
+                        <td class="text-right">R$ 1.160.019,00</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="obs">
+                📋 <strong>Atualização aplicada:</strong> Arrendo ajustado de R$ 184.525 para <strong>R$ 265.755,00</strong>. Frete de R$ 130.000 para <strong>R$ 105.000,00</strong>. Edmar de R$ 20.240 para <strong>R$ 10.204,00</strong>. Incluída <strong>Participação Colaborador (R$ 42.210,00)</strong>.
+            </div>
+
+            <div class="grand-total" style="background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%); margin-top: 20px;">
+                <div class="label">Total Prestadores de Serviços</div>
+                <div class="value">R$ 1.160.019,00</div>
+            </div>
+        </div>
+
+        <!-- TOTAL CONSOLIDADO -->
+        <div class="section">
+            <div class="section-title"><span class="icon">6</span> Consolidado Geral</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Titular</th>
+                        <th class="text-right">Valor</th>
+                        <th class="text-center">% do Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Banco do Brasil</td><td>Thiago Carvalho</td><td class="text-right">R$ 8.555.428,49</td><td class="text-center">60,65%</td></tr>
+                    <tr><td>Sicoob</td><td>Thiago Carvalho</td><td class="text-right">R$ 552.000,00</td><td class="text-center">3,91%</td></tr>
+                    <tr><td>Banco do Brasil</td><td>Ronimar (Pai)</td><td class="text-right">R$ 2.709.062,23</td><td class="text-center">19,21%</td></tr>
+                    <tr><td>Fornecedores / Revendas</td><td>Thiago Carvalho</td><td class="text-right">R$ 1.129.339,40</td><td class="text-center">8,01%</td></tr>
+                    <tr><td>Prestadores de Serviços</td><td>Thiago Carvalho</td><td class="text-right">R$ 1.160.019,00</td><td class="text-center">8,22%</td></tr>
+                    <tr class="total-row">
+                        <td colspan="2">DÍVIDA TOTAL CONSOLIDADA</td>
+                        <td class="text-right">R$ 14.105.849,12</td>
+                        <td class="text-center">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="grand-total">
+                <div class="label">Endividamento Total</div>
+                <div class="value">R$ 14.105.849,12</div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        Documento elaborado para reunião de alinhamento — Confidencial<br>
+        Atualização: Maio/2026 — Versão revisada com saldos atuais de fornecedores e serviços
+    </footer>
+</div>
+
+</body>
+</html>

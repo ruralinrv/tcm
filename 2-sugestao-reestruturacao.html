@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estratégia de Reestruturação — Thiago Carvalho Matias</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f0f4f8;
+        color: #2c3e50;
+        line-height: 1.6;
+        padding: 20px;
+    }
+    .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    header {
+        background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #4a7c59 100%);
+        color: #fff;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    header h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+        font-weight: 700;
+    }
+    header .subtitle {
+        font-size: 17px;
+        opacity: 0.95;
+        margin-bottom: 18px;
+        position: relative;
+        z-index: 1;
+    }
+    header .meta {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+    header .meta span {
+        background: rgba(255,255,255,0.18);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        backdrop-filter: blur(10px);
+    }
+
+    .content { padding: 40px; }
+
+    section {
+        margin-bottom: 50px;
+        padding-bottom: 35px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    section:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    h2 {
+        font-size: 24px;
+        color: #1a472a;
+        margin-bottom: 8px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .section-subtitle {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 25px;
+        font-style: italic;
+    }
+    h3 {
+        font-size: 18px;
+        color: #2d5a3d;
+        margin: 25px 0 15px;
+        font-weight: 600;
+    }
+
+    /* HERO METRICS */
+    .hero-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    .hero-card {
+        background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+        border-radius: 14px;
+        padding: 25px;
+        border-left: 5px solid;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        transition: transform 0.2s;
+    }
+    .hero-card:hover { transform: translateY(-3px); }
+    .hero-card.divida { border-left-color: #c0392b; }
+    .hero-card.caixa { border-left-color: #27ae60; }
+    .hero-card.proposta { border-left-color: #2980b9; }
+    .hero-card.saldo { border-left-color: #f39c12; }
+
+    .hero-card .icon-big {
+        font-size: 32px;
+        margin-bottom: 10px;
+        display: block;
+    }
+    .hero-card .label-big {
+        font-size: 13px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+    .hero-card .value-big {
+        font-size: 26px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+    }
+    .hero-card .desc-big {
+        font-size: 12px;
+        color: #94a3b8;
+    }
+
+    /* CHART CONTAINER */
+    .chart-container {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: 1px solid #e2e8f0;
+    }
+    .chart-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 5px;
+    }
+    .chart-subtitle {
+        font-size: 13px;
+        color: #64748b;
+        margin-bottom: 20px;
+    }
+    .chart-wrapper {
+        position: relative;
+        height: 320px;
+    }
+    .chart-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    @media (max-width: 768px) {
+        .chart-grid { grid-template-columns: 1fr; }
+    }
+
+    /* PILLAR */
+    .pillar-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+        margin: 20px 0;
+    }
+    .pillar {
+        background: #fff;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 22px;
+        position: relative;
+        transition: all 0.2s;
+    }
+    .pillar:hover {
+        border-color: #4a7c59;
+        box-shadow: 0 4px 16px rgba(74,124,89,0.15);
+    }
+    .pillar-num {
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: linear-gradient(135deg, #1a472a, #4a7c59);
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(26,71,42,0.3);
+    }
+    .pillar-title {
+        font-weight: 700;
+        color: #1a472a;
+        font-size: 15px;
+        margin-bottom: 8px;
+        margin-top: 10px;
+    }
+    .pillar-desc {
+        font-size: 13px;
+        color: #475569;
+        line-height: 1.5;
+    }
+
+    /* SCENARIO CARDS */
+    .scenario-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+        margin: 20px 0;
+    }
+    .scenario-card {
+        border-radius: 14px;
+        padding: 22px;
+        position: relative;
+        overflow: hidden;
+    }
+    .scenario-card.bad {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border: 2px solid #ef4444;
+    }
+    .scenario-card.medium {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 2px solid #f59e0b;
+    }
+    .scenario-card.good {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border: 2px solid #10b981;
+    }
+    .scenario-card.best {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border: 2px solid #3b82f6;
+        position: relative;
+    }
+    .scenario-card.best::before {
+        content: '🏆 RECOMENDADO';
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #1d4ed8;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 12px;
+    }
+    .scenario-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+    .scenario-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 14px;
+    }
+    .scenario-line {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        font-size: 13px;
+        border-bottom: 1px dashed rgba(0,0,0,0.1);
+    }
+    .scenario-line:last-of-type { border-bottom: none; }
+    .scenario-line .lbl { color: #475569; }
+    .scenario-line .val { font-weight: 600; color: #1e293b; }
+    .scenario-result {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 2px solid rgba(0,0,0,0.15);
+        text-align: center;
+    }
+    .scenario-result .result-lbl {
+        font-size: 11px;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+    .scenario-result .result-val {
+        font-size: 22px;
+        font-weight: 800;
+        color: #1e293b;
+    }
+
+    /* TABLE */
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 13px;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        margin: 15px 0;
+    }
+    thead { background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%); color: #fff; }
+    th {
+        padding: 12px 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    td {
+        padding: 10px 14px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    tbody tr:hover { background: #f8fafc; }
+    tbody tr:last-child td { border-bottom: none; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .center { text-align: center; }
+    tfoot {
+        background: #f1f5f9;
+        font-weight: 700;
+    }
+    tfoot td {
+        padding: 12px 14px;
+        border-top: 2px solid #1a472a;
+        color: #1a472a;
+    }
+
+    /* TAGS */
+    .tag {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+    .tag-1 { background: #fee2e2; color: #b91c1c; }
+    .tag-2 { background: #fed7aa; color: #c2410c; }
+    .tag-3 { background: #fef3c7; color: #a16207; }
+    .tag-4 { background: #ddd6fe; color: #6d28d9; }
+    .tag-quitar { background: #d1fae5; color: #065f46; }
+    .tag-novo { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
+
+    /* ALERTS */
+    .alert {
+        padding: 16px 20px;
+        border-radius: 10px;
+        margin: 18px 0;
+        font-size: 14px;
+        border-left: 5px solid;
+    }
+    .alert strong { display: block; margin-bottom: 6px; font-size: 15px; }
+    .alert-warning { background: #fef3c7; border-color: #f59e0b; color: #78350f; }
+    .alert-success { background: #d1fae5; border-color: #10b981; color: #064e3b; }
+    .alert-danger { background: #fee2e2; border-color: #dc2626; color: #7f1d1d; }
+    .alert-info { background: #dbeafe; border-color: #2563eb; color: #1e3a8a; }
+
+    /* PROGRESS */
+    .progress-bar-container {
+        background: #f1f5f9;
+        border-radius: 20px;
+        height: 36px;
+        position: relative;
+        overflow: hidden;
+        margin: 12px 0;
+    }
+    .progress-bar {
+        height: 100%;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        padding-left: 14px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 13px;
+        position: relative;
+        transition: width 0.5s;
+    }
+    .progress-pagamento { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .progress-reserva { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .progress-disponivel { background: linear-gradient(90deg, #10b981, #34d399); }
+
+    /* TIMELINE */
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+        margin: 20px 0;
+    }
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, #1a472a, #4a7c59);
+        border-radius: 2px;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 22px;
+        padding: 14px 18px;
+        background: #f8fafc;
+        border-radius: 10px;
+        border-left: 4px solid #4a7c59;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -28px;
+        top: 18px;
+        width: 16px;
+        height: 16px;
+        background: #4a7c59;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 3px #4a7c59;
+    }
+    .timeline-week {
+        font-weight: 700;
+        color: #1a472a;
+        font-size: 13px;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .timeline-desc {
+        font-size: 13px;
+        color: #334155;
+    }
+
+    /* COMPARISON */
+    .comparison-box {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border: 2px solid #22c55e;
+        border-radius: 14px;
+        padding: 22px;
+        margin: 20px 0;
+        text-align: center;
+    }
+    .comparison-box .delta {
+        font-size: 36px;
+        font-weight: 800;
+        color: #15803d;
+        margin: 8px 0;
+    }
+    .comparison-box .delta-label {
+        font-size: 13px;
+        color: #166534;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .comparison-box .delta-desc {
+        font-size: 14px;
+        color: #15803d;
+        margin-top: 8px;
+    }
+
+    /* FOUNDATION BOX */
+    .foundation-box {
+        background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+        border: 2px solid #f97316;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 16px 0;
+    }
+    .foundation-box .foundation-title {
+        font-weight: 700;
+        color: #9a3412;
+        font-size: 15px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .foundation-box ul {
+        margin-left: 20px;
+        font-size: 13px;
+        color: #7c2d12;
+    }
+    .foundation-box ul li {
+        margin-bottom: 6px;
+    }
+
+    footer {
+        background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+        color: #fff;
+        padding: 25px 40px;
+        text-align: center;
+        font-size: 13px;
+    }
+    footer .sig { opacity: 0.9; margin-top: 4px; font-size: 12px; }
+
+    @media print {
+        body { background: #fff; padding: 0; }
+        .container { box-shadow: none; }
+        section { page-break-inside: avoid; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>🌾 Estratégia de Reestruturação Financeira</h1>
+        <div class="subtitle">Plano consolidado para fornecedores e prestadores — Safra 26/27</div>
+        <div class="meta">
+            <span>👤 Thiago Carvalho Matias</span>
+            <span>📅 Maio/2026</span>
+            <span>📋 Documento Estratégico</span>
+            <span>🎯 Foco: Preservar caixa para safra 26/27</span>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <!-- 1. PANORAMA GERAL -->
+        <section>
+            <h2>📊 Panorama Geral</h2>
+            <div class="section-subtitle">A foto da sua situação atual em números diretos</div>
+
+            <div class="hero-metrics">
+                <div class="hero-card divida">
+                    <span class="icon-big">📋</span>
+                    <div class="label-big">Dívida Negociável</div>
+                    <div class="value-big">R$ 2.289.358,40</div>
+                    <div class="desc-big">Fornecedores + Serviços</div>
+                </div>
+                <div class="hero-card caixa">
+                    <span class="icon-big">💰</span>
+                    <div class="label-big">Caixa Real Disponível</div>
+                    <div class="value-big">R$ 1.220.961,71</div>
+                    <div class="desc-big">Após excluir cessão Buriti</div>
+                </div>
+                <div class="hero-card proposta">
+                    <span class="icon-big">🤝</span>
+                    <div class="label-big">Proposta de Pagamento</div>
+                    <div class="value-big">R$ 485.562,53</div>
+                    <div class="desc-big">21,2% — entrada da negociação</div>
+                </div>
+                <div class="hero-card saldo">
+                    <span class="icon-big">🌱</span>
+                    <div class="label-big">Saldo p/ Safra 26/27</div>
+                    <div class="value-big">R$ 1.803.795,87</div>
+                    <div class="desc-big">A alongar para próxima safra</div>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Composição da Dívida em Aberto</div>
+                    <div class="chart-subtitle">Onde estão concentrados seus compromissos</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chartDivida"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Origem do Caixa Disponível</div>
+                    <div class="chart-subtitle">De onde virá o dinheiro para a negociação</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chartCaixa"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PILARES DA ESTRATÉGIA -->
+        <section>
+            <h2>🎯 Pilares da Estratégia</h2>
+            <div class="section-subtitle">Os 6 fundamentos que orientam todas as decisões deste plano</div>
+
+            <div class="pillar-grid">
+                <div class="pillar">
+                    <div class="pillar-num">1</div>
+                    <div class="pillar-title">Preservar Caixa Operacional</div>
+                    <div class="pillar-desc">Garantir que você tenha capital de giro suficiente para iniciar e tocar a safra 26/27 sem rupturas operacionais.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">2</div>
+                    <div class="pillar-title">Negociação Extrajudicial Primeiro</div>
+                    <div class="pillar-desc">Buscar acordo amigável com cada credor, mantendo o relacionamento e a possibilidade de continuar comprando na próxima safra.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">3</div>
+                    <div class="pillar-title">Régua Diferenciada por Tipo</div>
+                    <div class="pillar-desc">Fornecedores até 20% de entrada / Prestadores até 25%. Quem tem maior dependência financeira recebe oferta um pouco maior.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">4</div>
+                    <div class="pillar-title">Sem Garantias Adicionais</div>
+                    <div class="pillar-desc">Não comprometer ativos ou produção futura com novas garantias formais durante a negociação. Sua posição patrimonial fica preservada.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">5</div>
+                    <div class="pillar-title">Bancos Tratados Separadamente</div>
+                    <div class="pillar-desc">Operações bancárias seguem caminho próprio (alongamento via Plano Safra ou ação judicial), não competem com fornecedores.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">6</div>
+                    <div class="pillar-title">Saldo Levado para 26/27</div>
+                    <div class="pillar-desc">~80% das dívidas negociáveis rolam para a próxima safra. Plano com simulação SELIC mostra que é viável dentro do orçamento futuro.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ESTRATÉGIA FORNECEDORES -->
+        <section>
+            <h2>🟡 Estratégia para Fornecedores de Insumos</h2>
+            <div class="section-subtitle">Como vamos negociar com cada um dos 20 credores de insumos</div>
+
+            <div class="foundation-box">
+                <div class="foundation-title">📐 Fundamento da Régua de 20%</div>
+                <ul>
+                    <li>Fornecedores trabalham com <strong>margens de revenda</strong> (compra de fabricante + giro) — têm mais fôlego financeiro que prestadores</li>
+                    <li>Oferta inicial deixa <strong>espaço para subir</strong> caso o fornecedor pressione</li>
+                    <li>Excessões para valores baixos (<R$ 8 mil) são <strong>quitadas à vista</strong> — não vale o desgaste negocial</li>
+                    <li><strong>Buriti tem prioridade absoluta</strong> — credor estratégico com cessão de crédito ativa</li>
+                </ul>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Distribuição da Proposta de Pagamento — Fornecedores</div>
+                <div class="chart-subtitle">R$ 236.770 distribuídos entre os 20 credores conforme prioridade</div>
+                <div class="chart-wrapper" style="height: 380px;">
+                    <canvas id="chartFornecedoresBar"></canvas>
+                </div>
+            </div>
+
+            <h3>📋 Detalhamento Completo</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Empresa</th>
+                        <th class="num">Dívida</th>
+                        <th class="num">Proposta (20%)</th>
+                        <th>Prioridade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#fef2f2;"><td><strong>Buriti</strong> (4 títulos)</td><td class="num">R$ 404.286,99</td><td class="num"><strong>R$ 80.857,40</strong></td><td><span class="tag tag-1">1º</span></td></tr>
+                    <tr><td>Agro Amazônia</td><td class="num">R$ 113.584,00</td><td class="num">R$ 22.716,80</td><td><span class="tag tag-2">2º</span></td></tr>
+                    <tr><td>Corteva</td><td class="num">R$ 96.860,00</td><td class="num">R$ 19.372,00</td><td><span class="tag tag-2">2º</span></td></tr>
+                    <tr><td>Priori</td><td class="num">R$ 69.305,00</td><td class="num">R$ 13.861,00</td><td><span class="tag tag-2">2º</span></td></tr>
+                    <tr><td>Conceito Agrícola</td><td class="num">R$ 63.000,00</td><td class="num">R$ 12.600,00</td><td><span class="tag tag-2">2º</span></td></tr>
+                    <tr><td>Agrônomo - AT <span class="tag tag-novo">Novo</span></td><td class="num">R$ 52.500,00</td><td class="num">R$ 10.500,00</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Agrosalles</td><td class="num">R$ 49.750,00</td><td class="num">R$ 9.950,00</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Montmaq (Piloto)</td><td class="num">R$ 37.000,00</td><td class="num">R$ 7.400,00</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Spraytec</td><td class="num">R$ 34.560,00</td><td class="num">R$ 6.912,00</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Nutrien (1)</td><td class="num">R$ 34.419,40</td><td class="num">R$ 6.883,88</td><td><span class="tag tag-2">2º</span></td></tr>
+                    <tr><td>Spaço Agrícola</td><td class="num">R$ 32.886,00</td><td class="num">R$ 6.577,20</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Agro Martins</td><td class="num">R$ 30.400,00</td><td class="num">R$ 6.080,00</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Terram</td><td class="num">R$ 26.943,01</td><td class="num">R$ 5.388,60</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Solus do Brasil</td><td class="num">R$ 25.956,00</td><td class="num">R$ 5.191,20</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Nutrien (2)</td><td class="num">R$ 15.621,00</td><td class="num">R$ 3.124,20</td><td><span class="tag tag-2">2º</span></td></tr>
+                    <tr><td>BR Agro</td><td class="num">R$ 15.140,00</td><td class="num">R$ 3.028,00</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr><td>Alvorada</td><td class="num">R$ 13.500,00</td><td class="num">R$ 2.700,00</td><td><span class="tag tag-3">3º</span></td></tr>
+                    <tr style="background:#f0fdf4;"><td><strong>Milium</strong></td><td class="num">R$ 7.360,00</td><td class="num">R$ 7.360,00</td><td><span class="tag tag-quitar">Quitar</span></td></tr>
+                    <tr style="background:#f0fdf4;"><td><strong>Biocross do Brasil</strong></td><td class="num">R$ 3.468,00</td><td class="num">R$ 3.468,00</td><td><span class="tag tag-quitar">Quitar</span></td></tr>
+                    <tr style="background:#f0fdf4;"><td><strong>Sphaira Nanotecnologia</strong></td><td class="num">R$ 2.800,00</td><td class="num">R$ 2.800,00</td><td><span class="tag tag-quitar">Quitar</span></td></tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>TOTAL FORNECEDORES</td>
+                        <td class="num">R$ 1.129.339,40</td>
+                        <td class="num">R$ 236.770,28 (21,0%)</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <!-- 4. ESTRATÉGIA SERVIÇOS -->
+        <section>
+            <h2>🟣 Estratégia para Prestadores de Serviços</h2>
+            <div class="section-subtitle">Como vamos negociar com os 7 prestadores essenciais à operação</div>
+
+            <div class="foundation-box">
+                <div class="foundation-title">📐 Fundamento da Régua de 25%</div>
+                <ul>
+                    <li>Prestadores são <strong>pessoas físicas ou estruturas menores</strong>, sem amortecedor de capital de giro</li>
+                    <li>Maior necessidade de fluxo imediato exige oferta um pouco mais agressiva</li>
+                    <li><strong>Arrendo é prioridade absoluta</strong> — sem pagar arrendatário, perde a área de plantio 26/27</li>
+                    <li><strong>Colheita já tem R$ 117k comprometido</strong> — equivale a 51% do débito (acima da régua)</li>
+                    <li><strong>Kleytinho ficará para alongamento total</strong> em 26/27 — sem entrada (a confirmar)</li>
+                </ul>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Distribuição da Proposta de Pagamento — Serviços</div>
+                <div class="chart-subtitle">R$ 248.792 distribuídos conforme criticidade operacional</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartServicosBar"></canvas>
+                </div>
+            </div>
+
+            <h3>📋 Detalhamento Completo</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prestador</th>
+                        <th class="num">Dívida</th>
+                        <th class="num">Proposta</th>
+                        <th>Prioridade</th>
+                        <th>Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#fef2f2;"><td><strong>Arrendo</strong></td><td class="num">R$ 265.755,00</td><td class="num"><strong>R$ 66.438,75</strong></td><td><span class="tag tag-1">1º</span></td><td>Crítico — área de plantio</td></tr>
+                    <tr><td><strong>Colheita</strong></td><td class="num">R$ 227.850,00</td><td class="num">R$ 117.000,00</td><td><span class="tag tag-2">2º</span></td><td>Já comprometido pelo cliente</td></tr>
+                    <tr><td><strong>Frete</strong></td><td class="num">R$ 105.000,00</td><td class="num">R$ 26.250,00</td><td><span class="tag tag-3">3º</span></td><td>Operacional contínuo</td></tr>
+                    <tr><td>Kleytinho</td><td class="num">R$ 405.000,00</td><td class="num">— (alongar 100%)</td><td><span class="tag tag-4">4º</span></td><td>Sem entrada — alongar para 26/27</td></tr>
+                    <tr><td>Dr. Elvando</td><td class="num">R$ 104.000,00</td><td class="num">R$ 26.000,00</td><td><span class="tag tag-4">4º</span></td><td>Vencimento mai/26</td></tr>
+                    <tr><td>Edmar</td><td class="num">R$ 10.204,00</td><td class="num">R$ 2.551,00</td><td><span class="tag tag-3">3º</span></td><td>Valor menor</td></tr>
+                    <tr><td>Participação Colaborador <span class="tag tag-novo">Novo</span></td><td class="num">R$ 42.210,00</td><td class="num">R$ 10.552,50</td><td><span class="tag tag-4">4º</span></td><td>Negociável</td></tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>TOTAL SERVIÇOS</td>
+                        <td class="num">R$ 1.160.019,00</td>
+                        <td class="num">R$ 248.792,25 (21,4%)</td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <!-- 5. IMPACTO NO CAIXA -->
+        <section>
+            <h2>💰 Impacto no Seu Caixa</h2>
+            <div class="section-subtitle">O que acontece com seu dinheiro depois de executar este plano</div>
+
+            <div class="chart-container">
+                <div class="chart-title">Como Seu Caixa Será Distribuído</div>
+                <div class="chart-subtitle">A partir de R$ 1.220.961,71 disponíveis</div>
+
+                <h3 style="margin-top:0;">Distribuição Visual</h3>
+
+                <div style="margin-bottom:6px; font-size:13px; font-weight:600; color:#475569;">
+                    🚨 Pagamento da Proposta — R$ 485.562,53 (39,8%)
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar progress-pagamento" style="width: 39.77%;">39,8%</div>
+                </div>
+
+                <div style="margin: 15px 0 6px; font-size:13px; font-weight:600; color:#475569;">
+                    🔒 Reserva Operacional — R$ 250.000,00 (20,5%)
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar progress-reserva" style="width: 20.48%;">20,5%</div>
+                </div>
+
+                <div style="margin: 15px 0 6px; font-size:13px; font-weight:600; color:#475569;">
+                    🌱 Disponível para Safra 26/27 — R$ 485.399,18 (39,8%)
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar progress-disponivel" style="width: 39.75%;">39,8%</div>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Antes vs Depois da Negociação</div>
+                    <div class="chart-subtitle">Como seu caixa muda com a execução do plano</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chartAntesDepois"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Saldo a Levar para Safra 26/27</div>
+                    <div class="chart-subtitle">Composição do compromisso futuro</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chartSafraFutura"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CENÁRIOS COMPARATIVOS -->
+        <section>
+            <h2>🎲 Cenários Possíveis</h2>
+            <div class="section-subtitle">O que pode acontecer dependendo de duas decisões-chave: <strong>Buriti</strong> e <strong>Colheita</strong></div>
+
+            <div class="alert alert-info">
+                <strong>📌 Por que esses dois pontos importam tanto?</strong>
+                Buriti tem uma <strong>cessão ativa de R$ 393.997</strong> (grão já vinculado a ele). Se conseguirmos liberar essa cessão pagando ~R$ 100k, esse valor volta para seu caixa. Já a Colheita tem <strong>R$ 117k comprometidos</strong> — mas pode ser renegociada para os 25% padrão (R$ 56.962), liberando +R$ 60k.
+            </div>
+
+            <div class="scenario-grid">
+                <div class="scenario-card bad">
+                    <div class="scenario-name">Cenário A</div>
+                    <div class="scenario-title">Plano Atual</div>
+                    <div class="scenario-line"><span class="lbl">Pagamento entrada</span><span class="val">R$ 485.563</span></div>
+                    <div class="scenario-line"><span class="lbl">Cessão Buriti</span><span class="val">Mantida</span></div>
+                    <div class="scenario-line"><span class="lbl">Colheita</span><span class="val">R$ 117k (51%)</span></div>
+                    <div class="scenario-line"><span class="lbl">Reserva</span><span class="val">R$ 250.000</span></div>
+                    <div class="scenario-result">
+                        <div class="result-lbl">Caixa p/ Safra 26/27</div>
+                        <div class="result-val">R$ 485.399</div>
+                    </div>
+                </div>
+
+                <div class="scenario-card medium">
+                    <div class="scenario-name">Cenário B</div>
+                    <div class="scenario-title">Buriti Liberado</div>
+                    <div class="scenario-line"><span class="lbl">Pagamento entrada</span><span class="val">R$ 585.563</span></div>
+                    <div class="scenario-line"><span class="lbl">Cessão Buriti</span><span class="val">Liberada (+R$ 394k)</span></div>
+                    <div class="scenario-line"><span class="lbl">Colheita</span><span class="val">R$ 117k (51%)</span></div>
+                    <div class="scenario-line"><span class="lbl">Reserva</span><span class="val">R$ 250.000</span></div>
+                    <div class="scenario-result">
+                        <div class="result-lbl">Caixa p/ Safra 26/27</div>
+                        <div class="result-val">R$ 779.397</div>
+                    </div>
+                </div>
+
+                <div class="scenario-card good">
+                    <div class="scenario-name">Cenário C</div>
+                    <div class="scenario-title">Colheita Renegociada</div>
+                    <div class="scenario-line"><span class="lbl">Pagamento entrada</span><span class="val">R$ 425.525</span></div>
+                    <div class="scenario-line"><span class="lbl">Cessão Buriti</span><span class="val">Mantida</span></div>
+                    <div class="scenario-line"><span class="lbl">Colheita</span><span class="val">R$ 56.962 (25%)</span></div>
+                    <div class="scenario-line"><span class="lbl">Reserva</span><span class="val">R$ 250.000</span></div>
+                    <div class="scenario-result">
+                        <div class="result-lbl">Caixa p/ Safra 26/27</div>
+                        <div class="result-val">R$ 545.437</div>
+                    </div>
+                </div>
+
+                <div class="scenario-card best">
+                    <div class="scenario-name">Cenário D</div>
+                    <div class="scenario-title">Buriti + Colheita</div>
+                    <div class="scenario-line"><span class="lbl">Pagamento entrada</span><span class="val">R$ 525.525</span></div>
+                    <div class="scenario-line"><span class="lbl">Cessão Buriti</span><span class="val">Liberada (+R$ 394k)</span></div>
+                    <div class="scenario-line"><span class="lbl">Colheita</span><span class="val">R$ 56.962 (25%)</span></div>
+                    <div class="scenario-line"><span class="lbl">Reserva</span><span class="val">R$ 250.000</span></div>
+                    <div class="scenario-result">
+                        <div class="result-lbl">Caixa p/ Safra 26/27</div>
+                        <div class="result-val">R$ 839.434</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Comparativo Visual dos Cenários</div>
+                <div class="chart-subtitle">Quanto sobra para a próxima safra em cada situação</div>
+                <div class="chart-wrapper">
+                    <canvas id="chartCenarios"></canvas>
+                </div>
+            </div>
+
+            <div class="comparison-box">
+                <div class="delta-label">Diferença entre Cenário A e Cenário D</div>
+                <div class="delta">+R$ 354.035</div>
+                <div class="delta-desc">É o que você ganha em capital operacional para a safra 26/27 se conseguirmos destravar Buriti e renegociar Colheita</div>
+            </div>
+        </section>
+
+        <!-- 7. CASO BURITI -->
+        <section>
+            <h2>🎯 Caso Especial: Buriti</h2>
+            <div class="section-subtitle">O credor mais estratégico do plano — exige movimento dedicado</div>
+
+            <div class="alert alert-warning">
+                <strong>📌 Por que Buriti é tratado separadamente</strong>
+                Você tem <strong>exposição dupla</strong> com o Buriti: insumo (R$ 404.286,99) + cessão de crédito sobre 3.743 sacas (R$ 393.997,40). Total: <strong>R$ 798.284,39</strong>. A cessão garante que o Buriti recebe automaticamente quando o grão for vendido. Negociar a liberação dessa cessão pode liberar quase R$ 400 mil para seu caixa.
+            </div>
+
+            <h3>4 Planos Sequenciais — do Ideal ao Último Recurso</h3>
+
+            <div class="pillar-grid">
+                <div class="pillar" style="border-color:#10b981;">
+                    <div class="pillar-num" style="background:linear-gradient(135deg,#10b981,#34d399);">A</div>
+                    <div class="pillar-title" style="color:#065f46;">Cenário Ideal</div>
+                    <div class="pillar-desc">Pagar ~R$ 100.000 ao Buriti em troca da <strong>liberação total da cessão</strong>. Você vende o grão e R$ 394k vão para seu caixa. Argumento: "recebe mais rápido, mantém o cliente".</div>
+                </div>
+                <div class="pillar" style="border-color:#f59e0b;">
+                    <div class="pillar-num" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);">B</div>
+                    <div class="pillar-title" style="color:#78350f;">Liberação Parcial</div>
+                    <div class="pillar-desc">Negociar liberação de 50% da cessão (~R$ 197k) com pagamento de R$ 60-80k. Mantém metade vinculada — relação preservada e algum oxigênio.</div>
+                </div>
+                <div class="pillar" style="border-color:#dc2626;">
+                    <div class="pillar-num" style="background:linear-gradient(135deg,#dc2626,#ef4444);">C</div>
+                    <div class="pillar-title" style="color:#7f1d1d;">Cessão Mantida</div>
+                    <div class="pillar-desc">Cessão segue ativa (R$ 394k vai automaticamente para Buriti). Negociar apenas o insumo a 20% (R$ 80.857) + saldo na 26/27. Sem caixa adicional.</div>
+                </div>
+                <div class="pillar" style="border-color:#6b7280;">
+                    <div class="pillar-num" style="background:linear-gradient(135deg,#6b7280,#9ca3af);">D</div>
+                    <div class="pillar-title" style="color:#374151;">Última Hipótese</div>
+                    <div class="pillar-desc">Se nada funcionar, judicializar Buriti junto com bancos. Risco: ruptura definitiva com fornecedor estratégico da região. <strong>Evitar a todo custo.</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. CRONOGRAMA -->
+        <section>
+            <h2>📅 Cronograma de Execução</h2>
+            <div class="section-subtitle">Sequência de movimentos nas próximas 7 semanas</div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 1 — Movimento Estratégico</div>
+                    <div class="timeline-desc"><strong>Buriti:</strong> abordagem prioritária para liberação da cessão (Plano A → B → C). Esse é o movimento que destrava todo o resto.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 1 — Em paralelo</div>
+                    <div class="timeline-desc"><strong>Quitações imediatas:</strong> Milium + Biocross + Sphaira (R$ 13.628 total). Elimina credores menores e libera energia para focar nos grandes.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 2 — Top 5 Fornecedores</div>
+                    <div class="timeline-desc">Negociação com Agro Amazônia, Corteva, Priori, Conceito Agrícola e Agrônomo-AT. Argumento de manutenção do relacionamento para a safra 26/27.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 2 e 3 — Demais Fornecedores</div>
+                    <div class="timeline-desc">Agrosalles, Montmaq, Spraytec, Nutrien, Spaço, Agro Martins, Terram, Solus, BR Agro e Alvorada — pacote padrão de 20%.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 3 — Arrendo (Crítico)</div>
+                    <div class="timeline-desc"><strong>Arrendatários</strong> são prioridade absoluta. Sem acordo, perde-se a área de plantio para 26/27. Tratativa pessoal e cuidadosa.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 3 e 4 — Colheita e Frete</div>
+                    <div class="timeline-desc">Manter prestadores essenciais para a próxima safra. Tentar renegociar Colheita para 25% padrão (libera R$ 60k de caixa).</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 4 — Pessoas Físicas</div>
+                    <div class="timeline-desc">Kleytinho (alongar 100%), Dr. Elvando, Edmar e Participação Colaborador — negociação personalizada conforme natureza do vínculo.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semanas 1 a 6 — Em paralelo</div>
+                    <div class="timeline-desc"><strong>Preparação processual</strong> para bancos: articulação com advogado, levantamento documental e estruturação da peça inicial.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semanas 5 e 6 — Bancos (Extrajudicial)</div>
+                    <div class="timeline-desc">Rodada extrajudicial com bancos apresentando o plano de alongamento. Alguns podem aceitar antes mesmo da judicialização.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 7+ — Ação Judicial</div>
+                    <div class="timeline-desc">Protocolar contra bancos que não aceitarem extrajudicialmente. Ação conjunta (Thiago + Ronimar/pai), considerando todas as operações.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. PRINCIPAIS MENSAGENS -->
+        <section>
+            <h2>💡 Principais Mensagens para Você</h2>
+            <div class="section-subtitle">O que precisa ficar claro sobre este plano</div>
+
+            <div class="alert alert-success">
+                <strong>✅ Você está em condição de negociar com força</strong>
+                Tem R$ 1,2 milhão em caixa real disponível e dívidas negociáveis de R$ 2,3 milhões. Isso significa que você consegue oferecer <strong>21% de entrada à vista</strong> — uma proposta concreta e crível, não promessa vazia.
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ O ponto crítico é o Buriti</strong>
+                Como o Buriti tem exposição dupla (insumo + cessão), a forma como negociarmos com ele <strong>determina quase R$ 354 mil de diferença</strong> no caixa para a próxima safra. É onde precisamos concentrar energia e estratégia.
+            </div>
+
+            <div class="alert alert-info">
+                <strong>📌 Sem garantias adicionais</strong>
+                Conforme orientação, não vamos oferecer novas garantias formais (CPR, confissão de dívida com penhor, etc). Sua posição patrimonial fica preservada para movimentos futuros, e a próxima safra não fica comprometida como colateral.
+            </div>
+
+            <div class="alert alert-danger">
+                <strong>🛑 Recomendação: pausar pagamentos pontuais</strong>
+                Até fecharmos a estratégia, evitar pagamentos isolados (exceto os já comprometidos). Cada pagamento descoordenado <strong>diminui poder de barganha</strong> com o conjunto e pode gerar tratamento desigual entre credores.
+            </div>
+        </section>
+
+        <!-- 10. PRÓXIMOS PASSOS -->
+        <section>
+            <h2>✅ Próximos Passos</h2>
+            <div class="section-subtitle">O que precisamos fazer juntos para colocar o plano em ação</div>
+
+            <div class="pillar-grid">
+                <div class="pillar">
+                    <div class="pillar-num">1</div>
+                    <div class="pillar-title">Validar o plano</div>
+                    <div class="pillar-desc">Sua aprovação é o ponto de partida. Qualquer ajuste deve ser discutido antes da execução.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">2</div>
+                    <div class="pillar-title">Confirmar status Colheita</div>
+                    <div class="pillar-desc">Os R$ 117k já foram pagos ou ainda há margem para renegociar para 25% (R$ 56.962)?</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">3</div>
+                    <div class="pillar-title">Definir abordagem Kleytinho</div>
+                    <div class="pillar-desc">Qual a natureza do vínculo? Vai topar alongamento sem entrada para 26/27?</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">4</div>
+                    <div class="pillar-title">Preparar fluxo da safra 26/27</div>
+                    <div class="pillar-desc">Custo de produção, áreas plantadas e EBITDA projetado — para fechar o quadro completo.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">5</div>
+                    <div class="pillar-title">Articular advogado</div>
+                    <div class="pillar-desc">Estruturação da peça processual conjunta (Thiago + Ronimar) para a frente bancária.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">6</div>
+                    <div class="pillar-title">Iniciar abordagem Buriti</div>
+                    <div class="pillar-desc">Movimento prioritário — destrava todo o restante da estratégia. Começar pelo Plano A.</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <strong>Rural In</strong> — Gestão Inteligente Com Tecnologia No Agro<br>
+        <div class="sig">Documento confidencial — Estratégia de Reestruturação | Sidney dos Santos Souza | Maio/2026</div>
+    </footer>
+
+</div>
+
+<script>
+// Configurações globais
+Chart.defaults.font.family = "'Segoe UI', Tahoma, sans-serif";
+Chart.defaults.color = '#475569';
+
+const fmtBRL = (v) => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+
+// 1. Composição da Dívida (Donut)
+new Chart(document.getElementById('chartDivida'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Fornecedores Insumos', 'Prestadores Serviços'],
+        datasets: [{
+            data: [1129339.40, 1160019.00],
+            backgroundColor: ['#e67e22', '#8e44ad'],
+            borderWidth: 3,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } },
+            tooltip: {
+                callbacks: {
+                    label: (c) => c.label + ': ' + fmtBRL(c.parsed) + ' (' + ((c.parsed/2289358.40)*100).toFixed(1) + '%)'
+                }
+            }
+        }
+    }
+});
+
+// 2. Origem do Caixa (Donut)
+new Chart(document.getElementById('chartCaixa'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Soja Livre (6.201 sc)', 'Caixa em Conta', 'Soja Livre (1.357 sc)', 'Soja Livre (256 sc)'],
+        datasets: [{
+            data: [651105.00, 400000.00, 142830.51, 27026.20],
+            backgroundColor: ['#27ae60', '#16a085', '#2ecc71', '#1abc9c'],
+            borderWidth: 3,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } },
+            tooltip: {
+                callbacks: {
+                    label: (c) => c.label + ': ' + fmtBRL(c.parsed)
+                }
+            }
+        }
+    }
+});
+
+// 3. Fornecedores Bar
+new Chart(document.getElementById('chartFornecedoresBar'), {
+    type: 'bar',
+    data: {
+        labels: ['Buriti', 'Agro Amazônia', 'Corteva', 'Priori', 'Conceito Agríc.', 'Agrônomo-AT', 'Agrosalles', 'Montmaq', 'Spraytec', 'Nutrien (1)', 'Spaço Agríc.', 'Agro Martins', 'Outros (8)'],
+        datasets: [
+            {
+                label: 'Dívida Total',
+                data: [404287, 113584, 96860, 69305, 63000, 52500, 49750, 37000, 34560, 34419, 32886, 30400, 110788],
+                backgroundColor: '#fde2cf',
+                borderColor: '#e67e22',
+                borderWidth: 1
+            },
+            {
+                label: 'Proposta de Pagamento',
+                data: [80857, 22717, 19372, 13861, 12600, 10500, 9950, 7400, 6912, 6884, 6577, 6080, 32160],
+                backgroundColor: '#e67e22',
+                borderColor: '#c2410c',
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: { ticks: { font: { size: 10 }, maxRotation: 45, minRotation: 45 } },
+            y: {
+                beginAtZero: true,
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+
+// 4. Serviços Bar
+new Chart(document.getElementById('chartServicosBar'), {
+    type: 'bar',
+    data: {
+        labels: ['Kleytinho', 'Arrendo', 'Colheita', 'Frete', 'Dr. Elvando', 'Part. Colab.', 'Edmar'],
+        datasets: [
+            {
+                label: 'Dívida Total',
+                data: [405000, 265755, 227850, 105000, 104000, 42210, 10204],
+                backgroundColor: '#e9d8fd',
+                borderColor: '#8e44ad',
+                borderWidth: 1
+            },
+            {
+                label: 'Proposta de Pagamento',
+                data: [0, 66439, 117000, 26250, 26000, 10553, 2551],
+                backgroundColor: '#8e44ad',
+                borderColor: '#6b21a8',
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: { ticks: { font: { size: 11 } } },
+            y: {
+                beginAtZero: true,
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+
+// 5. Antes vs Depois
+new Chart(document.getElementById('chartAntesDepois'), {
+    type: 'bar',
+    data: {
+        labels: ['Antes da Negociação', 'Depois da Negociação'],
+        datasets: [
+            {
+                label: 'Caixa Disponível',
+                data: [1220962, 485399],
+                backgroundColor: ['#3b82f6', '#10b981'],
+                borderRadius: 8
+            },
+            {
+                label: 'Reserva Operacional',
+                data: [0, 250000],
+                backgroundColor: '#f59e0b',
+                borderRadius: 8
+            },
+            {
+                label: 'Pago aos Credores',
+                data: [0, 485563],
+                backgroundColor: '#ef4444',
+                borderRadius: 8
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: { stacked: true },
+            y: {
+                stacked: true,
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { position: 'bottom' },
+            tooltip: {
+                callbacks: { label: (c) => c.dataset.label + ': ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+
+// 6. Saldo Safra Futura
+new Chart(document.getElementById('chartSafraFutura'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Saldo Fornecedores', 'Saldo Serviços', 'Provisão SELIC (~14,5%)'],
+        datasets: [{
+            data: [892569, 911227, 261430],
+            backgroundColor: ['#e67e22', '#8e44ad', '#f59e0b'],
+            borderWidth: 3,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } },
+            tooltip: {
+                callbacks: { label: (c) => c.label + ': ' + fmtBRL(c.parsed) }
+            }
+        }
+    }
+});
+
+// 7. Cenários
+new Chart(document.getElementById('chartCenarios'), {
+    type: 'bar',
+    data: {
+        labels: ['Cenário A\n(Plano Atual)', 'Cenário B\n(Buriti Liberado)', 'Cenário C\n(Colheita Reneg.)', 'Cenário D\n(Buriti + Colheita)'],
+        datasets: [{
+            label: 'Caixa Líquido para Safra 26/27',
+            data: [485399, 779397, 545437, 839434],
+            backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#3b82f6'],
+            borderRadius: 10,
+            barThickness: 60
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { callback: (v) => 'R$ ' + (v/1000) + 'k' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: { label: (c) => 'Caixa p/ 26/27: ' + fmtBRL(c.parsed.y) }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

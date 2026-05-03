@@ -1,0 +1,2194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documento Técnico Completo — Detalhamento de Indicadores — Faz. Água Rica</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f6f9;
+        color: #1e293b;
+        line-height: 1.65;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+
+    header {
+        background: linear-gradient(135deg, #14532d 0%, #166534 50%, #15803d 100%);
+        color: #fff;
+        padding: 38px 40px;
+        text-align: center;
+        position: relative;
+    }
+
+    header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+    }
+
+    header h1 {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+
+    header h2 {
+        font-size: 16px;
+        font-weight: 400;
+        opacity: 0.92;
+    }
+
+    header .meta {
+        margin-top: 14px;
+        font-size: 12px;
+        opacity: 0.85;
+    }
+
+    .content { padding: 30px 42px; }
+
+    /* SUMÁRIO */
+    .sumario {
+        background: linear-gradient(135deg, #f0fdf4 0%, #fefce8 100%);
+        border: 2px solid #15803d;
+        border-radius: 10px;
+        padding: 22px 26px;
+        margin-bottom: 30px;
+    }
+
+    .sumario h3 {
+        font-size: 16px;
+        color: #14532d;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .sumario ol {
+        padding-left: 22px;
+        font-size: 13px;
+        color: #166534;
+        column-count: 2;
+        column-gap: 30px;
+    }
+
+    .sumario ol li {
+        margin-bottom: 6px;
+        break-inside: avoid;
+    }
+
+    .sumario ol li strong { color: #14532d; }
+
+    /* PARTES */
+    .parte {
+        background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+        color: #fff;
+        padding: 22px 28px;
+        margin: 35px -42px 25px -42px;
+        position: relative;
+    }
+
+    .parte-num {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        opacity: 0.8;
+        font-weight: 600;
+    }
+
+    .parte-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    .parte-desc {
+        font-size: 12px;
+        opacity: 0.9;
+        margin-top: 6px;
+    }
+
+    .parte::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 6px;
+        background: #fbbf24;
+    }
+
+    /* INDICADOR CARD */
+    .indicador {
+        background: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .indicador-header {
+        background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+        color: #fff;
+        padding: 18px 24px;
+        position: relative;
+    }
+
+    .indicador-num {
+        position: absolute;
+        top: 14px;
+        right: 18px;
+        background: #fbbf24;
+        color: #14532d;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .indicador-tag {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.85;
+        font-weight: 600;
+    }
+
+    .indicador-title {
+        font-size: 19px;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    .indicador-subtitle {
+        font-size: 12px;
+        opacity: 0.92;
+        margin-top: 4px;
+    }
+
+    .indicador-body { padding: 22px 26px; }
+
+    /* SEÇÕES INTERNAS DO INDICADOR */
+    .secao-ind {
+        margin-bottom: 18px;
+        padding-bottom: 18px;
+        border-bottom: 1px dashed #d1d5db;
+    }
+
+    .secao-ind:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .secao-titulo {
+        font-size: 13px;
+        font-weight: 700;
+        color: #15803d;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .secao-titulo .icon-num {
+        background: #15803d;
+        color: #fff;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .secao-conteudo {
+        font-size: 13.5px;
+        color: #1e293b;
+        line-height: 1.7;
+    }
+
+    .secao-conteudo p { margin-bottom: 10px; }
+
+    /* FÓRMULA */
+    .formula-box {
+        background: #1e293b;
+        color: #fbbf24;
+        padding: 14px 18px;
+        border-radius: 6px;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        text-align: center;
+        margin: 10px 0;
+        box-shadow: inset 0 0 0 1px rgba(251,191,36,0.3);
+    }
+
+    .formula-box .formula-label {
+        font-size: 10px;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    /* ANALOGIA AGRONÔMICA */
+    .analogia {
+        background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+        border-left: 5px solid #d97706;
+        padding: 14px 18px;
+        margin: 12px 0;
+        border-radius: 0 6px 6px 0;
+    }
+
+    .analogia-label {
+        font-size: 11px;
+        color: #92400e;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .analogia-text {
+        font-size: 13px;
+        color: #78350f;
+        font-style: italic;
+    }
+
+    .analogia-text strong { font-style: normal; color: #451a03; }
+
+    /* EXEMPLO NUMÉRICO */
+    .exemplo {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        border-radius: 6px;
+        padding: 14px 18px;
+        margin: 12px 0;
+    }
+
+    .exemplo-label {
+        font-size: 11px;
+        color: #14532d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .exemplo-passos {
+        font-size: 12.5px;
+        color: #166534;
+    }
+
+    .exemplo-passos .passo {
+        padding: 6px 0;
+        border-bottom: 1px dashed #bbf7d0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .exemplo-passos .passo:last-child { border-bottom: none; }
+
+    .exemplo-passos .passo-label { color: #166534; }
+    .exemplo-passos .passo-valor { font-weight: 700; color: #14532d; font-family: 'Courier New', monospace; }
+
+    .exemplo-resultado {
+        margin-top: 10px;
+        padding: 10px;
+        background: #15803d;
+        color: #fff;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    /* FAIXAS DE INTERPRETAÇÃO */
+    .faixas {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin: 12px 0;
+    }
+
+    .faixa {
+        padding: 12px;
+        border-radius: 6px;
+        text-align: center;
+        border: 2px solid;
+    }
+
+    .faixa.bom { background: #f0fdf4; border-color: #15803d; color: #14532d; }
+    .faixa.atencao { background: #fefce8; border-color: #d97706; color: #92400e; }
+    .faixa.ruim { background: #fef2f2; border-color: #dc2626; color: #7f1d1d; }
+
+    .faixa-icon { font-size: 22px; margin-bottom: 4px; }
+    .faixa-titulo { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 4px; }
+    .faixa-valor { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .faixa-desc { font-size: 11px; line-height: 1.4; }
+
+    /* ARMADILHAS */
+    .armadilha {
+        background: #fef2f2;
+        border-left: 5px solid #dc2626;
+        padding: 12px 18px;
+        margin: 10px 0;
+        border-radius: 0 6px 6px 0;
+    }
+
+    .armadilha-label {
+        font-size: 11px;
+        color: #991b1b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .armadilha-text {
+        font-size: 12.5px;
+        color: #7f1d1d;
+    }
+
+    /* USO PRÁTICO */
+    .uso-pratico {
+        background: #eff6ff;
+        border-left: 5px solid #2563eb;
+        padding: 12px 18px;
+        margin: 10px 0;
+        border-radius: 0 6px 6px 0;
+    }
+
+    .uso-label {
+        font-size: 11px;
+        color: #1e3a8a;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .uso-text {
+        font-size: 12.5px;
+        color: #1e3a8a;
+    }
+
+    .uso-text ul { padding-left: 20px; margin-top: 6px; }
+    .uso-text li { margin-bottom: 4px; }
+
+    /* TABELAS */
+    .table-wrapper {
+        overflow-x: auto;
+        border-radius: 6px;
+        margin: 12px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        background: #fff;
+        min-width: 600px;
+    }
+
+    thead { background: #166534; color: #fff; }
+    th { padding: 9px 8px; text-align: center; font-weight: 600; font-size: 11px; }
+    th.first-col { text-align: left; padding-left: 14px; }
+
+    td { padding: 8px; border-bottom: 1px solid #ecf0f3; text-align: center; }
+    td.first-col { text-align: left; padding-left: 14px; font-weight: 600; background: #f8fafc; }
+
+    tbody tr:hover { background: #f0fdf4; }
+
+    /* GLOSSÁRIO */
+    .glossario {
+        background: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .glossario-item {
+        padding: 12px 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .glossario-item:last-child { border-bottom: none; }
+
+    .glossario-termo {
+        font-size: 13px;
+        font-weight: 700;
+        color: #14532d;
+        margin-bottom: 4px;
+    }
+
+    .glossario-sigla {
+        font-size: 11px;
+        color: #d97706;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .glossario-def {
+        font-size: 12.5px;
+        color: #475569;
+    }
+
+    /* INTRO PEDAGÓGICA */
+    .intro-pedagogica {
+        background: linear-gradient(135deg, #f0fdf4 0%, #ecfccb 100%);
+        border: 1px solid #86efac;
+        border-radius: 10px;
+        padding: 20px 24px;
+        margin: 16px 0;
+    }
+
+    .intro-pedagogica h4 {
+        font-size: 15px;
+        color: #14532d;
+        margin-bottom: 8px;
+    }
+
+    .intro-pedagogica p {
+        font-size: 13px;
+        color: #166534;
+        margin-bottom: 8px;
+    }
+
+    /* CHAVE DE LEITURA */
+    .chave-leitura {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        margin: 16px 0;
+    }
+
+    .chave-item {
+        background: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        padding: 10px 8px;
+        text-align: center;
+    }
+
+    .chave-icon {
+        font-size: 20px;
+        margin-bottom: 4px;
+    }
+
+    .chave-nome {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #14532d;
+    }
+
+    /* DESTAQUE */
+    .destaque {
+        background: linear-gradient(135deg, #14532d 0%, #15803d 100%);
+        color: #fff;
+        padding: 22px;
+        border-radius: 10px;
+        margin: 16px 0;
+        text-align: center;
+    }
+
+    .destaque .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        opacity: 0.9;
+    }
+
+    .destaque .valor {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 4px 0;
+        color: #fbbf24;
+    }
+
+    .destaque .sub {
+        font-size: 12px;
+        opacity: 0.92;
+    }
+
+    /* CREDENTIALS */
+    .credentials {
+        background: linear-gradient(135deg, #14532d 0%, #166534 50%, #15803d 100%);
+        color: #fff;
+        padding: 35px 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .credentials::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        left: -10%;
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .credentials::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        right: -10%;
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .credentials-content { position: relative; z-index: 1; }
+    .credentials .cred-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 0.85;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+    .credentials .cred-name {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    .credentials .cred-title {
+        font-size: 14px;
+        opacity: 0.95;
+        margin-bottom: 3px;
+        font-weight: 600;
+    }
+    .credentials .cred-spec {
+        font-size: 12px;
+        opacity: 0.9;
+        margin-bottom: 16px;
+    }
+    .credentials .cred-divider {
+        width: 50px;
+        height: 2px;
+        background: rgba(251,191,36,0.6);
+        margin: 12px auto;
+        border-radius: 2px;
+    }
+    .credentials .cred-tagline {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 14px 22px;
+        max-width: 650px;
+        margin: 0 auto 16px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .credentials .cred-tagline-line {
+        font-size: 13px;
+        margin: 3px 0;
+        font-style: italic;
+        opacity: 0.95;
+    }
+    .credentials .cred-contacts {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+    }
+    .credentials .cred-contact {
+        background: rgba(255,255,255,0.18);
+        padding: 8px 16px;
+        border-radius: 22px;
+        font-size: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.25);
+        font-weight: 500;
+    }
+
+    footer {
+        background: #052e16;
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        font-size: 11px;
+        opacity: 0.95;
+    }
+
+    @media print {
+        body { background: #fff; padding: 0; }
+        .container { box-shadow: none; }
+        .indicador, .parte { page-break-inside: avoid; }
+    }
+
+    @media (max-width: 768px) {
+        .content { padding: 18px; }
+        .parte { margin: 25px -18px 20px -18px; }
+        .sumario ol { column-count: 1; }
+        .faixas { grid-template-columns: 1fr; }
+        .chave-leitura { grid-template-columns: repeat(3, 1fr); }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>📚 DOCUMENTO TÉCNICO COMPLETO</h1>
+        <h2>Detalhamento Pedagógico de Indicadores Financeiros, Econômicos e Estatísticos</h2>
+        <div class="meta">
+            📍 Faz. Água Rica — Rio Verde/GO &nbsp;|&nbsp; Thiago Carvalho Matias &nbsp;|&nbsp; Maio/2026
+        </div>
+    </header>
+
+    <div class="content">
+
+        <!-- INTRO PEDAGÓGICA -->
+        <div class="intro-pedagogica">
+            <h4>👨‍🌾 Olá, Thiago — uma palavra antes de começar</h4>
+            <p>Este documento foi feito <strong>especialmente para você</strong>. Você é agrônomo, conhece profundamente a planta, o solo, o manejo. Mas economia da fazenda usa um vocabulário próprio que muitas vezes parece "outro idioma".</p>
+            <p>Aqui, vamos <strong>traduzir cada indicador para a linguagem que você já domina</strong>: solo, planta, água, produtividade. Você vai perceber que todo conceito financeiro tem um equivalente agronômico — e quando enxerga essa ponte, tudo fica claro.</p>
+            <p>Leia no seu ritmo. Volte quando precisar. <strong>Esse material é seu — uma ferramenta de trabalho, não uma prova.</strong></p>
+        </div>
+
+        <!-- SUMÁRIO -->
+        <div class="sumario">
+            <h3>📋 Sumário Executivo do Documento</h3>
+            <ol>
+                <li><strong>Como ler indicadores</strong> (mindset)</li>
+                <li>Tipos de indicadores</li>
+                <li>O sistema de cores</li>
+                <li><strong>EBITDA e Margem EBITDA</strong></li>
+                <li>Dívida Líquida / EBITDA</li>
+                <li>DSCR — Cobertura da Dívida</li>
+                <li>Payback do Plano</li>
+                <li><strong>TIR — Taxa Interna de Retorno</strong></li>
+                <li>VPL — Valor Presente Líquido</li>
+                <li>Margem de Contribuição</li>
+                <li>GAO — Alavancagem Operacional</li>
+                <li><strong>VaR — Value at Risk</strong></li>
+                <li>CVaR — Expected Shortfall</li>
+                <li>Coeficiente de Variação (CV)</li>
+                <li>Sharpe e Sortino Ratio</li>
+                <li>Probabilidade de Default (PD)</li>
+                <li><strong>Comprometimento da ROB</strong></li>
+                <li>Margem de Segurança</li>
+                <li>Margem por hectare e por saca</li>
+                <li>Como combinar indicadores</li>
+                <li>Glossário alfabético</li>
+            </ol>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- PARTE I — FUNDAMENTOS -->
+        <!-- ============================================ -->
+        <div class="parte">
+            <div class="parte-num">Parte I</div>
+            <div class="parte-title">Fundamentos — Como Ler Indicadores Financeiros</div>
+            <div class="parte-desc">Antes de mergulhar nos indicadores, três conceitos básicos que vão facilitar tudo</div>
+        </div>
+
+        <!-- INDICADOR 1: COMO LER -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">1</div>
+                <div class="indicador-tag">Fundamento</div>
+                <div class="indicador-title">Como Ler Indicadores Financeiros</div>
+                <div class="indicador-subtitle">O mindset correto para evitar erros de interpretação</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">📌</span> A regra de ouro</div>
+                    <div class="secao-conteudo">
+                        <p>Um indicador <strong>nunca diz tudo sozinho</strong>. Ele é uma fotografia de um aspecto específico da operação — exatamente como o <strong>NDVI</strong> mostra vigor vegetativo, mas não diz se a lavoura está com déficit hídrico ou ataque de praga.</p>
+                        <p>Para ter o quadro completo, você combina vários indicadores — assim como combina <strong>NDVI + análise foliar + análise de solo + observação visual</strong> para diagnosticar a lavoura.</p>
+                    </div>
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        Pensar que um único indicador (ex: TIR) responde se o plano vai dar certo é como olhar <strong>só a produtividade</strong> e ignorar o custo. Uma lavoura de 80 sc/ha pode ser ruim se custou R$ 7.500/ha — e uma de 55 sc/ha pode ser ótima se custou R$ 3.200/ha. <strong>Indicadores conversam entre si.</strong>
+                    </div>
+                </div>
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">🎯</span> Três perguntas que todo indicador responde</div>
+                    <div class="secao-conteudo">
+                        <p><strong>1. O que está medindo?</strong> — qual aspecto da operação?<br>
+                        <strong>2. Em qual unidade?</strong> — R$, %, vezes (x), anos?<br>
+                        <strong>3. Qual o benchmark?</strong> — comparado a quê é bom ou ruim?</p>
+                        <p>Sem essas três respostas, o número é só "número". <strong>Com elas, vira informação.</strong></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 2: TIPOS -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">2</div>
+                <div class="indicador-tag">Fundamento</div>
+                <div class="indicador-title">Tipos de Indicadores — A Família Completa</div>
+                <div class="indicador-subtitle">Entenda as 4 categorias e quando cada uma é útil</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">📊</span> As 4 famílias</div>
+                    <div class="secao-conteudo">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="first-col">Família</th>
+                                        <th>Pergunta que responde</th>
+                                        <th>Exemplos</th>
+                                        <th>Analogia agro</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="first-col">💰 <strong>Financeira</strong></td>
+                                        <td>"A operação tem fôlego financeiro?"</td>
+                                        <td>EBITDA, DSCR, Payback</td>
+                                        <td>Análise foliar (NPK)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="first-col">📈 <strong>Econômica</strong></td>
+                                        <td>"Vale a pena investir aqui vs outro lugar?"</td>
+                                        <td>TIR, VPL, GAO</td>
+                                        <td>Análise de solo</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="first-col">🎲 <strong>Estatística (risco)</strong></td>
+                                        <td>"Qual a chance de dar errado?"</td>
+                                        <td>VaR, CVaR, Sharpe</td>
+                                        <td>Previsão de El Niño</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="first-col">🎯 <strong>Gestão</strong></td>
+                                        <td>"Como está a operação no dia a dia?"</td>
+                                        <td>Margem/ha, Custo/sc</td>
+                                        <td>Monitor de pragas</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É como o seu <strong>kit de manejo</strong>: você não usa só pulverizador, ou só análise de solo, ou só boletim climático. <strong>Você usa tudo junto</strong>, em momentos certos. Indicadores funcionam igual — cada família responde uma pergunta específica.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 3: SISTEMA DE CORES -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">3</div>
+                <div class="indicador-tag">Fundamento</div>
+                <div class="indicador-title">O Sistema de Cores Usado nos Documentos</div>
+                <div class="indicador-subtitle">Padrão visual que você vai ver em todos os relatórios</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="chave-leitura">
+                    <div class="chave-item" style="background:#f0fdf4;border-color:#15803d;">
+                        <div class="chave-icon">🟢</div>
+                        <div class="chave-nome" style="color:#15803d;">Saudável</div>
+                    </div>
+                    <div class="chave-item" style="background:#fefce8;border-color:#d97706;">
+                        <div class="chave-icon">🟡</div>
+                        <div class="chave-nome" style="color:#d97706;">Atenção</div>
+                    </div>
+                    <div class="chave-item" style="background:#fef2f2;border-color:#dc2626;">
+                        <div class="chave-icon">🔴</div>
+                        <div class="chave-nome" style="color:#dc2626;">Crítico</div>
+                    </div>
+                    <div class="chave-item">
+                        <div class="chave-icon">📈</div>
+                        <div class="chave-nome">Crescente</div>
+                    </div>
+                    <div class="chave-item">
+                        <div class="chave-icon">📉</div>
+                        <div class="chave-nome">Decrescente</div>
+                    </div>
+                    <div class="chave-item">
+                        <div class="chave-icon">⚖️</div>
+                        <div class="chave-nome">Estável</div>
+                    </div>
+                    <div class="chave-item">
+                        <div class="chave-icon">🎯</div>
+                        <div class="chave-nome">Meta</div>
+                    </div>
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        Igual à <strong>tabela de severidade de doenças</strong> da Embrapa: 0-2 verde (controle ok), 3-5 amarelo (atenção, pulverizar), 6+ vermelho (perda significativa). É a mesma lógica — facilita decisão rápida.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- PARTE II — INDICADORES FINANCEIROS -->
+        <!-- ============================================ -->
+        <div class="parte">
+            <div class="parte-num">Parte II</div>
+            <div class="parte-title">Indicadores Financeiros (4)</div>
+            <div class="parte-desc">Medem se a operação tem caixa para sobreviver e cumprir compromissos</div>
+        </div>
+
+        <!-- INDICADOR 4: EBITDA -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">4</div>
+                <div class="indicador-tag">Financeiro</div>
+                <div class="indicador-title">EBITDA e Margem EBITDA</div>
+                <div class="indicador-subtitle">O "PIB" da fazenda — a verdadeira geração de caixa operacional</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p><strong>EBITDA</strong> é a sigla em inglês para "Lucro antes de Juros, Impostos, Depreciação e Amortização". Em português direto: <strong>é o caixa que a operação gera, antes de descontar pagamentos financeiros e contábeis</strong>.</p>
+                        <p>É o indicador mais usado por bancos, fundos e tradings para avaliar a "força bruta" da operação — porque elimina ruídos contábeis (depreciação não é dinheiro saindo, é só registro contábil) e mostra o que de fato a fazenda gera de caixa.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    EBITDA = Resultado Operacional + Depreciação + Amortização
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Margem EBITDA</span>
+                    Margem EBITDA = (EBITDA / Receita Bruta) × 100
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        EBITDA é a <strong>massa seca da operação</strong>. Se você pesa a planta com toda a água, tem o "lucro contábil". Se tira a água (depreciação, que não é dinheiro saindo), sobra a <strong>massa seca real</strong> — o que a planta realmente produziu de matéria orgânica útil. Margem EBITDA é a <strong>eficiência fotossintética</strong>: quanto da luz (receita) virou matéria seca (caixa).
+                    </div>
+                </div>
+
+                <div class="exemplo">
+                    <div class="exemplo-label">🧮 Exemplo aplicado — Faz. Água Rica 2029</div>
+                    <div class="exemplo-passos">
+                        <div class="passo"><span class="passo-label">Receita Bruta</span><span class="passo-valor">R$ 11.660 mil</span></div>
+                        <div class="passo"><span class="passo-label">(−) Custos Variáveis (insumos, colheita)</span><span class="passo-valor">R$ 7.890 mil</span></div>
+                        <div class="passo"><span class="passo-label">(−) Custos Fixos (mão de obra, estrutura)</span><span class="passo-valor">R$ 1.365 mil</span></div>
+                        <div class="passo"><span class="passo-label">= Resultado Operacional</span><span class="passo-valor">R$ 2.405 mil</span></div>
+                        <div class="passo"><span class="passo-label">(+) Depreciação (máquinas, benfeitorias)</span><span class="passo-valor">R$ 585 mil</span></div>
+                        <div class="passo"><span class="passo-label">= EBITDA</span><span class="passo-valor">R$ 2.990 mil</span></div>
+                    </div>
+                    <div class="exemplo-resultado">
+                        EBITDA = R$ 2,99 mi &nbsp;|&nbsp; Margem EBITDA = 25,6%
+                    </div>
+                </div>
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">📊</span> Como interpretar</div>
+                    <div class="faixas">
+                        <div class="faixa ruim">
+                            <div class="faixa-icon">🔴</div>
+                            <div class="faixa-titulo">Crítico</div>
+                            <div class="faixa-valor">&lt; 15%</div>
+                            <div class="faixa-desc">Margem apertada, operação frágil</div>
+                        </div>
+                        <div class="faixa atencao">
+                            <div class="faixa-icon">🟡</div>
+                            <div class="faixa-titulo">Atenção</div>
+                            <div class="faixa-valor">15% a 20%</div>
+                            <div class="faixa-desc">Aceitável, mas sem folga</div>
+                        </div>
+                        <div class="faixa bom">
+                            <div class="faixa-icon">🟢</div>
+                            <div class="faixa-titulo">Saudável</div>
+                            <div class="faixa-valor">&gt; 20%</div>
+                            <div class="faixa-desc">Operação robusta no Cerrado</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="armadilha">
+                    <div class="armadilha-label">⚠️ Armadilha comum</div>
+                    <div class="armadilha-text">
+                        EBITDA <strong>não é lucro líquido</strong>. Ainda falta descontar juros da dívida e impostos (IRPF/ITR no agro familiar). Um EBITDA alto com dívida cara pode virar prejuízo no final. Sempre olhe EBITDA <strong>junto com Dívida/EBITDA e DSCR</strong>.
+                    </div>
+                </div>
+
+                <div class="uso-pratico">
+                    <div class="uso-label">🎯 Como usar na gestão</div>
+                    <div class="uso-text">
+                        <ul>
+                            <li><strong>Mensalmente:</strong> projete o EBITDA do ano com base nas vendas já travadas</li>
+                            <li><strong>Pós-safra:</strong> compare o EBITDA real com o projetado — desvios &gt; 15% exigem revisão do plano</li>
+                            <li><strong>Negociação com banco:</strong> apresente sempre EBITDA + Margem EBITDA (é a primeira pergunta do gerente)</li>
+                            <li><strong>Decisão de investir:</strong> se um investimento não eleva o EBITDA em pelo menos 10%, pense duas vezes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">EBITDA da Faz. Água Rica</div>
+                    <div class="valor">R$ 2,99 mi (média 10 anos)</div>
+                    <div class="sub">Margem média de 24,5% — acima da média do Cerrado (18-22%) ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 5: DÍVIDA / EBITDA -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">5</div>
+                <div class="indicador-tag">Financeiro</div>
+                <div class="indicador-title">Dívida Líquida / EBITDA</div>
+                <div class="indicador-subtitle">Quantos anos de geração de caixa para pagar toda a dívida</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>Esse é o <strong>indicador-rei do crédito rural</strong>. Bancos médios e grandes (Bradesco, Itaú, Santander, BTG agro) <strong>não liberam crédito novo se esse índice estiver acima de 3,0x</strong>.</p>
+                        <p>O indicador responde: "Se eu congelasse tudo e usasse 100% do EBITDA para quitar dívida, em quantos anos eu pagaria tudo?"</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    Dívida / EBITDA = Saldo Devedor Total / EBITDA Anual
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É a <strong>relação C/N do solo</strong> da operação financeira. Igual ao C/N: relação alta (&gt; 30) = imobilização, atrapalha desenvolvimento; relação baixa (&lt; 20) = mineralização rápida, planta cresce. <strong>Dívida/EBITDA alta (&gt; 5x)</strong> = empresa "imobilizada" pela dívida; <strong>baixa (&lt; 3x)</strong> = empresa "mineralizando bem", caixa flui.
+                    </div>
+                </div>
+
+                <div class="exemplo">
+                    <div class="exemplo-label">🧮 Exemplo aplicado — Faz. Água Rica 2027 vs 2031</div>
+                    <div class="exemplo-passos">
+                        <div class="passo"><span class="passo-label">2027 — Saldo Devedor</span><span class="passo-valor">R$ 13,30 mi</span></div>
+                        <div class="passo"><span class="passo-label">2027 — EBITDA</span><span class="passo-valor">R$ 2,25 mi</span></div>
+                        <div class="passo"><span class="passo-label">2027 — Razão</span><span class="passo-valor">5,91x 🔴</span></div>
+                        <div class="passo" style="border-top: 2px solid #15803d; margin-top: 8px; padding-top: 10px;"><span class="passo-label">2031 — Saldo Devedor</span><span class="passo-valor">R$ 8,15 mi</span></div>
+                        <div class="passo"><span class="passo-label">2031 — EBITDA</span><span class="passo-valor">R$ 3,25 mi</span></div>
+                        <div class="passo"><span class="passo-label">2031 — Razão</span><span class="passo-valor">2,50x 🟢</span></div>
+                    </div>
+                    <div class="exemplo-resultado">
+                        Trajetória de desalavancagem: de "crítico" em 2027 para "saudável" em 2031
+                    </div>
+                </div>
+
+                <div class="faixas">
+                    <div class="faixa bom">
+                        <div class="faixa-icon">🟢</div>
+                        <div class="faixa-titulo">Saudável</div>
+                        <div class="faixa-valor">&lt; 3,0x</div>
+                        <div class="faixa-desc">Banco libera crédito novo</div>
+                    </div>
+                    <div class="faixa atencao">
+                        <div class="faixa-icon">🟡</div>
+                        <div class="faixa-titulo">Atenção</div>
+                        <div class="faixa-valor">3,0x a 5,0x</div>
+                        <div class="faixa-desc">Exige garantia reforçada</div>
+                    </div>
+                    <div class="faixa ruim">
+                        <div class="faixa-icon">🔴</div>
+                        <div class="faixa-titulo">Crítico</div>
+                        <div class="faixa-valor">&gt; 5,0x</div>
+                        <div class="faixa-desc">Reestruturação obrigatória</div>
+                    </div>
+                </div>
+
+                <div class="armadilha">
+                    <div class="armadilha-label">⚠️ Armadilha comum</div>
+                    <div class="armadilha-text">
+                        Confundir "Dívida Bruta" com "Dívida Líquida". <strong>Dívida Líquida = Dívida Bruta − Caixa disponível</strong>. Se você tem R$ 13 mi de dívida e R$ 2 mi em CDB, sua Dívida Líquida é R$ 11 mi. Use sempre a líquida — é o que o banco olha.
+                    </div>
+                </div>
+
+                <div class="uso-pratico">
+                    <div class="uso-label">🎯 Como usar na gestão</div>
+                    <div class="uso-text">
+                        <ul>
+                            <li><strong>Antes de pegar crédito novo:</strong> calcule projetado pós-empréstimo. Se passar de 4,0x, segure</li>
+                            <li><strong>Em negociação de alongamento:</strong> esse é o número que justifica o pedido — "estou em 5,9x, preciso voltar para faixa saudável"</li>
+                            <li><strong>Decisão de venda de ativo:</strong> se vender um trator quita parte da dívida e leva o índice para &lt; 3x, pode valer a pena</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Sua trajetória</div>
+                    <div class="valor">5,91x → 0,00x em 10 anos</div>
+                    <div class="sub">Desalavancagem completa até 2036, com zona saudável a partir de 2031 ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 6: DSCR -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">6</div>
+                <div class="indicador-tag">Financeiro</div>
+                <div class="indicador-title">DSCR — Cobertura do Serviço da Dívida</div>
+                <div class="indicador-subtitle">Quantas vezes o EBITDA do ano cobre as parcelas anuais da dívida</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p><strong>DSCR</strong> (Debt Service Coverage Ratio) é a <strong>métrica universal de cobertura de dívida</strong>. Bancos exigem DSCR mínimo de <strong>1,30x</strong> para aprovar crédito de longo prazo. Abaixo disso, considera-se que a operação <strong>não tem folga suficiente</strong> para absorver imprevistos.</p>
+                        <p>Se DSCR = 1,0x, a operação <strong>gera exatamente o necessário</strong> para pagar — qualquer queda vira inadimplência. Por isso o "colchão" de 30% (1,30x) é o mínimo aceitável.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    DSCR = EBITDA Anual / (Amortização + Juros do Ano)
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É a <strong>capacidade de campo do solo</strong> aplicada à operação financeira. Solo com CC alta consegue absorver chuva forte sem encharcar — operação com DSCR alto consegue absorver "chuva forte" (queda de preço, quebra leve) sem inadimplência. <strong>DSCR de 1,0x é solo arenoso saturado</strong> — qualquer chuva extra escorre. <strong>DSCR de 1,7x é solo argiloso bem estruturado</strong> — tem folga.
+                    </div>
+                </div>
+
+                <div class="exemplo">
+                    <div class="exemplo-label">🧮 Exemplo aplicado — Faz. Água Rica 2029</div>
+                    <div class="exemplo-passos">
+                        <div class="passo"><span class="passo-label">EBITDA 2029</span><span class="passo-valor">R$ 2.990 mil</span></div>
+                        <div class="passo"><span class="passo-label">Amortização da dívida 2029</span><span class="passo-valor">R$ 750 mil</span></div>
+                        <div class="passo"><span class="passo-label">Juros pagos 2029</span><span class="passo-valor">R$ 250 mil</span></div>
+                        <div class="passo"><span class="passo-label">Serviço Total da Dívida</span><span class="passo-valor">R$ 1.000 mil</span></div>
+                        <div class="passo"><span class="passo-label">DSCR = 2.990 / 1.000</span><span class="passo-valor">2,99x 🟢</span></div>
+                    </div>
+                    <div class="exemplo-resultado">
+                        EBITDA cobre 2,99 vezes as parcelas — ainda sobram R$ 1.990 mil para outras necessidades
+                    </div>
+                </div>
+
+                <div class="faixas">
+                    <div class="faixa ruim">
+                        <div class="faixa-icon">🔴</div>
+                        <div class="faixa-titulo">Inadequado</div>
+                        <div class="faixa-valor">&lt; 1,30x</div>
+                        <div class="faixa-desc">Banco recusa crédito</div>
+                    </div>
+                    <div class="faixa atencao">
+                        <div class="faixa-icon">🟡</div>
+                        <div class="faixa-titulo">Aceitável</div>
+                        <div class="faixa-valor">1,30x a 1,50x</div>
+                        <div class="faixa-desc">Aprovado, mas justo</div>
+                    </div>
+                    <div class="faixa bom">
+                        <div class="faixa-icon">🟢</div>
+                        <div class="faixa-titulo">Saudável</div>
+                        <div class="faixa-valor">&gt; 1,50x</div>
+                        <div class="faixa-desc">Folga real para imprevistos</div>
+                    </div>
+                </div>
+
+                <div class="armadilha">
+                    <div class="armadilha-label">⚠️ Armadilha comum</div>
+                    <div class="armadilha-text">
+                        Esquecer dos juros no denominador. Muitos produtores calculam DSCR como "EBITDA / Amortização" — está errado. O <strong>serviço da dívida inclui juros + principal</strong>. Pode dar uma falsa impressão de folga que não existe.
+                    </div>
+                </div>
+
+                <div class="uso-pratico">
+                    <div class="uso-label">🎯 Como usar na gestão</div>
+                    <div class="uso-text">
+                        <ul>
+                            <li><strong>Anualmente:</strong> projete DSCR para os próximos 3 anos. Se algum cair abaixo de 1,30x, antecipe a renegociação</li>
+                            <li><strong>Em ano de quebra:</strong> calcule DSCR realista (não o projetado). Se ficar &lt; 1,0x, acione imediatamente o banco para repactuação</li>
+                            <li><strong>Para apresentação a credores:</strong> mostre DSCR <strong>médio do plano</strong>, não pontual — credores valorizam consistência</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Seu DSCR médio (2029-2036)</div>
+                    <div class="valor">1,68x</div>
+                    <div class="sub">Folga de 29% sobre o mínimo bancário (1,30x) ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 7: PAYBACK -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">7</div>
+                <div class="indicador-tag">Financeiro</div>
+                <div class="indicador-title">Payback do Plano</div>
+                <div class="indicador-subtitle">Em quantos anos a operação devolve o "investimento" da reestruturação</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>Payback é o <strong>tempo necessário para recuperar o capital aplicado</strong>. No caso da reestruturação, é o tempo para o caixa acumulado igualar o valor total da dívida atual (R$ 13,30 mi). Quanto menor o payback, mais rápido o "investimento" volta.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    Payback = Ano em que (Caixa Acumulado ≥ Investimento Inicial)
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É o <strong>tempo de retorno de uma calagem</strong>. Você aplica calcário hoje (custo), e ele vai elevando produtividade ao longo dos anos. Em algum ponto, o ganho acumulado iguala o investimento — esse é o payback. Acima dele, é lucro líquido. <strong>Payback de 8,5 anos é como uma calagem que se paga em 5 safras e gera ganho nos próximos 5+ anos.</strong>
+                    </div>
+                </div>
+
+                <div class="faixas">
+                    <div class="faixa bom">
+                        <div class="faixa-icon">🟢</div>
+                        <div class="faixa-titulo">Rápido</div>
+                        <div class="faixa-valor">&lt; 5 anos</div>
+                        <div class="faixa-desc">Excelente para o agro</div>
+                    </div>
+                    <div class="faixa atencao">
+                        <div class="faixa-icon">🟡</div>
+                        <div class="faixa-titulo">Moderado</div>
+                        <div class="faixa-valor">5 a 10 anos</div>
+                        <div class="faixa-desc">Aceitável em reestruturação</div>
+                    </div>
+                    <div class="faixa ruim">
+                        <div class="faixa-icon">🔴</div>
+                        <div class="faixa-titulo">Lento</div>
+                        <div class="faixa-valor">&gt; 10 anos</div>
+                        <div class="faixa-desc">Inviável para horizonte agro</div>
+                    </div>
+                </div>
+
+                <div class="armadilha">
+                    <div class="armadilha-label">⚠️ Armadilha comum</div>
+                    <div class="armadilha-text">
+                        Payback simples <strong>ignora o valor do dinheiro no tempo</strong>. R$ 1 milhão hoje vale mais do que R$ 1 milhão em 5 anos (por causa da inflação e custo de oportunidade). Para análise rigorosa, use também TIR e VPL — que já corrigem isso.
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Payback do seu plano</div>
+                    <div class="valor">8,5 anos</div>
+                    <div class="sub">Dentro do horizonte de 10 anos, ainda sobram R$ 8,5 mi acumulados ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- PARTE III — INDICADORES ECONÔMICOS -->
+        <!-- ============================================ -->
+        <div class="parte">
+            <div class="parte-num">Parte III</div>
+            <div class="parte-title">Indicadores Econômicos (4)</div>
+            <div class="parte-desc">Avaliam se o plano gera valor econômico real — vale mais a pena seguir do que parar</div>
+        </div>
+
+        <!-- INDICADOR 8: TIR -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">8</div>
+                <div class="indicador-tag">Econômico</div>
+                <div class="indicador-title">TIR — Taxa Interna de Retorno</div>
+                <div class="indicador-subtitle">A "produtividade do capital" investido no plano</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>TIR é a <strong>taxa de rentabilidade anual real</strong> que o plano gera. Se a TIR é 19,4%, significa que o plano "rende" 19,4% ao ano — como se fosse um CDB com essa taxa. Compara-se à <strong>taxa Selic + prêmio de risco</strong> para decidir se vale a pena.</p>
+                        <p><strong>Regra de ouro:</strong> se TIR &gt; custo de capital (Selic + 2-4% de prêmio agro), o plano cria valor. Se TIR &lt; custo de capital, é melhor liquidar e aplicar o dinheiro em renda fixa.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula (cálculo iterativo)</span>
+                    TIR = Taxa que faz Σ (Fluxo / (1+TIR)^n) = 0
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        TIR é a <strong>"produtividade do capital"</strong> — equivalente a sc/ha, mas em rentabilidade financeira. Imagine que você compara duas áreas: uma rende 65 sc/ha (área A) e outra 80 sc/ha (área B). Se o custo é parecido, B é melhor. Em finanças: <strong>TIR de 19,4% é como uma área que produz 80 sc/ha</strong>, enquanto Selic de 10% é como uma área que produz 50 sc/ha. <strong>O plano é "mais produtivo" que renda fixa.</strong>
+                    </div>
+                </div>
+
+                <div class="exemplo">
+                    <div class="exemplo-label">🧮 Exemplo aplicado — Faz. Água Rica</div>
+                    <div class="exemplo-passos">
+                        <div class="passo"><span class="passo-label">Investimento "inicial" (dívida atual)</span><span class="passo-valor">R$ 13,30 mi</span></div>
+                        <div class="passo"><span class="passo-label">Soma dos fluxos líquidos (10 anos)</span><span class="passo-valor">R$ 21,80 mi</span></div>
+                        <div class="passo"><span class="passo-label">Lucro nominal acumulado</span><span class="passo-valor">R$ 8,50 mi</span></div>
+                        <div class="passo"><span class="passo-label">Taxa equivalente anual (TIR)</span><span class="passo-valor">19,4% a.a.</span></div>
+                        <div class="passo"><span class="passo-label">Custo de Capital (Selic + prêmio)</span><span class="passo-valor">12,0% a.a.</span></div>
+                        <div class="passo"><span class="passo-label">Spread (criação de valor)</span><span class="passo-valor">+7,4 pp 🟢</span></div>
+                    </div>
+                    <div class="exemplo-resultado">
+                        Plano rende 7,4 pontos percentuais acima do custo de capital — cria valor econômico
+                    </div>
+                </div>
+
+                <div class="faixas">
+                    <div class="faixa ruim">
+                        <div class="faixa-icon">🔴</div>
+                        <div class="faixa-titulo">Destrói valor</div>
+                        <div class="faixa-valor">TIR &lt; Selic</div>
+                        <div class="faixa-desc">Pior que renda fixa</div>
+                    </div>
+                    <div class="faixa atencao">
+                        <div class="faixa-icon">🟡</div>
+                        <div class="faixa-titulo">Aceitável</div>
+                        <div class="faixa-valor">Selic a Selic+5pp</div>
+                        <div class="faixa-desc">Compensa risco mínimo</div>
+                    </div>
+                    <div class="faixa bom">
+                        <div class="faixa-icon">🟢</div>
+                        <div class="faixa-titulo">Cria valor</div>
+                        <div class="faixa-valor">&gt; Selic+5pp</div>
+                        <div class="faixa-desc">Retorno superior justifica risco</div>
+                    </div>
+                </div>
+
+                <div class="armadilha">
+                    <div class="armadilha-label">⚠️ Armadilha comum</div>
+                    <div class="armadilha-text">
+                        TIR alta <strong>não significa muito dinheiro</strong>. Um pequeno investimento pode ter TIR de 50% mas gerar pouco valor absoluto. Por isso TIR <strong>sempre</strong> deve ser olhada junto com VPL — que mostra o valor em R$.
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">TIR do seu plano</div>
+                    <div class="valor">19,4% a.a.</div>
+                    <div class="sub">Spread de +7,4 pp sobre custo de capital ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 9: VPL -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">9</div>
+                <div class="indicador-tag">Econômico</div>
+                <div class="indicador-title">VPL — Valor Presente Líquido</div>
+                <div class="indicador-subtitle">Quanto vale, em "dinheiro de hoje", todo o plano de 10 anos</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>VPL traduz <strong>todo o fluxo de caixa futuro para "dinheiro de hoje"</strong>. Por quê? Porque R$ 100 mil em 2030 vale menos que R$ 100 mil hoje — você poderia ter aplicado e receber juros nesses anos.</p>
+                        <p><strong>Critério de decisão:</strong> se VPL &gt; 0, o plano cria valor. Se VPL &lt; 0, destrói valor. Quanto maior, melhor.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    VPL = Σ [Fluxo Ano n / (1 + taxa)^n] − Investimento Inicial
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        VPL é como avaliar uma <strong>plantação de eucalipto</strong>. Você sabe que vai colher madeira em 7 anos, mas precisa decidir hoje se vale a pena plantar. Você "traz" o valor da madeira futura para o presente, descontando o custo de oportunidade (Selic). Se mesmo descontado o valor presente for maior que o investimento, planta. <strong>VPL positivo = vale a pena plantar; VPL negativo = melhor outra cultura.</strong>
+                    </div>
+                </div>
+
+                <div class="exemplo">
+                    <div class="exemplo-label">🧮 Exemplo aplicado — Faz. Água Rica</div>
+                    <div class="exemplo-passos">
+                        <div class="passo"><span class="passo-label">Fluxo 2029 (nominal)</span><span class="passo-valor">R$ 1.405 mil</span></div>
+                        <div class="passo"><span class="passo-label">Fator desconto @ 12% a.a. (3 anos)</span><span class="passo-valor">÷ 1,405</span></div>
+                        <div class="passo"><span class="passo-label">Valor Presente do fluxo 2029</span><span class="passo-valor">R$ 1.000 mil</span></div>
+                        <div class="passo"><span class="passo-label">Soma dos VPs de todos os anos</span><span class="passo-valor">R$ 5,87 mi</span></div>
+                    </div>
+                    <div class="exemplo-resultado">
+                        VPL = R$ 5,87 mi (positivo) — plano cria valor econômico ao custo de 12% a.a.
+                    </div>
+                </div>
+
+                <div class="armadilha">
+                    <div class="armadilha-label">⚠️ Armadilha comum</div>
+                    <div class="armadilha-text">
+                        A taxa de desconto muda tudo. Um plano com VPL positivo a 8% pode ter VPL negativo a 18%. <strong>Sempre apresente VPL em 3 taxas</strong> (otimista, realista, pessimista) para mostrar robustez.
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">VPL do seu plano @ 12% a.a.</div>
+                    <div class="valor">R$ 5,87 mi</div>
+                    <div class="sub">Positivo em todas as taxas testadas (8%, 10%, 12%) ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 10: MARGEM CONTRIBUIÇÃO -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">10</div>
+                <div class="indicador-tag">Econômico</div>
+                <div class="indicador-title">Margem de Contribuição (R$/sc)</div>
+                <div class="indicador-subtitle">Quanto cada saca contribui para pagar custos fixos e gerar lucro</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>Margem de Contribuição é o <strong>"sobra por saca"</strong> depois de pagos os custos variáveis (sementes, fertilizantes, defensivos, colheita). Esse valor "contribui" para cobrir custos fixos (mão de obra, estrutura, depreciação) e, depois, gerar lucro.</p>
+                        <p>É um KPI <strong>de altíssimo valor para decisão tática</strong>: você consegue avaliar rapidamente se vale a pena vender uma saca em determinado preço.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    Margem Contribuição = Preço de Venda − Custo Variável Unitário
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É a <strong>massa seca por planta</strong>. Você sabe que uma soja produz X gramas/planta. Custo variável é a "água + nutriente" gasto por planta. <strong>Margem de Contribuição é o que sobra de "matéria orgânica útil" por planta</strong> — antes de descontar a estrutura geral da fazenda. Quanto maior, mais eficiente é a operação por unidade.
+                    </div>
+                </div>
+
+                <div class="exemplo">
+                    <div class="exemplo-label">🧮 Exemplo aplicado — Soja Faz. Água Rica 2029</div>
+                    <div class="exemplo-passos">
+                        <div class="passo"><span class="passo-label">Preço médio de venda</span><span class="passo-valor">R$ 125,00/sc</span></div>
+                        <div class="passo"><span class="passo-label">(−) Sementes</span><span class="passo-valor">R$ 14,80/sc</span></div>
+                        <div class="passo"><span class="passo-label">(−) Fertilizantes</span><span class="passo-valor">R$ 32,40/sc</span></div>
+                        <div class="passo"><span class="passo-label">(−) Defensivos</span><span class="passo-valor">R$ 21,15/sc</span></div>
+                        <div class="passo"><span class="passo-label">(−) Operações + colheita</span><span class="passo-valor">R$ 17,80/sc</span></div>
+                        <div class="passo"><span class="passo-label">= Custo Variável Total</span><span class="passo-valor">R$ 86,15/sc</span></div>
+                        <div class="passo"><span class="passo-label">Margem de Contribuição</span><span class="passo-valor">R$ 38,85/sc 🟢</span></div>
+                    </div>
+                    <div class="exemplo-resultado">
+                        Cada saca vendida acima de R$ 86,15 contribui para o resultado da fazenda
+                    </div>
+                </div>
+
+                <div class="uso-pratico">
+                    <div class="uso-label">🎯 Como usar na gestão</div>
+                    <div class="uso-text">
+                        <ul>
+                            <li><strong>Decisão de venda emergencial:</strong> se você precisa de caixa urgente, qualquer venda acima do "custo variável" (R$ 86/sc no exemplo) ainda contribui — não venda abaixo disso</li>
+                            <li><strong>Definir preço-piso de hedge:</strong> nunca trave hedge abaixo do custo variável + 15% de margem</li>
+                            <li><strong>Comparar culturas:</strong> calcule MC/sc para soja e milho, depois MC/ha — escolha a cultura de maior MC/ha</li>
+                            <li><strong>Negociar com comprador:</strong> sabendo seu MC, você sabe até onde pode flexibilizar preço</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Sua MC Soja 2029</div>
+                    <div class="valor">R$ 38,85/sc</div>
+                    <div class="sub">31% sobre o preço — saudável para Cerrado ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 11: GAO -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">11</div>
+                <div class="indicador-tag">Econômico</div>
+                <div class="indicador-title">GAO — Grau de Alavancagem Operacional</div>
+                <div class="indicador-subtitle">Sensibilidade do resultado às variações de receita</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>GAO mede <strong>quanto o resultado oscila quando a receita oscila</strong>. Um GAO de 3,0x significa: se a receita cai 10%, o resultado cai 30%. <strong>Operações com alto custo fixo têm GAO alto</strong> — são mais sensíveis a quedas de receita.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    GAO = Margem de Contribuição Total / Resultado Operacional
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É a <strong>sensibilidade da planta ao déficit hídrico em estádio crítico</strong>. Em V8 (vegetativo), 5 dias sem chuva impactam pouco — planta resiliente, baixa "alavancagem". Em R3 (reprodutivo), os mesmos 5 dias podem causar perda de 30% — alta "alavancagem". <strong>GAO alto significa que a operação está em "estádio reprodutivo financeiro"</strong>: pequenas variações de receita causam grandes impactos.
+                    </div>
+                </div>
+
+                <div class="faixas">
+                    <div class="faixa bom">
+                        <div class="faixa-icon">🟢</div>
+                        <div class="faixa-titulo">Estável</div>
+                        <div class="faixa-valor">&lt; 2,0x</div>
+                        <div class="faixa-desc">Operação resiliente</div>
+                    </div>
+                    <div class="faixa atencao">
+                        <div class="faixa-icon">🟡</div>
+                        <div class="faixa-titulo">Sensível</div>
+                        <div class="faixa-valor">2,0x a 3,0x</div>
+                        <div class="faixa-desc">Faixa típica do agro</div>
+                    </div>
+                    <div class="faixa ruim">
+                        <div class="faixa-icon">🔴</div>
+                        <div class="faixa-titulo">Frágil</div>
+                        <div class="faixa-valor">&gt; 3,0x</div>
+                        <div class="faixa-desc">Quedas amplificam muito</div>
+                    </div>
+                </div>
+
+                <div class="uso-pratico">
+                    <div class="uso-label">🎯 Como usar na gestão</div>
+                    <div class="uso-text">
+                        <ul>
+                            <li><strong>Anos de GAO alto:</strong> reforce hedge de preço (50%+ travado em barter ou put)</li>
+                            <li><strong>Decisão de mecanização:</strong> comprar maquinário aumenta custo fixo e eleva GAO. Pondere com lucratividade adicional</li>
+                            <li><strong>Para reduzir GAO:</strong> terceirize operações que viram custo fixo (colheita, plantio em parte da área)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Seu GAO 2027 → 2035</div>
+                    <div class="valor">3,18x → 2,03x</div>
+                    <div class="sub">Operação ganha resiliência ao longo do plano 📉</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- PARTE IV — INDICADORES ESTATÍSTICOS -->
+        <!-- ============================================ -->
+        <div class="parte">
+            <div class="parte-num">Parte IV</div>
+            <div class="parte-title">Indicadores Estatísticos / Risco (5)</div>
+            <div class="parte-desc">Quantificam a chance de o plano dar errado e a magnitude possível das perdas</div>
+        </div>
+
+        <!-- INDICADOR 12: VaR -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">12</div>
+                <div class="indicador-tag">Estatístico</div>
+                <div class="indicador-title">VaR — Value at Risk</div>
+                <div class="indicador-subtitle">Maior perda esperada com determinado nível de confiança</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>VaR responde: <em>"Com 95% de confiança, qual a maior perda que posso ter?"</em>. É o padrão usado por bancos e seguradoras para quantificar risco. Um VaR 95% de R$ 1,12 mi significa: <strong>em 95% dos cenários, a perda não passa de R$ 1,12 mi</strong>. Apenas em 5% dos casos a perda pode ser maior.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula simplificada</span>
+                    VaR(95%) = Média − (1,645 × Desvio-Padrão)
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É como <strong>probabilidade de geada baseada em série histórica</strong>. Em 95% dos anos, a temperatura mínima não passa de X graus. VaR funciona igual — em 95% dos anos, a perda não passa de R$ 1,12 mi. <strong>Os 5% restantes são "anos atípicos"</strong> — mas sabemos que existem e precisamos estar preparados.
+                    </div>
+                </div>
+
+                <div class="armadilha">
+                    <div class="armadilha-label">⚠️ Armadilha comum</div>
+                    <div class="armadilha-text">
+                        VaR <strong>não diz</strong> qual é a perda nos 5% piores casos — só diz o limite. Se a perda nesses casos for muito maior que o VaR, você fica vulnerável. Por isso existe o <strong>CVaR</strong> (próximo indicador), que complementa o VaR.
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">VaR 95% da sua margem anual</div>
+                    <div class="valor">R$ 1,12 mi</div>
+                    <div class="sub">Em 95% dos anos, a perda não excede esse valor</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 13: CVaR -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">13</div>
+                <div class="indicador-tag">Estatístico</div>
+                <div class="indicador-title">CVaR — Expected Shortfall</div>
+                <div class="indicador-subtitle">Perda média nos 5% piores cenários — o "tamanho real" do desastre</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>CVaR (Conditional VaR) responde: <em>"Se eu cair nos 5% piores cenários, qual a perda <strong>média</strong> esperada?"</em>. É o complemento natural do VaR — porque enquanto o VaR diz o limite, o CVaR diz a <strong>magnitude real</strong> do que pode acontecer quando o cenário ruim de fato ocorre.</p>
+                        <p>É hoje considerado <strong>superior ao VaR</strong> pela regulação financeira internacional (Basiléia III).</p>
+                    </div>
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        VaR é <strong>"qual o limite de geada esperado em 95% dos anos"</strong>. CVaR é <strong>"se vier a geada extrema, quão forte ela é em média?"</strong>. A geada chega — não importa se em 5% ou 1% dos anos. O que importa é saber se ela vai matar 30% ou 70% da lavoura. <strong>CVaR mede o tamanho do estrago real, não só a chance.</strong>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">CVaR 95% da sua margem anual</div>
+                    <div class="valor">R$ 1,87 mi</div>
+                    <div class="sub">Use esse valor para dimensionar reserva técnica, não o VaR</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 14: CV -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">14</div>
+                <div class="indicador-tag">Estatístico</div>
+                <div class="indicador-title">Coeficiente de Variação (CV)</div>
+                <div class="indicador-subtitle">Estabilidade relativa da operação ao longo do tempo</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>CV mede <strong>quão "instável" é a operação</strong>. CV baixo = operação previsível, ano após ano. CV alto = operação volátil, com picos e vales.</p>
+                        <p>Bancos e fundos consideram CV &lt; 25% como <strong>"operação confiável"</strong> — justifica taxa de juros menor.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    CV = (Desvio-Padrão / Média) × 100
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É a <strong>uniformidade de stand</strong> da lavoura, mas no tempo. Lavoura com stand uniforme produz consistente — CV baixo. Lavoura com falhas tem produção desigual — CV alto. <strong>CV de 17% na sua margem é como ter stand uniforme em 95% da área</strong> — bancos enxergam isso e sentem segurança.
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">CV da sua margem (10 anos)</div>
+                    <div class="valor">17,4%</div>
+                    <div class="sub">Operação estatisticamente estável ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 15: SHARPE/SORTINO -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">15</div>
+                <div class="indicador-tag">Estatístico</div>
+                <div class="indicador-title">Sharpe e Sortino Ratio</div>
+                <div class="indicador-subtitle">Retorno ajustado ao risco — "vale o nervosismo?"</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p><strong>Sharpe</strong> mede quanto retorno você ganha <strong>por unidade de risco assumido</strong>. Sharpe de 1,0 = retorno equilibrado com o risco. Acima de 1,0 = vantajoso. <strong>Sortino</strong> é uma versão melhorada que considera apenas o risco de perda (downside) — mais relevante para o agro.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmulas</span>
+                    Sharpe = (TIR − Taxa Livre Risco) / Desvio-Padrão Total<br>
+                    Sortino = (TIR − Taxa Livre Risco) / Desvio-Padrão Negativo
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É a <strong>eficiência do uso da água</strong> (kg de grão por mm de água). Alto Sharpe = muito retorno para pouco risco, igual a planta que produz muito com pouca água. Baixo Sharpe = retorno medíocre para muito risco, igual a planta exigente que produz pouco. <strong>Plano com Sharpe 1,08 e Sortino 1,67 é uma "operação com alta eficiência de risco".</strong>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Seus indicadores ajustados ao risco</div>
+                    <div class="valor">Sharpe 1,08 / Sortino 1,67</div>
+                    <div class="sub">Retorno bom (Sharpe) e excelente quando ignoramos volatilidade positiva (Sortino) ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 16: PD -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">16</div>
+                <div class="indicador-tag">Estatístico</div>
+                <div class="indicador-title">PD — Probabilidade de Default</div>
+                <div class="indicador-subtitle">Chance estatística de inadimplência em cada ano</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>PD é <strong>a probabilidade matemática de o EBITDA ser insuficiente para cobrir o serviço da dívida</strong> em determinado ano. Calculada via simulação Monte Carlo. Bancos usam isso para precificar risco — PD baixa = juros baixo.</p>
+                    </div>
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É a <strong>probabilidade de quebra de safra</strong> calculada pelo histórico climático. Embrapa diz: "13% de chance de quebra severa em Goiás em ano de El Niño forte". PD funciona igual: "4,7% de chance, em média, de não conseguir pagar a parcela do banco em determinado ano". <strong>Conhecer a probabilidade permite planejar mitigadores.</strong>
+                    </div>
+                </div>
+
+                <div class="faixas">
+                    <div class="faixa bom">
+                        <div class="faixa-icon">🟢</div>
+                        <div class="faixa-titulo">Investment Grade</div>
+                        <div class="faixa-valor">&lt; 5%</div>
+                        <div class="faixa-desc">Banco aprova com taxa boa</div>
+                    </div>
+                    <div class="faixa atencao">
+                        <div class="faixa-icon">🟡</div>
+                        <div class="faixa-titulo">Speculative</div>
+                        <div class="faixa-valor">5% a 10%</div>
+                        <div class="faixa-desc">Aprova com taxa elevada</div>
+                    </div>
+                    <div class="faixa ruim">
+                        <div class="faixa-icon">🔴</div>
+                        <div class="faixa-titulo">Alto Risco</div>
+                        <div class="faixa-valor">&gt; 10%</div>
+                        <div class="faixa-desc">Recusa ou exige garantia</div>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Sua PD anual média</div>
+                    <div class="valor">4,7%</div>
+                    <div class="sub">Classificação Investment Grade ✅ (exceto 2027 isoladamente)</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- PARTE V — INDICADORES DE GESTÃO -->
+        <!-- ============================================ -->
+        <div class="parte">
+            <div class="parte-num">Parte V</div>
+            <div class="parte-title">Indicadores de Gestão (3)</div>
+            <div class="parte-desc">Para o dia a dia da fazenda — controle operacional</div>
+        </div>
+
+        <!-- INDICADOR 17: COMPROMETIMENTO ROB -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">17</div>
+                <div class="indicador-tag">Gestão</div>
+                <div class="indicador-title">Comprometimento da Receita Operacional Bruta (ROB)</div>
+                <div class="indicador-subtitle">Quanto da receita bruta vai para pagar dívida</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>Mede que <strong>percentual da receita bruta total é destinado ao pagamento da dívida</strong>. Indicador de "espaço para respirar". Saudável &lt; 15%.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    Comprometimento = (Serviço da Dívida / ROB) × 100
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É como <strong>percentual de área comprometida com cobertura morta</strong>. Pouca cobertura (&lt; 15%) = muita área para plantar comercial, operação flexível. Muita cobertura (&gt; 30%) = área limitada para comercial, operação engessada. <strong>Comprometimento alto significa pouca "área financeira" disponível para reinvestir, expandir ou enfrentar imprevistos.</strong>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Seu comprometimento médio (2029-2036)</div>
+                    <div class="valor">11,5%</div>
+                    <div class="sub">Sempre abaixo do limite saudável de 15% ✅</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 18: MARGEM DE SEGURANÇA -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">18</div>
+                <div class="indicador-tag">Gestão</div>
+                <div class="indicador-title">Margem de Segurança (Preço)</div>
+                <div class="indicador-subtitle">Quanto o preço pode cair antes do prejuízo</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>Margem de Segurança mostra <strong>qual a "folga"</strong> entre o preço real de venda e o ponto de equilíbrio (custo unitário total). Acima de 15% é saudável.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmula</span>
+                    Margem Segurança = ((Preço − Ponto Equilíbrio) / Preço) × 100
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É a <strong>folga de janela de plantio</strong>. Se você planta no meio da janela ideal, tem 15-20 dias de "segurança" antes de a janela fechar (atraso de chuvas, pragas etc). Margem de Segurança no preço funciona igual — quanto preço pode cair antes de "fechar a janela" e a operação virar prejuízo. <strong>Margem &lt; 15% = janela apertada, qualquer atraso de "chuva de preço" pode comprometer.</strong>
+                    </div>
+                </div>
+
+                <div class="destaque">
+                    <div class="label">Sua margem de segurança média Soja</div>
+                    <div class="valor">16,9%</div>
+                    <div class="sub">Saudável na média, mas apertada em 2027-2028 ⚠️</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 19: MARGEM HA E SACA -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">19</div>
+                <div class="indicador-tag">Gestão</div>
+                <div class="indicador-title">Margem Operacional por Hectare e por Saca</div>
+                <div class="indicador-subtitle">Eficiência operacional unitária</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">1</span> O que é</div>
+                    <div class="secao-conteudo">
+                        <p>São indicadores <strong>operacionais simples e poderosos</strong>: mostram quanto cada hectare e cada saca <strong>realmente geram</strong> de margem para a fazenda. Permitem comparações diretas entre safras, talhões e culturas.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Fórmulas</span>
+                    Margem/ha = (Receita Total − Custo Total) / Hectares Plantados<br>
+                    Margem/sc = (Receita Total − Custo Total) / Sacas Produzidas
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica</div>
+                    <div class="analogia-text">
+                        É como avaliar o <strong>kg/mm de água por área</strong> e <strong>kg/planta</strong> ao mesmo tempo. Você precisa dos dois para entender se o ganho é por área (talvez insumos), por planta (talvez genética) ou pela combinação. <strong>Margem/ha + Margem/sc juntas mostram onde está a eficiência da operação.</strong>
+                    </div>
+                </div>
+
+                <div class="exemplo">
+                    <div class="exemplo-label">🧮 Exemplo aplicado — Faz. Água Rica 2029 (área de soja)</div>
+                    <div class="exemplo-passos">
+                        <div class="passo"><span class="passo-label">Receita soja</span><span class="passo-valor">R$ 8.125 mil</span></div>
+                        <div class="passo"><span class="passo-label">Custo total soja</span><span class="passo-valor">R$ 6.450 mil</span></div>
+                        <div class="passo"><span class="passo-label">Margem total</span><span class="passo-valor">R$ 1.675 mil</span></div>
+                        <div class="passo"><span class="passo-label">Hectares (soja)</span><span class="passo-valor">1.000 ha</span></div>
+                        <div class="passo"><span class="passo-label">Sacas produzidas</span><span class="passo-valor">65.000 sc</span></div>
+                        <div class="passo"><span class="passo-label">Margem/ha</span><span class="passo-valor">R$ 1.675/ha 🟢</span></div>
+                        <div class="passo"><span class="passo-label">Margem/sc</span><span class="passo-valor">R$ 25,77/sc 🟢</span></div>
+                    </div>
+                    <div class="exemplo-resultado">
+                        Cada hectare gera R$ 1.675 de margem | Cada saca contribui com R$ 25,77 líquidos
+                    </div>
+                </div>
+
+                <div class="uso-pratico">
+                    <div class="uso-label">🎯 Como usar na gestão</div>
+                    <div class="uso-text">
+                        <ul>
+                            <li><strong>Comparar talhões:</strong> calcule margem/ha por talhão. Talhões com margem &lt; 60% da média são candidatos a melhoria de manejo</li>
+                            <li><strong>Comparar safras:</strong> margem/sc cresce com o tempo? Indica ganho de eficiência operacional</li>
+                            <li><strong>Decisão soja vs milho:</strong> margem/ha de cada cultura define o melhor mix</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- PARTE VI — APLICAÇÃO PRÁTICA -->
+        <!-- ============================================ -->
+        <div class="parte">
+            <div class="parte-num">Parte VI</div>
+            <div class="parte-title">Aplicação Prática</div>
+            <div class="parte-desc">Como usar tudo isso no dia a dia + Glossário</div>
+        </div>
+
+        <!-- INDICADOR 20: COMO COMBINAR -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">20</div>
+                <div class="indicador-tag">Aplicação</div>
+                <div class="indicador-title">Como Combinar Indicadores — Não Olhe Isolado</div>
+                <div class="indicador-subtitle">A arte de "ler o conjunto" para decisões certas</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">📌</span> O princípio fundamental</div>
+                    <div class="secao-conteudo">
+                        <p>Igual ao diagnóstico de uma lavoura — você nunca olha só o NDVI, ou só a análise de solo, ou só o boletim climático. <strong>Você combina informações</strong>. Indicadores financeiros funcionam exatamente igual.</p>
+                    </div>
+                </div>
+
+                <div class="secao-ind">
+                    <div class="secao-titulo"><span class="icon-num">🧩</span> Combinações poderosas</div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="first-col">Pergunta</th>
+                                    <th>Indicadores combinados</th>
+                                    <th>Como ler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="first-col">"Tenho fôlego financeiro?"</td>
+                                    <td>EBITDA + DSCR + Comprometimento ROB</td>
+                                    <td>Os 3 verdes = fôlego saudável</td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">"O plano vale a pena?"</td>
+                                    <td>TIR + VPL + Payback</td>
+                                    <td>TIR &gt; custo capital + VPL &gt; 0 + Payback &lt; horizonte</td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">"Estou exposto a risco demais?"</td>
+                                    <td>VaR + CVaR + PD + CV</td>
+                                    <td>VaR/CVaR cobertos por reserva, PD &lt; 5%, CV &lt; 25%</td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">"Como está minha eficiência?"</td>
+                                    <td>Margem EBITDA + Margem/ha + Margem Contribuição</td>
+                                    <td>Os 3 acima da média do Cerrado = operação eficiente</td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">"Devo aceitar crédito novo?"</td>
+                                    <td>Dívida/EBITDA + DSCR projetado</td>
+                                    <td>Pós-empréstimo: &lt; 4,0x e DSCR &gt; 1,3x</td>
+                                </tr>
+                                <tr>
+                                    <td class="first-col">"Devo travar hedge agora?"</td>
+                                    <td>Margem Contribuição + Margem Segurança + GAO</td>
+                                    <td>MC alta + MS alta + GAO baixo = pode esperar</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="analogia">
+                    <div class="analogia-label">🌱 Analogia agronômica final</div>
+                    <div class="analogia-text">
+                        Pense nos indicadores como um <strong>painel da colheitadeira</strong>: produtividade instantânea, perda no cilindro, umidade, velocidade. Você não olha um só — olha todos juntos para regular a máquina. <strong>Indicadores financeiros são o "painel da fazenda"</strong>. Use-os juntos para regular sua operação.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- INDICADOR 21: GLOSSÁRIO -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">21</div>
+                <div class="indicador-tag">Aplicação</div>
+                <div class="indicador-title">Glossário Alfabético</div>
+                <div class="indicador-subtitle">Consulta rápida dos termos técnicos</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="glossario">
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Amortização <span class="glossario-sigla">— Financeiro</span></div>
+                        <div class="glossario-def">Pagamento do principal da dívida (não dos juros). É o que reduz o saldo devedor.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Basiléia III <span class="glossario-sigla">— Regulação</span></div>
+                        <div class="glossario-def">Conjunto de regras internacionais para risco bancário. Define como bancos calculam PD, LGD e exigência de capital.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Beta-PERT <span class="glossario-sigla">— Estatística</span></div>
+                        <div class="glossario-def">Distribuição de probabilidade assimétrica usada para modelar produtividade agrícola (tem piso, máximo provável e teto).</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">CDB <span class="glossario-sigla">— Investimento</span></div>
+                        <div class="glossario-def">Certificado de Depósito Bancário — investimento de renda fixa, baixo risco, usado como referência de "taxa livre de risco".</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Custo de Capital <span class="glossario-sigla">— Econômico</span></div>
+                        <div class="glossario-def">Taxa mínima de retorno que justifica investir em vez de aplicar em renda fixa. Para agro: Selic + 2-4% de prêmio.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">CVaR <span class="glossario-sigla">— Conditional Value at Risk</span></div>
+                        <div class="glossario-def">Perda média esperada nos piores cenários (cauda da distribuição). Mais robusto que VaR.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">CV <span class="glossario-sigla">— Coeficiente de Variação</span></div>
+                        <div class="glossario-def">Desvio-padrão dividido pela média. Mede dispersão relativa.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Default <span class="glossario-sigla">— Crédito</span></div>
+                        <div class="glossario-def">Inadimplência. Não conseguir pagar o serviço da dívida.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">DSCR <span class="glossario-sigla">— Debt Service Coverage Ratio</span></div>
+                        <div class="glossario-def">Cobertura da dívida. EBITDA dividido por (Amortização + Juros).</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">EBITDA <span class="glossario-sigla">— Earnings Before Interest, Taxes, D&A</span></div>
+                        <div class="glossario-def">Lucro antes de juros, impostos, depreciação e amortização. Geração de caixa operacional pura.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">GAO <span class="glossario-sigla">— Grau de Alavancagem Operacional</span></div>
+                        <div class="glossario-def">Quanto o resultado oscila para cada % de oscilação da receita.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Hedge <span class="glossario-sigla">— Proteção</span></div>
+                        <div class="glossario-def">Estratégia para travar preço futuro e proteger contra queda. Pode ser barter, B3 ou put options.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">LGD <span class="glossario-sigla">— Loss Given Default</span></div>
+                        <div class="glossario-def">Perda dado o default — quanto o banco perde efetivamente quando há inadimplência (descontando garantias).</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Margem de Contribuição <span class="glossario-sigla">— Econômico</span></div>
+                        <div class="glossario-def">Receita unitária menos custo variável unitário. Sobra que "contribui" para custos fixos e lucro.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Monte Carlo <span class="glossario-sigla">— Estatística</span></div>
+                        <div class="glossario-def">Método de simulação que gera milhares de cenários aleatórios para mapear distribuição de resultados possíveis.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">P5, P50, P95 <span class="glossario-sigla">— Percentis</span></div>
+                        <div class="glossario-def">P5 = 5% piores cenários. P50 = mediana (50% acima, 50% abaixo). P95 = 5% melhores cenários.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Payback <span class="glossario-sigla">— Financeiro</span></div>
+                        <div class="glossario-def">Tempo de retorno do capital investido.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">PD <span class="glossario-sigla">— Probability of Default</span></div>
+                        <div class="glossario-def">Probabilidade matemática de inadimplência em determinado período.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">PROAGRO <span class="glossario-sigla">— Seguro Rural</span></div>
+                        <div class="glossario-def">Programa de Garantia da Atividade Agropecuária — seguro oficial federal que cobre custeio em caso de quebra.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Put Option <span class="glossario-sigla">— Mercado</span></div>
+                        <div class="glossario-def">Opção de venda — direito (não obrigação) de vender a preço fixo no futuro. Funciona como "seguro de preço".</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">ROB <span class="glossario-sigla">— Receita Operacional Bruta</span></div>
+                        <div class="glossario-def">Faturamento total bruto da fazenda em um período (antes de descontos e impostos).</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Selic <span class="glossario-sigla">— Taxa Básica</span></div>
+                        <div class="glossario-def">Taxa básica de juros da economia. Referência para custo de capital.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Sharpe Ratio <span class="glossario-sigla">— Estatística</span></div>
+                        <div class="glossario-def">Retorno excedente dividido por desvio-padrão. Mede retorno por unidade de risco total.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Sortino Ratio <span class="glossario-sigla">— Estatística</span></div>
+                        <div class="glossario-def">Variação do Sharpe que considera apenas risco de perda (downside).</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">Spread <span class="glossario-sigla">— Financeiro</span></div>
+                        <div class="glossario-def">Diferença entre duas taxas (ex: TIR menos custo de capital).</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">TIR <span class="glossario-sigla">— Taxa Interna de Retorno</span></div>
+                        <div class="glossario-def">Rentabilidade anual equivalente do plano, considerando todos os fluxos de caixa.</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">VaR <span class="glossario-sigla">— Value at Risk</span></div>
+                        <div class="glossario-def">Maior perda esperada com determinado nível de confiança (geralmente 95%).</div>
+                    </div>
+
+                    <div class="glossario-item">
+                        <div class="glossario-termo">VPL <span class="glossario-sigla">— Valor Presente Líquido</span></div>
+                        <div class="glossario-def">Soma dos fluxos de caixa futuros descontados a uma taxa, menos o investimento inicial.</div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ENCERRAMENTO -->
+        <div class="indicador">
+            <div class="indicador-header">
+                <div class="indicador-num">✓</div>
+                <div class="indicador-tag">Encerramento</div>
+                <div class="indicador-title">Uma palavra final, Thiago</div>
+                <div class="indicador-subtitle">O que esperar daqui pra frente</div>
+            </div>
+            <div class="indicador-body">
+
+                <div class="secao-ind">
+                    <div class="secao-conteudo">
+                        <p>Você acabou de percorrer <strong>todo o vocabulário financeiro</strong> usado por bancos médios, fundos agro e tradings. Esse conhecimento é seu — e te coloca em <strong>outro nível de interlocução</strong> com qualquer credor, parceiro ou consultor.</p>
+
+                        <p>Não precisa decorar tudo. <strong>Use este documento como referência:</strong></p>
+                        <ul style="padding-left: 22px; margin: 10px 0;">
+                            <li>Vai numa reunião com o banco? Releia EBITDA, Dívida/EBITDA e DSCR (5 min)</li>
+                            <li>Vai decidir se compra um trator? Releia GAO e Margem de Contribuição (5 min)</li>
+                            <li>Vai negociar hedge? Releia Margem de Contribuição e Margem de Segurança (5 min)</li>
+                            <li>Vai conversar com o Sidney? Releia o que estiver curioso — perguntas vão surgir</li>
+                        </ul>
+
+                        <p>O plano de 10 anos não depende só de você executar bem na lavoura. <strong>Depende também de você executar bem nas decisões financeiras</strong> — e agora você tem a base técnica para isso.</p>
+
+                        <p style="margin-top: 14px;"><strong>Boa leitura, boa colheita, boa caminhada. 🌱</strong></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CREDENTIALS -->
+    <div class="credentials">
+        <div class="credentials-content">
+            <div class="cred-label">Material Pedagógico Elaborado por</div>
+            <div class="cred-name">Dr. Sidney Souza</div>
+            <div class="cred-title">Economista e Adm. Agrícola — Estrategista Econômico do Produtor</div>
+            <div class="cred-spec">Especialista em economia da fazenda e gestão de risco no agro</div>
+
+            <div class="cred-divider"></div>
+
+            <div class="cred-tagline">
+                <div class="cred-tagline-line">"Transformamos dados da fazenda em decisões econômicas"</div>
+                <div class="cred-tagline-line">"Ajudamos produtores a entender se o mercado sustenta seu negócio"</div>
+            </div>
+
+            <div class="cred-contacts">
+                <div class="cred-contact">✉️ sidneyagro@gmail.com</div>
+                <div class="cred-contact">📱 (64) 9 9226-6886</div>
+                <div class="cred-contact">📸 @ruralin.ai</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Documento Técnico Pedagógico — Confidencial — Maio/2026<br>
+        Material de referência permanente para o produtor — base teórica do Dashboard Executivo, Plano Estratégico e Análise de Risco
+    </footer>
+</div>
+
+</body>
+</html>

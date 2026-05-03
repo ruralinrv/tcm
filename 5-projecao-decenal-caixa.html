@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projeção Decenal — Faz. Água Rica — Safras 2026/27 a 2035/36</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f6f9;
+        color: #1e293b;
+        line-height: 1.6;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+
+    header {
+        background: linear-gradient(135deg, #14532d 0%, #166534 50%, #15803d 100%);
+        color: #fff;
+        padding: 35px 40px;
+        text-align: center;
+        position: relative;
+    }
+
+    header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #f59e0b, #15803d, #2563eb);
+    }
+
+    header h1 {
+        font-size: 28px;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    header h2 {
+        font-size: 16px;
+        font-weight: 400;
+        opacity: 0.9;
+    }
+
+    header .meta {
+        margin-top: 15px;
+        font-size: 12px;
+        opacity: 0.85;
+    }
+
+    .content { padding: 30px 40px; }
+
+    .section { margin-bottom: 40px; }
+
+    .section-title {
+        font-size: 19px;
+        color: #14532d;
+        border-bottom: 3px solid #15803d;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .section-title .icon {
+        background: #15803d;
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    /* PREMISSAS */
+    .premise-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+    }
+
+    .premise {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+        padding: 14px;
+        text-align: center;
+    }
+
+    .premise .label {
+        font-size: 11px;
+        color: #166534;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .premise .value {
+        font-size: 18px;
+        color: #14532d;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    .premise .sub {
+        font-size: 10px;
+        color: #64748b;
+        margin-top: 2px;
+    }
+
+    /* TABELAS */
+    .table-wrapper {
+        overflow-x: auto;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        background: #fff;
+        min-width: 900px;
+    }
+
+    thead {
+        background: #14532d;
+        color: #fff;
+    }
+
+    th {
+        padding: 10px 8px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+    }
+
+    th.first-col { text-align: left; padding-left: 14px; }
+
+    td {
+        padding: 8px;
+        border-bottom: 1px solid #ecf0f3;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    td.first-col {
+        text-align: left;
+        padding-left: 14px;
+        font-weight: 600;
+        background: #f8fafc;
+        color: #14532d;
+    }
+
+    tbody tr:hover { background: #f9fbfd; }
+
+    .total-row {
+        background: #fef3c7 !important;
+        font-weight: 700;
+    }
+
+    .total-row td {
+        border-top: 2px solid #f59e0b;
+        color: #78350f;
+    }
+
+    .destaque-row {
+        background: #ecfdf5 !important;
+    }
+
+    .destaque-row td {
+        color: #14532d;
+        font-weight: 600;
+    }
+
+    .alert-row {
+        background: #fef2f2 !important;
+    }
+
+    .alert-row td {
+        color: #7f1d1d;
+        font-weight: 600;
+    }
+
+    .pe-row {
+        background: #ede9fe !important;
+    }
+
+    .pe-row td {
+        color: #5b21b6;
+        font-weight: 600;
+    }
+
+    /* HIGHLIGHT */
+    .highlight {
+        background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+        color: #fff;
+        padding: 22px;
+        border-radius: 8px;
+        margin: 15px 0;
+        text-align: center;
+    }
+
+    .highlight.alert { background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); }
+    .highlight.warning { background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%); }
+    .highlight.info { background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); }
+
+    .highlight .label {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.95;
+    }
+
+    .highlight .value {
+        font-size: 30px;
+        font-weight: 700;
+        margin-top: 5px;
+    }
+
+    .highlight .sub {
+        font-size: 12px;
+        opacity: 0.9;
+        margin-top: 5px;
+    }
+
+    /* SUMMARY CARDS */
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: #fff;
+        border: 1px solid #e0e6ed;
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+        border-top: 4px solid #15803d;
+    }
+
+    .card.receita { border-top-color: #15803d; }
+    .card.custo { border-top-color: #dc2626; }
+    .card.margem { border-top-color: #f59e0b; }
+    .card.caixa { border-top-color: #2563eb; }
+    .card.acumulado { border-top-color: #8b5cf6; }
+
+    .card .label {
+        font-size: 11px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: #14532d;
+        margin-top: 5px;
+    }
+
+    .card .sub {
+        font-size: 10px;
+        color: #94a3b8;
+        margin-top: 3px;
+    }
+
+    /* GRAPH BARS */
+    .bar-chart {
+        margin-top: 15px;
+        background: #f8fafc;
+        padding: 18px;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .bar-row {
+        display: grid;
+        grid-template-columns: 90px 1fr 110px;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        font-size: 11px;
+    }
+
+    .bar-label {
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .bar-track {
+        background: #e2e8f0;
+        border-radius: 4px;
+        height: 22px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #15803d 0%, #16a34a 100%);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 8px;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 600;
+        transition: width 0.4s;
+    }
+
+    .bar-value {
+        text-align: right;
+        font-weight: 700;
+        color: #14532d;
+    }
+
+    /* OBSERVAÇÕES */
+    .obs {
+        background: #fef9e7;
+        border-left: 4px solid #f1c40f;
+        padding: 12px 18px;
+        margin: 12px 0;
+        font-size: 13px;
+        color: #6e5b1a;
+        border-radius: 4px;
+    }
+
+    .obs.success { background: #f0fdf4; border-left-color: #15803d; color: #14532d; }
+    .obs.info { background: #eff6ff; border-left-color: #2563eb; color: #1e3a8a; }
+    .obs.danger { background: #fef2f2; border-left-color: #dc2626; color: #7f1d1d; }
+
+    .formula-box {
+        background: #f8fafc;
+        border: 1px dashed #cbd5e1;
+        padding: 12px;
+        border-radius: 6px;
+        text-align: center;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        color: #1e293b;
+        margin: 10px 0;
+    }
+
+    /* CREDENTIALS */
+    .credentials {
+        background: linear-gradient(135deg, #14532d 0%, #166534 50%, #15803d 100%);
+        color: #fff;
+        padding: 35px 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .credentials::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        left: -10%;
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .credentials::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        right: -10%;
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .credentials-content { position: relative; z-index: 1; }
+    .credentials .cred-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 0.85;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+    .credentials .cred-name {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    .credentials .cred-title {
+        font-size: 14px;
+        opacity: 0.95;
+        margin-bottom: 3px;
+        font-weight: 600;
+    }
+    .credentials .cred-spec {
+        font-size: 12px;
+        opacity: 0.9;
+        margin-bottom: 16px;
+    }
+    .credentials .cred-divider {
+        width: 50px;
+        height: 2px;
+        background: rgba(255,255,255,0.4);
+        margin: 12px auto;
+        border-radius: 2px;
+    }
+    .credentials .cred-tagline {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 14px 22px;
+        max-width: 650px;
+        margin: 0 auto 16px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .credentials .cred-tagline-line {
+        font-size: 13px;
+        margin: 3px 0;
+        font-style: italic;
+        opacity: 0.95;
+    }
+    .credentials .cred-contacts {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+    }
+    .credentials .cred-contact {
+        background: rgba(255,255,255,0.18);
+        padding: 8px 16px;
+        border-radius: 22px;
+        font-size: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.25);
+        font-weight: 500;
+    }
+
+    footer {
+        background: #0f3d20;
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        font-size: 11px;
+        opacity: 0.95;
+    }
+
+    @media print {
+        body { background: #fff; padding: 0; }
+        .container { box-shadow: none; }
+        .section { page-break-inside: avoid; }
+    }
+
+    @media (max-width: 768px) {
+        .content { padding: 18px; }
+        header { padding: 20px; }
+        header h1 { font-size: 22px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>PROJEÇÃO DECENAL DE CAIXA</h1>
+        <h2>Safras 2026/27 a 2035/36 — Thiago Carvalho Matias</h2>
+        <div class="meta">📍 Faz. Água Rica — Rio Verde/GO &nbsp;|&nbsp; 785 ha soja + 230 ha milho 2ª safra &nbsp;|&nbsp; Maio/2026</div>
+    </header>
+
+    <div class="content">
+
+        <!-- 1. PREMISSAS -->
+        <div class="section">
+            <div class="section-title"><span class="icon">1</span> Premissas da Projeção</div>
+
+            <p style="margin-bottom: 14px; font-size: 13px;">
+                Os números partem da <strong>safra-base 2026/27</strong> e seguem as premissas validadas com o produtor para os primeiros 3 anos, evoluindo com taxas conservadoras nos anos subsequentes.
+            </p>
+
+            <div class="premise-grid">
+                <div class="premise">
+                    <div class="label">Soja 2027</div>
+                    <div class="value">65 sc/ha</div>
+                    <div class="sub">a R$ 110,00/sc</div>
+                </div>
+                <div class="premise">
+                    <div class="label">Soja 2028</div>
+                    <div class="value">65 sc/ha</div>
+                    <div class="sub">a R$ 115,00/sc</div>
+                </div>
+                <div class="premise">
+                    <div class="label">Soja 2029</div>
+                    <div class="value">66 sc/ha</div>
+                    <div class="sub">a R$ 125,00/sc</div>
+                </div>
+                <div class="premise">
+                    <div class="label">Milho 2027</div>
+                    <div class="value">110 sc/ha</div>
+                    <div class="sub">a R$ 53,00/sc</div>
+                </div>
+                <div class="premise">
+                    <div class="label">Milho 2028</div>
+                    <div class="value">110 sc/ha</div>
+                    <div class="sub">a R$ 53,00/sc</div>
+                </div>
+                <div class="premise">
+                    <div class="label">Milho 2029</div>
+                    <div class="value">110 sc/ha</div>
+                    <div class="sub">a R$ 55,00/sc</div>
+                </div>
+            </div>
+
+            <div class="obs info">
+                💡 <strong>Premissas conservadoras e validadas:</strong> os dados de produtividade e preço dos 3 primeiros anos foram modelados pelo próprio produtor, com base em histórico real da Faz. Água Rica. Os anos subsequentes seguem evolução de 1,5% a.a. em produtividade e ajustes pontuais de preço, com custos crescendo conforme histórico de inflação operacional.
+            </div>
+        </div>
+
+        <!-- 2. SOJA -->
+        <div class="section">
+            <div class="section-title"><span class="icon">2</span> Soja — Projeção Detalhada (785 ha)</div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="first-col">Indicador</th>
+                            <th>26/27</th>
+                            <th>27/28</th>
+                            <th>28/29</th>
+                            <th>29/30</th>
+                            <th>30/31</th>
+                            <th>31/32</th>
+                            <th>32/33</th>
+                            <th>33/34</th>
+                            <th>34/35</th>
+                            <th>35/36</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="first-col">Produt. (sc/ha)</td>
+                            <td>65,0</td>
+                            <td>65,0</td>
+                            <td>66,0</td>
+                            <td>66,0</td>
+                            <td>67,0</td>
+                            <td>67,0</td>
+                            <td>68,0</td>
+                            <td>68,0</td>
+                            <td>69,0</td>
+                            <td>69,0</td>
+                        </tr>
+                        <tr>
+                            <td class="first-col">Produção (sc)</td>
+                            <td>65.650</td>
+                            <td>65.650</td>
+                            <td>66.660</td>
+                            <td>66.660</td>
+                            <td>67.500</td>
+                            <td>67.500</td>
+                            <td>68.500</td>
+                            <td>68.500</td>
+                            <td>69.500</td>
+                            <td>69.500</td>
+                        </tr>
+                        <tr>
+                            <td class="first-col">Preço (R$/sc)</td>
+                            <td>110,00</td>
+                            <td>115,00</td>
+                            <td>125,00</td>
+                            <td>125,00</td>
+                            <td>133,32</td>
+                            <td>133,32</td>
+                            <td>136,24</td>
+                            <td>136,24</td>
+                            <td>143,87</td>
+                            <td>143,87</td>
+                        </tr>
+                        <tr class="destaque-row">
+                            <td class="first-col">Receita (R$ mil)</td>
+                            <td>7.221</td>
+                            <td>7.549</td>
+                            <td>8.332</td>
+                            <td>8.332</td>
+                            <td>8.999</td>
+                            <td>8.999</td>
+                            <td>9.332</td>
+                            <td>9.332</td>
+                            <td>9.999</td>
+                            <td>9.999</td>
+                        </tr>
+                        <tr class="alert-row">
+                            <td class="first-col">Custo Total (R$ mil)</td>
+                            <td>6.376</td>
+                            <td>6.551</td>
+                            <td>6.851</td>
+                            <td>6.876</td>
+                            <td>7.246</td>
+                            <td>7.276</td>
+                            <td>7.567</td>
+                            <td>7.588</td>
+                            <td>7.786</td>
+                            <td>7.887</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="first-col">Margem (R$ mil)</td>
+                            <td>845</td>
+                            <td>998</td>
+                            <td>1.481</td>
+                            <td>1.456</td>
+                            <td>1.753</td>
+                            <td>1.722</td>
+                            <td>1.764</td>
+                            <td>1.744</td>
+                            <td>2.213</td>
+                            <td>2.111</td>
+                        </tr>
+                        <tr>
+                            <td class="first-col">Margem (%)</td>
+                            <td>11,7%</td>
+                            <td>13,2%</td>
+                            <td>17,8%</td>
+                            <td>17,5%</td>
+                            <td>19,5%</td>
+                            <td>19,1%</td>
+                            <td>18,9%</td>
+                            <td>18,7%</td>
+                            <td>22,1%</td>
+                            <td>21,1%</td>
+                        </tr>
+                        <tr class="pe-row">
+                            <td class="first-col">P.E. Valor (R$/sc)</td>
+                            <td>97,13</td>
+                            <td>99,80</td>
+                            <td>102,78</td>
+                            <td>103,16</td>
+                            <td>108,71</td>
+                            <td>109,16</td>
+                            <td>113,53</td>
+                            <td>113,83</td>
+                            <td>116,81</td>
+                            <td>118,33</td>
+                        </tr>
+                        <tr class="pe-row">
+                            <td class="first-col">P.E. Qtd (sc/ha)</td>
+                            <td>57,40</td>
+                            <td>56,41</td>
+                            <td>54,27</td>
+                            <td>54,47</td>
+                            <td>53,15</td>
+                            <td>53,37</td>
+                            <td>53,52</td>
+                            <td>53,66</td>
+                            <td>51,40</td>
+                            <td>52,06</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="obs success">
+                🌱 <strong>Soja consolida-se como motor da operação:</strong> margem evolui de R$ 845 mil para R$ 2,11 MM em 10 anos, com expansão de 11,7% para 21,1%. Margem de segurança no preço cresce de 13,2% (2027) para 21,6% (2029), mostrando robustez crescente.
+            </div>
+        </div>
+
+        <!-- 3. MILHO -->
+        <div class="section">
+            <div class="section-title"><span class="icon">3</span> Milho 2ª Safra — Projeção Detalhada (230 ha)</div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="first-col">Indicador</th>
+                            <th>26/27</th>
+                            <th>27/28</th>
+                            <th>28/29</th>
+                            <th>29/30</th>
+                            <th>30/31</th>
+                            <th>31/32</th>
+                            <th>32/33</th>
+                            <th>33/34</th>
+                            <th>34/35</th>
+                            <th>35/36</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="first-col">Produt. (sc/ha)</td>
+                            <td>110,0</td>
+                            <td>110,0</td>
+                            <td>110,0</td>
+                            <td>110,0</td>
+                            <td>112,0</td>
+                            <td>114,0</td>
+                            <td>116,0</td>
+                            <td>118,0</td>
+                            <td>120,0</td>
+                            <td>120,0</td>
+                        </tr>
+                        <tr>
+                            <td class="first-col">Produção (sc)</td>
+                            <td>60.500</td>
+                            <td>60.500</td>
+                            <td>60.500</td>
+                            <td>60.500</td>
+                            <td>61.045</td>
+                            <td>60.500</td>
+                            <td>60.500</td>
+                            <td>60.500</td>
+                            <td>60.500</td>
+                            <td>60.500</td>
+                        </tr>
+                        <tr>
+                            <td class="first-col">Preço (R$/sc)</td>
+                            <td>53,00</td>
+                            <td>53,00</td>
+                            <td>55,00</td>
+                            <td>55,00</td>
+                            <td>55,50</td>
+                            <td>57,00</td>
+                            <td>58,00</td>
+                            <td>59,00</td>
+                            <td>60,00</td>
+                            <td>60,00</td>
+                        </tr>
+                        <tr class="destaque-row">
+                            <td class="first-col">Receita (R$ mil)</td>
+                            <td>3.206</td>
+                            <td>3.206</td>
+                            <td>3.327</td>
+                            <td>3.327</td>
+                            <td>3.388</td>
+                            <td>3.448</td>
+                            <td>3.509</td>
+                            <td>3.569</td>
+                            <td>3.630</td>
+                            <td>3.630</td>
+                        </tr>
+                        <tr class="alert-row">
+                            <td class="first-col">Custo Total (R$ mil)</td>
+                            <td>2.348</td>
+                            <td>2.423</td>
+                            <td>2.403</td>
+                            <td>2.472</td>
+                            <td>2.510</td>
+                            <td>2.641</td>
+                            <td>2.679</td>
+                            <td>2.764</td>
+                            <td>2.794</td>
+                            <td>2.860</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="first-col">Margem (R$ mil)</td>
+                            <td>858</td>
+                            <td>783</td>
+                            <td>924</td>
+                            <td>855</td>
+                            <td>878</td>
+                            <td>807</td>
+                            <td>830</td>
+                            <td>805</td>
+                            <td>836</td>
+                            <td>770</td>
+                        </tr>
+                        <tr>
+                            <td class="first-col">Margem (%)</td>
+                            <td>26,8%</td>
+                            <td>24,4%</td>
+                            <td>27,8%</td>
+                            <td>25,7%</td>
+                            <td>25,9%</td>
+                            <td>23,4%</td>
+                            <td>23,7%</td>
+                            <td>22,5%</td>
+                            <td>23,0%</td>
+                            <td>21,2%</td>
+                        </tr>
+                        <tr class="pe-row">
+                            <td class="first-col">P.E. Valor (R$/sc)</td>
+                            <td>38,82</td>
+                            <td>40,06</td>
+                            <td>39,73</td>
+                            <td>40,86</td>
+                            <td>41,49</td>
+                            <td>43,66</td>
+                            <td>44,29</td>
+                            <td>45,69</td>
+                            <td>46,18</td>
+                            <td>47,27</td>
+                        </tr>
+                        <tr class="pe-row">
+                            <td class="first-col">P.E. Qtd (sc/ha)</td>
+                            <td>80,57</td>
+                            <td>83,15</td>
+                            <td>79,45</td>
+                            <td>81,73</td>
+                            <td>81,50</td>
+                            <td>84,26</td>
+                            <td>84,00</td>
+                            <td>85,19</td>
+                            <td>84,67</td>
+                            <td>86,67</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="obs">
+                🌽 <strong>Milho — papel complementar com margem robusta:</strong> ponto de equilíbrio em R$ 38,82/sc (2027) contra preço de R$ 53,00 dá folga de 36,5% — culturalmente saudável. Cultura essencial na rotação e geradora consistente de R$ 770 mil a R$ 924 mil de margem anual.
+            </div>
+        </div>
+
+        <!-- 4. CONSOLIDADO -->
+        <div class="section">
+            <div class="section-title"><span class="icon">4</span> Consolidado da Operação — 10 Safras</div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="first-col">Indicador (R$ mil)</th>
+                            <th>26/27</th>
+                            <th>27/28</th>
+                            <th>28/29</th>
+                            <th>29/30</th>
+                            <th>30/31</th>
+                            <th>31/32</th>
+                            <th>32/33</th>
+                            <th>33/34</th>
+                            <th>34/35</th>
+                            <th>35/36</th>
+                            <th>TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="destaque-row">
+                            <td class="first-col">Receita Total</td>
+                            <td>10.428</td>
+                            <td>10.756</td>
+                            <td>11.660</td>
+                            <td>11.660</td>
+                            <td>12.387</td>
+                            <td>12.447</td>
+                            <td>12.841</td>
+                            <td>12.901</td>
+                            <td>13.629</td>
+                            <td>13.629</td>
+                            <td><strong>122.338</strong></td>
+                        </tr>
+                        <tr class="alert-row">
+                            <td class="first-col">Custo Total</td>
+                            <td>8.725</td>
+                            <td>8.975</td>
+                            <td>9.254</td>
+                            <td>9.348</td>
+                            <td>9.756</td>
+                            <td>9.918</td>
+                            <td>10.247</td>
+                            <td>10.352</td>
+                            <td>10.580</td>
+                            <td>10.747</td>
+                            <td><strong>97.902</strong></td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="first-col">Margem Op.</td>
+                            <td>1.703</td>
+                            <td>1.781</td>
+                            <td>2.405</td>
+                            <td>2.311</td>
+                            <td>2.630</td>
+                            <td>2.529</td>
+                            <td>2.594</td>
+                            <td>2.549</td>
+                            <td>3.048</td>
+                            <td>2.881</td>
+                            <td><strong>24.431</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="first-col">Margem (%)</td>
+                            <td>16,3%</td>
+                            <td>16,6%</td>
+                            <td>20,6%</td>
+                            <td>19,8%</td>
+                            <td>21,2%</td>
+                            <td>20,3%</td>
+                            <td>20,2%</td>
+                            <td>19,8%</td>
+                            <td>22,4%</td>
+                            <td>21,1%</td>
+                            <td><strong>20,0%</strong></td>
+                        </tr>
+                        <tr style="background: #eff6ff;">
+                            <td class="first-col">Margem/ha</td>
+                            <td>1.677</td>
+                            <td>1.755</td>
+                            <td>2.369</td>
+                            <td>2.276</td>
+                            <td>2.591</td>
+                            <td>2.491</td>
+                            <td>2.555</td>
+                            <td>2.511</td>
+                            <td>3.003</td>
+                            <td>2.838</td>
+                            <td><strong>2.407 (média)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="summary-grid" style="margin-top: 18px;">
+                <div class="card receita">
+                    <div class="label">Receita Acumulada 10 anos</div>
+                    <div class="value">R$ 122,3 MM</div>
+                    <div class="sub">Média: R$ 12,23 MM/ano</div>
+                </div>
+                <div class="card custo">
+                    <div class="label">Custo Acumulado 10 anos</div>
+                    <div class="value">R$ 97,9 MM</div>
+                    <div class="sub">Média: R$ 9,79 MM/ano</div>
+                </div>
+                <div class="card margem">
+                    <div class="label">Margem Acumulada 10 anos</div>
+                    <div class="value">R$ 24,4 MM</div>
+                    <div class="sub">Margem média: 20,0%</div>
+                </div>
+                <div class="card acumulado">
+                    <div class="label">Crescimento da Margem</div>
+                    <div class="value">+69%</div>
+                    <div class="sub">de R$ 1,70 MM → R$ 2,88 MM</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. EVOLUÇÃO VISUAL -->
+        <div class="section">
+            <div class="section-title"><span class="icon">5</span> Evolução Visual da Margem Operacional</div>
+
+            <div class="bar-chart">
+                <div class="bar-row">
+                    <div class="bar-label">26/27</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 56%;">R$ 1,70 MM</div></div>
+                    <div class="bar-value">16,3%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">27/28</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 58%;">R$ 1,78 MM</div></div>
+                    <div class="bar-value">16,6%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">28/29</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 79%;">R$ 2,41 MM</div></div>
+                    <div class="bar-value">20,6%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">29/30</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 76%;">R$ 2,31 MM</div></div>
+                    <div class="bar-value">19,8%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">30/31</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 86%;">R$ 2,63 MM</div></div>
+                    <div class="bar-value">21,2%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">31/32</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 83%;">R$ 2,53 MM</div></div>
+                    <div class="bar-value">20,3%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">32/33</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 85%;">R$ 2,59 MM</div></div>
+                    <div class="bar-value">20,2%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">33/34</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 84%;">R$ 2,55 MM</div></div>
+                    <div class="bar-value">19,8%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">34/35</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 100%;">R$ 3,05 MM</div></div>
+                    <div class="bar-value">22,4%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">35/36</div>
+                    <div class="bar-track"><div class="bar-fill" style="width: 95%;">R$ 2,88 MM</div></div>
+                    <div class="bar-value">21,1%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. CAPACIDADE DE GERAÇÃO DE CAIXA -->
+        <div class="section">
+            <div class="section-title"><span class="icon">6</span> Capacidade de Geração de Caixa Líquida</div>
+
+            <p style="margin-bottom: 12px; font-size: 13px;">
+                Da margem operacional, deduzimos uma <strong>reserva mínima de capital de giro de 8%</strong> ao ano (recomposição de estoques, contingência climática, manutenção mínima). O resultado é o <strong>caixa líquido disponível para serviço da dívida</strong>.
+            </p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="first-col">R$ mil</th>
+                            <th>26/27</th>
+                            <th>27/28</th>
+                            <th>28/29</th>
+                            <th>29/30</th>
+                            <th>30/31</th>
+                            <th>31/32</th>
+                            <th>32/33</th>
+                            <th>33/34</th>
+                            <th>34/35</th>
+                            <th>35/36</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="first-col">Margem Op.</td>
+                            <td>1.703</td>
+                            <td>1.781</td>
+                            <td>2.405</td>
+                            <td>2.311</td>
+                            <td>2.630</td>
+                            <td>2.529</td>
+                            <td>2.594</td>
+                            <td>2.549</td>
+                            <td>3.048</td>
+                            <td>2.881</td>
+                        </tr>
+                        <tr>
+                            <td class="first-col">(−) Reserva 8%</td>
+                            <td>(136)</td>
+                            <td>(142)</td>
+                            <td>(192)</td>
+                            <td>(185)</td>
+                            <td>(210)</td>
+                            <td>(202)</td>
+                            <td>(207)</td>
+                            <td>(204)</td>
+                            <td>(244)</td>
+                            <td>(230)</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="first-col">Caixa Líquido</td>
+                            <td>1.567</td>
+                            <td>1.639</td>
+                            <td>2.213</td>
+                            <td>2.126</td>
+                            <td>2.420</td>
+                            <td>2.327</td>
+                            <td>2.387</td>
+                            <td>2.345</td>
+                            <td>2.804</td>
+                            <td>2.651</td>
+                        </tr>
+                        <tr style="background: #eff6ff;">
+                            <td class="first-col">Caixa Acum.</td>
+                            <td>1.567</td>
+                            <td>3.206</td>
+                            <td>5.419</td>
+                            <td>7.545</td>
+                            <td>9.965</td>
+                            <td>12.292</td>
+                            <td>14.679</td>
+                            <td>17.024</td>
+                            <td>19.828</td>
+                            <td><strong>22.479</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="formula-box">
+                Caixa Líquido Acumulado em 10 anos = <strong>R$ 22,48 MM</strong> &nbsp;|&nbsp; Média anual = <strong>R$ 2,25 MM/ano</strong>
+            </div>
+
+            <div class="highlight">
+                <div class="label">Geração de Caixa Líquida Acumulada — 10 anos</div>
+                <div class="value">R$ 22,48 MM</div>
+                <div class="sub">Suficiente para quitar integralmente a dívida total de R$ 13,30 MM (Praça + Bancos) com folga de R$ 9,18 MM</div>
+            </div>
+        </div>
+
+        <!-- 7. CONFRONTO COM A DÍVIDA -->
+        <div class="section">
+            <div class="section-title"><span class="icon">7</span> Confronto: Geração de Caixa × Estrutura de Pagamento</div>
+
+            <p style="margin-bottom: 12px; font-size: 13px;">
+                Considerando a estrutura proposta: quitação da <strong>dívida da praça em 2027 (R$ 1,80 MM)</strong>, <strong>2 anos de carência bancária total (2027-2028)</strong> e <strong>amortização escalonada da dívida bancária de R$ 11,50 MM</strong> entre 2029 e 2036:
+            </p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="first-col">R$ mil</th>
+                            <th>26/27</th>
+                            <th>27/28</th>
+                            <th>28/29</th>
+                            <th>29/30</th>
+                            <th>30/31</th>
+                            <th>31/32</th>
+                            <th>32/33</th>
+                            <th>33/34</th>
+                            <th>34/35</th>
+                            <th>35/36</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #eff6ff;">
+                            <td class="first-col">Caixa Líquido</td>
+                            <td>1.567</td>
+                            <td>1.639</td>
+                            <td>2.213</td>
+                            <td>2.126</td>
+                            <td>2.420</td>
+                            <td>2.327</td>
+                            <td>2.387</td>
+                            <td>2.345</td>
+                            <td>2.804</td>
+                            <td>2.651</td>
+                        </tr>
+                        <tr class="alert-row">
+                            <td class="first-col">Praça</td>
+                            <td>(1.804)</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr class="alert-row">
+                            <td class="first-col">Banco</td>
+                            <td>— (carência)</td>
+                            <td>— (carência)</td>
+                            <td>(1.000)</td>
+                            <td>(1.100)</td>
+                            <td>(1.250)</td>
+                            <td>(1.400)</td>
+                            <td>(1.600)</td>
+                            <td>(1.800)</td>
+                            <td>(2.000)</td>
+                            <td>(2.000)</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="first-col">Sobra Anual</td>
+                            <td>(237)</td>
+                            <td>1.639</td>
+                            <td>1.213</td>
+                            <td>1.026</td>
+                            <td>1.170</td>
+                            <td>927</td>
+                            <td>787</td>
+                            <td>545</td>
+                            <td>804</td>
+                            <td>651</td>
+                        </tr>
+                        <tr style="background: #f0fdf4;">
+                            <td class="first-col">Cobertura</td>
+                            <td>0,87x</td>
+                            <td>—</td>
+                            <td>2,21x</td>
+                            <td>1,93x</td>
+                            <td>1,94x</td>
+                            <td>1,66x</td>
+                            <td>1,49x</td>
+                            <td>1,30x</td>
+                            <td>1,40x</td>
+                            <td>1,33x</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="formula-box">
+                Sobra acumulada em 10 anos (após dívida da praça + bancária) = <strong>R$ 8,52 MM</strong>
+            </div>
+
+            <div class="obs danger">
+                ⚠️ <strong>Atenção crítica em 2026/27:</strong> a quitação integral da praça (R$ 1,80 MM) supera o caixa líquido gerado pela operação (R$ 1,57 MM), gerando um descoberto de R$ 237 mil. Por isso é essencial executar as <strong>soluções complementares</strong> mapeadas (venda antecipada parcial, otimização operacional, parcelamento da terceirização) para fechar esse gap.
+            </div>
+
+            <div class="obs success">
+                ✅ <strong>De 2027/28 em diante a operação se mostra robusta:</strong> cobertura sempre acima de 1,3x, com pico de 2,21x em 2028/29 (primeiro ano de amortização bancária). A estrutura de carência permite ao produtor recompor capital de giro antes de iniciar o serviço da dívida bancária.
+            </div>
+        </div>
+
+        <!-- 8. INDICADORES-CHAVE -->
+        <div class="section">
+            <div class="section-title"><span class="icon">8</span> Indicadores-Chave Decenais</div>
+
+            <div class="summary-grid">
+                <div class="card receita">
+                    <div class="label">Receita Acumulada</div>
+                    <div class="value">R$ 122,3 MM</div>
+                    <div class="sub">10 safras</div>
+                </div>
+                <div class="card custo">
+                    <div class="label">Custo Acumulado</div>
+                    <div class="value">R$ 97,9 MM</div>
+                    <div class="sub">10 safras</div>
+                </div>
+                <div class="card margem">
+                    <div class="label">Margem Acumulada</div>
+                    <div class="value">R$ 24,4 MM</div>
+                    <div class="sub">20,0% média</div>
+                </div>
+                <div class="card caixa">
+                    <div class="label">Caixa Líquido Acum.</div>
+                    <div class="value">R$ 22,5 MM</div>
+                    <div class="sub">após reserva 8%</div>
+                </div>
+                <div class="card acumulado">
+                    <div class="label">Sobra Pós-Dívida</div>
+                    <div class="value">R$ 8,5 MM</div>
+                    <div class="sub">para reinvestimento</div>
+                </div>
+            </div>
+
+            <div class="highlight info" style="margin-top: 18px;">
+                <div class="label">Conclusão da Projeção Decenal</div>
+                <div class="value">Operação Plenamente Viável</div>
+                <div class="sub">Geração de caixa cobre 169% da dívida total ao longo do horizonte projetado, com margem operacional crescente e robusta capacidade de reinvestimento — desde que executadas as soluções complementares no ano-base 2026/27</div>
+            </div>
+        </div>
+
+        <!-- 9. NOTAS METODOLÓGICAS -->
+        <div class="section">
+            <div class="section-title"><span class="icon">9</span> Notas Metodológicas</div>
+
+            <ul style="font-size: 13px; padding-left: 20px;">
+                <li style="margin-bottom: 8px;">📐 <strong>Base de cálculo:</strong> Dados validados pelo cliente para os 3 primeiros anos — Soja: 65 sc/ha × R$ 110 (2027), 65 sc/ha × R$ 115 (2028), 66 sc/ha × R$ 125 (2029). Milho: 110 sc/ha × R$ 53 (2027 e 2028), 110 sc/ha × R$ 55 (2029).</li>
+                <li style="margin-bottom: 8px;">📈 <strong>Evolução pós-2029:</strong> Crescimento de produtividade de 1,5% a.a. (compatível com média histórica da Embrapa para soja no Cerrado) e ajustes pontuais de preço alinhados à meta de inflação de longo prazo.</li>
+                <li style="margin-bottom: 8px;">⚙️ <strong>Custos:</strong> Baseados na modelagem real do produtor — insumos, operacional, depreciação e arrendo, consolidados conforme planilha apresentada. Custos crescem em ritmo coerente com inflação operacional do agro.</li>
+                <li style="margin-bottom: 8px;">⚖️ <strong>Ponto de equilíbrio:</strong> Calculado dividindo-se o custo total pelo preço (PE em quantidade) e pela produção esperada (PE em valor). Mostra o piso de viabilidade técnica de cada cultura.</li>
+                <li style="margin-bottom: 8px;">🔒 <strong>Reserva de capital de giro (8%):</strong> Percentual mínimo recomendado para operações rurais — cobre 1 ciclo curto de imprevistos sem comprometer o serviço da dívida.</li>
+                <li style="margin-bottom: 8px;">🏦 <strong>Estrutura de dívida considerada:</strong> Praça (R$ 1,80 MM) quitada integralmente em 2027 + Carência bancária total em 2027 e 2028 + Amortização escalonada de R$ 11,50 MM entre 2029 e 2036 (R$ 1,0 MM crescendo até R$ 2,0 MM/ano).</li>
+                <li style="margin-bottom: 8px;">⚠️ <strong>Limitações:</strong> A projeção <strong>não considera</strong> eventos extremos (quebra de safra severa, choques de preço &gt; 30%, mudança regulatória). Para análise de stress, ver matrizes de sensibilidade no documento de Plano Estratégico de 10 Anos.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- CREDENTIALS -->
+    <div class="credentials">
+        <div class="credentials-content">
+            <div class="cred-label">Análise e Construção</div>
+            <div class="cred-name">Dr. Sidney Souza</div>
+            <div class="cred-title">Economista e Adm. Agrícola — Estrategista Econômico do Produtor</div>
+            <div class="cred-spec">Especialista em economia da fazenda e gestão de risco no agro</div>
+
+            <div class="cred-divider"></div>
+
+            <div class="cred-tagline">
+                <div class="cred-tagline-line">"Transformamos dados da fazenda em decisões econômicas"</div>
+                <div class="cred-tagline-line">"Ajudamos produtores a entender se o mercado sustenta seu negócio"</div>
+            </div>
+
+            <div class="cred-contacts">
+                <div class="cred-contact">✉️ sidneyagro@gmail.com</div>
+                <div class="cred-contact">📱 (64) 9 9226-6886</div>
+                <div class="cred-contact">📸 @ruralin.ai</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Projeção Decenal de Caixa — Documento Confidencial — Maio/2026<br>
+        Baseado em premissas validadas pelo cliente — Sujeito a revisão anual
+    </footer>
+</div>
+
+</body>
+</html>
