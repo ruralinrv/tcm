@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doc #10 — Análise Estratégica de Insumos | Faz. Água Rica</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --verde-escuro: #14532d;
+        --verde-medio: #166534;
+        --verde-claro: #15803d;
+        --verde-suave: #dcfce7;
+        --dourado: #fbbf24;
+        --dourado-escuro: #d97706;
+        --vermelho: #dc2626;
+        --vermelho-suave: #fee2e2;
+        --azul: #1e40af;
+        --azul-suave: #dbeafe;
+        --bg: #f8fafc;
+        --texto: #1e293b;
+        --cinza: #64748b;
+        --cinza-claro: #e2e8f0;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg);
+        color: var(--texto);
+        line-height: 1.65;
+    }
+
+    /* HEADER */
+    .hero {
+        background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde-medio) 50%, var(--verde-claro) 100%);
+        color: #fff;
+        padding: 50px 30px 60px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '🌾';
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        font-size: 220px;
+        opacity: 0.07;
+        transform: rotate(-15deg);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+
+    .hero-badge {
+        display: inline-block;
+        background: rgba(251,191,36,0.2);
+        color: #fde68a;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(251,191,36,0.4);
+    }
+
+    .hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+    .hero h2 { font-size: 17px; font-weight: 400; opacity: 0.95; margin-bottom: 22px; }
+
+    .hero-meta {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+        background: rgba(255,255,255,0.12);
+        padding: 8px 18px;
+        border-radius: 25px;
+        font-size: 12.5px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* CONTAINER */
+    .container {
+        max-width: 1200px;
+        margin: -40px auto 0;
+        padding: 0 25px 60px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* CARD BASE */
+    .card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 32px 36px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        margin-bottom: 28px;
+    }
+
+    .card-titulo {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+        padding-bottom: 16px;
+        border-bottom: 3px solid var(--verde-claro);
+    }
+
+    .card-titulo-numero {
+        background: linear-gradient(135deg, var(--verde-medio), var(--verde-claro));
+        color: #fff;
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 800;
+        box-shadow: 0 4px 12px rgba(21,128,61,0.25);
+        flex-shrink: 0;
+    }
+
+    .card-titulo-texto h2 {
+        font-size: 22px;
+        color: var(--verde-escuro);
+        font-weight: 700;
+    }
+
+    .card-titulo-texto p {
+        font-size: 12.5px;
+        color: var(--cinza);
+        margin-top: 2px;
+    }
+
+    /* SUMÁRIO EXECUTIVO */
+    .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 22px;
+    }
+
+    .kpi-card {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border-radius: 12px;
+        padding: 18px 20px;
+        border-left: 5px solid var(--verde-claro);
+    }
+
+    .kpi-label {
+        font-size: 11px;
+        color: var(--verde-escuro);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .kpi-valor {
+        font-size: 24px;
+        color: var(--verde-escuro);
+        font-weight: 800;
+        margin-bottom: 4px;
+    }
+
+    .kpi-sub {
+        font-size: 11.5px;
+        color: var(--cinza);
+    }
+
+    .kpi-card.alerta {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border-left-color: var(--vermelho);
+    }
+
+    .kpi-card.alerta .kpi-label, .kpi-card.alerta .kpi-valor { color: var(--vermelho); }
+
+    .kpi-card.dourado {
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        border-left-color: var(--dourado-escuro);
+    }
+
+    .kpi-card.dourado .kpi-label, .kpi-card.dourado .kpi-valor { color: var(--dourado-escuro); }
+
+    /* TEXTO */
+    p { margin-bottom: 14px; font-size: 14px; }
+    p strong { color: var(--verde-escuro); }
+
+    /* TABELAS */
+    .tabela-wrap { overflow-x: auto; margin: 18px 0; }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    th {
+        background: linear-gradient(135deg, var(--verde-medio), var(--verde-claro));
+        color: #fff;
+        padding: 12px 14px;
+        text-align: left;
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    td {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--cinza-claro);
+    }
+
+    tr:nth-child(even) td { background: #f8fafc; }
+    tr:hover td { background: #f0fdf4; }
+
+    td.numero { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+    td.destaque { color: var(--verde-escuro); font-weight: 700; }
+    td.alerta { color: var(--vermelho); font-weight: 700; }
+    td.positivo { color: var(--verde-claro); font-weight: 700; }
+
+    tr.total td {
+        background: var(--verde-suave) !important;
+        font-weight: 800;
+        color: var(--verde-escuro);
+        border-top: 2px solid var(--verde-claro);
+    }
+
+    /* BARRAS DE PROGRESSO */
+    .barra-container {
+        background: var(--cinza-claro);
+        border-radius: 6px;
+        height: 22px;
+        position: relative;
+        overflow: hidden;
+        min-width: 140px;
+    }
+
+    .barra-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--verde-medio), var(--verde-claro));
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .barra-fill.alerta { background: linear-gradient(90deg, #b91c1c, #dc2626); }
+    .barra-fill.dourado { background: linear-gradient(90deg, #d97706, #f59e0b); }
+
+    /* ALERTA / INSIGHT BOX */
+    .insight-box {
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        border-left: 6px solid var(--dourado);
+        padding: 18px 22px;
+        border-radius: 10px;
+        margin: 18px 0;
+    }
+
+    .insight-titulo {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--dourado-escuro);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .insight-texto { font-size: 13.5px; color: var(--texto); line-height: 1.7; }
+
+    .alerta-box {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border-left: 6px solid var(--vermelho);
+        padding: 18px 22px;
+        border-radius: 10px;
+        margin: 18px 0;
+    }
+
+    .alerta-box .insight-titulo { color: var(--vermelho); }
+
+    .sucesso-box {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border-left: 6px solid var(--verde-claro);
+        padding: 18px 22px;
+        border-radius: 10px;
+        margin: 18px 0;
+    }
+
+    .sucesso-box .insight-titulo { color: var(--verde-escuro); }
+
+    .info-box {
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        border-left: 6px solid var(--azul);
+        padding: 18px 22px;
+        border-radius: 10px;
+        margin: 18px 0;
+    }
+
+    .info-box .insight-titulo { color: var(--azul); }
+
+    /* GRID DE COMPARAÇÃO */
+    .comp-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+        margin: 20px 0;
+    }
+
+    .comp-card {
+        background: #fff;
+        border: 2px solid var(--cinza-claro);
+        border-radius: 10px;
+        padding: 18px 20px;
+    }
+
+    .comp-card.safra-anterior { border-color: #94a3b8; }
+    .comp-card.safra-atual { border-color: var(--verde-claro); }
+
+    .comp-titulo {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--cinza-claro);
+    }
+
+    .comp-card.safra-anterior .comp-titulo { color: #475569; }
+    .comp-card.safra-atual .comp-titulo { color: var(--verde-escuro); border-bottom-color: var(--verde-claro); }
+
+    .comp-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        font-size: 13px;
+        border-bottom: 1px dashed var(--cinza-claro);
+    }
+
+    .comp-item:last-child { border-bottom: none; }
+
+    /* RECOMENDAÇÃO */
+    .reco-card {
+        background: #fff;
+        border: 2px solid var(--cinza-claro);
+        border-radius: 12px;
+        padding: 20px 22px;
+        margin-bottom: 16px;
+        position: relative;
+        padding-left: 65px;
+    }
+
+    .reco-numero {
+        position: absolute;
+        left: 16px;
+        top: 18px;
+        background: linear-gradient(135deg, var(--verde-medio), var(--verde-claro));
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .reco-titulo {
+        font-size: 15px;
+        color: var(--verde-escuro);
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .reco-descricao { font-size: 13px; color: var(--texto); margin-bottom: 10px; line-height: 1.65; }
+
+    .reco-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .reco-tag {
+        background: var(--verde-suave);
+        color: var(--verde-escuro);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .reco-tag.economia { background: #fef3c7; color: var(--dourado-escuro); }
+    .reco-tag.urgente { background: var(--vermelho-suave); color: var(--vermelho); }
+    .reco-tag.prazo { background: var(--azul-suave); color: var(--azul); }
+
+    /* CURVA ABC */
+    .abc-bar {
+        display: flex;
+        margin: 14px 0;
+        height: 60px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .abc-segment {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 12px;
+        text-align: center;
+        padding: 4px;
+    }
+
+    .abc-a { background: linear-gradient(135deg, var(--vermelho), #b91c1c); }
+    .abc-b { background: linear-gradient(135deg, var(--dourado-escuro), #b45309); }
+    .abc-c { background: linear-gradient(135deg, var(--verde-medio), var(--verde-claro)); }
+
+    /* RODAPÉ */
+    .footer {
+        background: linear-gradient(135deg, #052e16 0%, #14532d 100%);
+        color: #fff;
+        padding: 40px 30px;
+        text-align: center;
+        margin-top: 50px;
+        position: relative;
+    }
+
+    .footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--dourado), var(--dourado-escuro));
+    }
+
+    .footer-content { max-width: 800px; margin: 0 auto; }
+    .footer-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #fde68a; font-weight: 700; margin-bottom: 8px; }
+    .footer-nome { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .footer-titulo { font-size: 13px; opacity: 0.9; margin-bottom: 18px; }
+    .footer-divisor { width: 50px; height: 2px; background: rgba(251,191,36,0.5); margin: 14px auto; }
+
+    .footer-contatos {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .footer-contato {
+        background: rgba(251,191,36,0.18);
+        padding: 8px 16px;
+        border-radius: 22px;
+        font-size: 12px;
+        border: 1px solid rgba(251,191,36,0.3);
+    }
+
+    .voltar-portal {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: var(--verde-escuro);
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        z-index: 100;
+        transition: all 0.2s;
+    }
+
+    .voltar-portal:hover { background: var(--dourado-escuro); transform: translateY(-2px); }
+
+    @media (max-width: 768px) {
+        .hero h1 { font-size: 26px; }
+        .card { padding: 22px 20px; }
+        .container { padding: 0 15px 40px; }
+    }
+
+    @media print {
+        .voltar-portal { display: none; }
+        .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+    }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-content">
+        <span class="hero-badge">📊 Documento #10 · Análise Operacional</span>
+        <h1>Análise Estratégica de Insumos</h1>
+        <h2>Diagnóstico comparativo das safras 24/25 e 25/26 — foco aprofundado em soja, com análise complementar para milho</h2>
+        <div class="hero-meta">
+            <div class="hero-meta-item">🌾 Faz. Água Rica</div>
+            <div class="hero-meta-item">👨‍🌾 Thiago Carvalho Matias</div>
+            <div class="hero-meta-item">📅 Maio/2026</div>
+            <div class="hero-meta-item">📑 8 Análises Integradas</div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+    <!-- NOTA METODOLÓGICA -->
+    <div class="card" style="border-left: 6px solid var(--azul);">
+        <div class="info-box" style="margin: 0;">
+            <div class="insight-titulo">📌 Nota Metodológica</div>
+            <div class="insight-texto">
+                Esta análise foca <strong>prioritariamente na cultura da soja</strong>, que apresenta dados detalhados e consistentes nas duas safras (24/25 e 25/26), permitindo comparações precisas item a item. Para <strong>milho</strong>, foram apresentados os mesmos dados-base nas duas safras, e o sorgo foi excluído desta análise por ausência de dados detalhados — ambos serão tratados em complementação futura. Áreas consideradas: Soja 760 ha · Milho 291 ha.
+            </div>
+        </div>
+    </div>
+
+    <!-- I. SUMÁRIO EXECUTIVO -->
+    <div class="card">
+        <div class="card-titulo">
+            <div class="card-titulo-numero">I</div>
+            <div class="card-titulo-texto">
+                <h2>📋 Sumário Executivo</h2>
+                <p>Visão consolidada da operação de insumos da soja — números-chave em uma página</p>
+            </div>
+        </div>
+
+        <p>Esta análise consolida os dados reais de compra de insumos das safras <strong>24/25 e 25/26</strong> da Faz. Água Rica, com foco aprofundado na soja (760 ha) — cultura principal e com dados consistentes para comparação. O objetivo é identificar padrões, ineficiências e oportunidades de economia para a próxima safra (26/27).</p>
+
+        <h3 style="color: var(--verde-escuro); margin: 20px 0 12px; font-size: 16px;">🎯 Indicadores-Chave Consolidados — Soja Safra 25/26</h3>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">💰 Custo Total Soja</div>
+                <div class="kpi-valor">R$ 2,81 mi</div>
+                <div class="kpi-sub">760 ha · R$ 3.697/ha</div>
+            </div>
+            <div class="kpi-card alerta">
+                <div class="kpi-label">📈 Variação vs 24/25</div>
+                <div class="kpi-valor">+14,6%</div>
+                <div class="kpi-sub">+R$ 358 mil em 1 safra</div>
+            </div>
+            <div class="kpi-card alerta">
+                <div class="kpi-label">🚨 Defensivos Soja</div>
+                <div class="kpi-valor">+52,9%</div>
+                <div class="kpi-sub">R$ 617k → R$ 944k</div>
+            </div>
+            <div class="kpi-card dourado">
+                <div class="kpi-label">💎 Economia Potencial</div>
+                <div class="kpi-valor">R$ 280-420 mil</div>
+                <div class="kpi-sub">10% a 15% do custo</div>
+            </div>
+        </div>
+
+        <div class="sucesso-box">
+            <div class="insight-titulo">✅ Principais Conclusões</div>
+            <div class="insight-texto">
+                <strong>1.</strong> O custo total dos insumos da soja subiu <strong>R$ 358 mil (+14,6%)</strong> entre 24/25 e 25/26 — alta significativa que merece atenção imediata.<br>
+                <strong>2.</strong> O <strong>vilão principal são os defensivos</strong>, com alta de <strong>+52,9%</strong> (de R$ 617k para R$ 944k) — concentrados em fungicidas e herbicidas via Buriti.<br>
+                <strong>3.</strong> <strong>Pontos positivos:</strong> sementes caíram 15% (-R$ 96 mil) e a entrada da Nutrien em fertilizantes via barter trouxe modernização da relação comercial.<br>
+                <strong>4.</strong> Mudança estrutural de fornecedores: <strong>Comigo perdeu protagonismo</strong> em fertilizantes (era R$ 1,01 mi em 24/25, hoje quase nada) e <strong>Nutrien assumiu</strong> via barter (R$ 1,05 mi em 25/26).<br>
+                <strong>5.</strong> Existem <strong>5 oportunidades concretas</strong> de redução de custo, com potencial agregado de <strong>R$ 280-420 mil</strong> para a safra 26/27.
+            </div>
+        </div>
+    </div>
+
+    <!-- II. DIAGNÓSTICO DE PORTFÓLIO -->
+    <div class="card">
+        <div class="card-titulo">
+            <div class="card-titulo-numero">II</div>
+            <div class="card-titulo-texto">
+                <h2>📊 Diagnóstico do Portfólio — Soja 25/26</h2>
+                <p>Curva ABC, distribuição de custos e composição do mix por categoria</p>
+            </div>
+        </div>
+
+        <h3 style="color: var(--verde-escuro); margin-bottom: 14px; font-size: 16px;">📦 Distribuição por Categoria — Soja Safra 25/26</h3>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Valor (R$)</th>
+                        <th>% do Total</th>
+                        <th>R$/ha</th>
+                        <th>Representação Visual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🧪 <strong>Fertilizantes</strong></td>
+                        <td class="numero">1.139.581</td>
+                        <td class="numero destaque">40,6%</td>
+                        <td class="numero">1.499</td>
+                        <td><div class="barra-container"><div class="barra-fill" style="width: 100%;">40,6%</div></div></td>
+                    </tr>
+                    <tr>
+                        <td>🛡️ <strong>Defensivos</strong></td>
+                        <td class="numero">943.747</td>
+                        <td class="numero destaque">33,6%</td>
+                        <td class="numero">1.242</td>
+                        <td><div class="barra-container"><div class="barra-fill alerta" style="width: 83%;">33,6%</div></div></td>
+                    </tr>
+                    <tr>
+                        <td>🌱 <strong>Sementes</strong></td>
+                        <td class="numero">547.247</td>
+                        <td class="numero destaque">19,5%</td>
+                        <td class="numero">720</td>
+                        <td><div class="barra-container"><div class="barra-fill" style="width: 48%;">19,5%</div></div></td>
+                    </tr>
+                    <tr>
+                        <td>🪨 <strong>Calagem (Hipercal + Frete)</strong></td>
+                        <td class="numero">179.225</td>
+                        <td class="numero destaque">6,4%</td>
+                        <td class="numero">236</td>
+                        <td><div class="barra-container"><div class="barra-fill" style="width: 16%;">6,4%</div></div></td>
+                    </tr>
+                    <tr class="total">
+                        <td><strong>TOTAL SOJA 25/26</strong></td>
+                        <td class="numero">2.809.800</td>
+                        <td class="numero">100%</td>
+                        <td class="numero">3.697</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-box">
+            <div class="insight-titulo">📌 Composição do Calcário (Hipercal)</div>
+            <div class="insight-texto">
+                Os <strong>R$ 179.225</strong> em calagem dividem-se em: <strong>R$ 73.700</strong> em produto (670 t × R$ 110/t) + <strong>R$ 105.525</strong> em frete (670 t × R$ 157,50/t). Atenção: <strong>o frete representa 59% do custo</strong> da calagem — vale cotar transportadoras alternativas.
+            </div>
+        </div>
+
+        <h3 style="color: var(--verde-escuro); margin: 24px 0 14px; font-size: 16px;">🎯 Curva ABC — Concentração de Custo (Soja 25/26)</h3>
+
+        <p>Aplicando a metodologia de Pareto sobre os fornecedores da soja em 25/26:</p>
+
+        <div class="abc-bar">
+            <div class="abc-segment abc-a" style="flex: 70;">
+                <div>CLASSE A · 70%</div>
+                <div style="font-size: 10px; opacity: 0.9;">Nutrien + Buriti</div>
+            </div>
+            <div class="abc-segment abc-b" style="flex: 20;">
+                <div>B · 20%</div>
+                <div style="font-size: 10px;">Spaço + LDC + Hipercal</div>
+            </div>
+            <div class="abc-segment abc-c" style="flex: 10;">
+                <div>C · 10%</div>
+                <div style="font-size: 10px;">Demais (10+)</div>
+            </div>
+        </div>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fornecedor</th>
+                        <th>Categoria Forte</th>
+                        <th>Valor (R$)</th>
+                        <th>% Total</th>
+                        <th>Modalidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Nutrien</strong></td>
+                        <td>Fertilizantes + Sementes</td>
+                        <td class="numero">1.052.275</td>
+                        <td class="numero alerta">37,5%</td>
+                        <td>Barter (Soja)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Buriti</strong></td>
+                        <td>Defensivos diversos</td>
+                        <td class="numero">911.812</td>
+                        <td class="numero alerta">32,5%</td>
+                        <td>Prazo 30/03/26</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Spaço Agrícola</strong></td>
+                        <td>Herbicidas + Fungicidas</td>
+                        <td class="numero">127.530</td>
+                        <td class="numero">4,5%</td>
+                        <td>Prazo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Comigo</strong></td>
+                        <td>Mancozeb + Enxofre</td>
+                        <td class="numero">123.089</td>
+                        <td class="numero">4,4%</td>
+                        <td>Prazo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hipercal</strong></td>
+                        <td>Calcário + Frete</td>
+                        <td class="numero">179.225</td>
+                        <td class="numero">6,4%</td>
+                        <td>Pago</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LDC</strong></td>
+                        <td>Glifosato 720</td>
+                        <td class="numero">79.500</td>
+                        <td class="numero">2,8%</td>
+                        <td>Prazo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Corteva</strong></td>
+                        <td>Defensivos + Adj</td>
+                        <td class="numero">99.460</td>
+                        <td class="numero">3,5%</td>
+                        <td>Prazo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Syngenta</strong></td>
+                        <td>Inseticidas premium</td>
+                        <td class="numero">63.000</td>
+                        <td class="numero">2,2%</td>
+                        <td>Prazo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Demais (8 forn.)</strong></td>
+                        <td>Diversos</td>
+                        <td class="numero">173.909</td>
+                        <td class="numero">6,2%</td>
+                        <td>Prazo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alerta-box">
+            <div class="insight-titulo">⚠️ Insight Crítico — Nova Concentração</div>
+            <div class="insight-texto">A safra 25/26 mostra <strong>mudança radical no perfil de fornecedores</strong>: a <strong>Nutrien (via barter)</strong> assumiu a liderança em fertilizantes, e a <strong>Buriti</strong> manteve domínio em defensivos. Juntos representam <strong>70% do custo total da soja</strong>. Embora simplifique a gestão, essa concentração expõe a fazenda a risco de fornecimento e dependência comercial. <strong>Meta sugerida:</strong> reduzir Top-2 para 55-60% até a safra 26/27.</div>
+        </div>
+    </div>
+
+    <!-- III. ANÁLISE COMPARATIVA 24/25 vs 25/26 -->
+    <div class="card">
+        <div class="card-titulo">
+            <div class="card-titulo-numero">III</div>
+            <div class="card-titulo-texto">
+                <h2>📈 Análise Comparativa — Soja 24/25 vs 25/26</h2>
+                <p>Variações de preço, volume e mix entre as duas safras analisadas</p>
+            </div>
+        </div>
+
+        <div class="comp-grid">
+            <div class="comp-card safra-anterior">
+                <div class="comp-titulo">📅 Safra 24/25</div>
+                <div class="comp-item"><span>Custo Total Soja</span><strong>R$ 2.451.831</strong></div>
+                <div class="comp-item"><span>Custo R$/ha</span><strong>R$ 3.226</strong></div>
+                <div class="comp-item"><span>Fertilizantes</span><strong>R$ 1.011.155</strong></div>
+                <div class="comp-item"><span>Sementes</span><strong>R$ 644.065</strong></div>
+                <div class="comp-item"><span>Defensivos</span><strong>R$ 617.386</strong></div>
+                <div class="comp-item"><span>Calagem</span><strong>R$ 179.225</strong></div>
+                <div class="comp-item"><span>Forn. dominante FERT</span><strong>Comigo</strong></div>
+            </div>
+            <div class="comp-card safra-atual">
+                <div class="comp-titulo">📅 Safra 25/26</div>
+                <div class="comp-item"><span>Custo Total Soja</span><strong>R$ 2.809.800</strong></div>
+                <div class="comp-item"><span>Custo R$/ha</span><strong>R$ 3.697</strong></div>
+                <div class="comp-item"><span>Fertilizantes</span><strong>R$ 1.139.581</strong></div>
+                <div class="comp-item"><span>Sementes</span><strong>R$ 547.247</strong></div>
+                <div class="comp-item"><span>Defensivos</span><strong>R$ 943.747</strong></div>
+                <div class="comp-item"><span>Calagem</span><strong>R$ 179.225</strong></div>
+                <div class="comp-item"><span>Forn. dominante FERT</span><strong>Nutrien (barter)</strong></div>
+            </div>
+        </div>
+
+        <h3 style="color: var(--verde-escuro); margin: 20px 0 14px; font-size: 16px;">🔍 Variações por Categoria — Soja</h3>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>24/25 (R$)</th>
+                        <th>25/26 (R$)</th>
+                        <th>Variação R$</th>
+                        <th>Variação %</th>
+                        <th>Tendência</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🧪 Fertilizantes</td>
+                        <td class="numero">1.011.155</td>
+                        <td class="numero">1.139.581</td>
+                        <td class="numero">+128.426</td>
+                        <td class="numero alerta">+12,7%</td>
+                        <td>📈 Alta</td>
+                    </tr>
+                    <tr>
+                        <td>🛡️ Defensivos</td>
+                        <td class="numero">617.386</td>
+                        <td class="numero">943.747</td>
+                        <td class="numero">+326.361</td>
+                        <td class="numero alerta">+52,9%</td>
+                        <td>🚨 Alta crítica</td>
+                    </tr>
+                    <tr>
+                        <td>🌱 Sementes</td>
+                        <td class="numero">644.065</td>
+                        <td class="numero">547.247</td>
+                        <td class="numero">-96.818</td>
+                        <td class="numero positivo">-15,0%</td>
+                        <td>✅ Queda</td>
+                    </tr>
+                    <tr>
+                        <td>🪨 Calagem</td>
+                        <td class="numero">179.225</td>
+                        <td class="numero">179.225</td>
+                        <td class="numero">0</td>
+                        <td class="numero positivo">0%</td>
+                        <td>➡️ Estável</td>
+                    </tr>
+                    <tr class="total">
+                        <td>TOTAL SOJA</td>
+                        <td class="numero">2.451.831</td>
+                        <td class="numero">2.809.800</td>
+                        <td class="numero">+357.969</td>
+                        <td class="numero">+14,6%</td>
+                        <td>📈 Alta forte</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alerta-box">
+            <div class="insight-titulo">🚨 Alerta Crítico — Defensivos</div>
+            <div class="insight-texto">A categoria que mais impactou o custo foi <strong>Defensivos (+52,9% / +R$ 326 mil)</strong>. Essa alta é explicada pela: <strong>(1)</strong> migração para fungicidas premium (Fox Xpro, Orkestra, Sphere Max, Azimut) — só Fox Xpro saltou de R$ 88.960 para R$ 108.000; <strong>(2)</strong> entrada de novos herbicidas (Apresa, Cletodin, Optibex); <strong>(3)</strong> ampliação do mix de inseticidas (Engeo Pleno S, Intrepid EC, Expedition, Ampligo). <strong>Aqui está a maior oportunidade de economia da próxima safra.</strong></div>
+        </div>
+
+        <div class="sucesso-box">
+            <div class="insight-titulo">✅ Ponto Positivo — Sementes</div>
+            <div class="insight-texto">A categoria <strong>Sementes caiu R$ 96.818 (-15,0%)</strong>, refletindo: redução do número de cultivares experimentais, eliminação de "Bonus Caseira" e "TMG 2381 IPRO", e consolidação em poucas variedades premium (Tormenta, Olimpo, BS 2471/2478). <strong>Boa decisão de mix — manter essa lógica.</strong></div>
+        </div>
+
+        <h3 style="color: var(--verde-escuro); margin: 24px 0 14px; font-size: 16px;">🔬 Comparativo Direto — Produtos Repetidos</h3>
+
+        <p>Análise dos produtos comprados em ambas as safras (24/25 e 25/26):</p>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preço 24/25</th>
+                        <th>Preço 25/26</th>
+                        <th>Variação %</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Fox Xpro (fungicida)</td><td class="numero">R$ 278,00</td><td class="numero">R$ 270,00</td><td class="numero positivo">-2,9%</td><td>✅ Negociou bem</td></tr>
+                    <tr><td>KCl (Cloreto de Potássio)</td><td class="numero">R$ 2.920,62</td><td class="numero">R$ 3.195,14</td><td class="numero alerta">+9,4%</td><td>📈 Alta moderada</td></tr>
+                    <tr><td>Bright (inseticida)</td><td class="numero">R$ 162,00</td><td class="numero">—</td><td class="numero">N/A</td><td>🔄 Substituído</td></tr>
+                    <tr><td>OLIMPO Fortenza Elite</td><td class="numero">R$ 16.000,00</td><td class="numero">R$ 13.162,17</td><td class="numero positivo">-17,7%</td><td>✅ Forte queda</td></tr>
+                    <tr><td>Calcário (Hipercal)</td><td class="numero">R$ 110,00</td><td class="numero">R$ 110,00</td><td class="numero positivo">0%</td><td>➡️ Estável</td></tr>
+                    <tr><td>Frete Calagem</td><td class="numero">R$ 157,50</td><td class="numero">R$ 157,50</td><td class="numero positivo">0%</td><td>➡️ Estável</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-box">
+            <div class="insight-titulo">💡 Padrão Identificado</div>
+            <div class="insight-texto">A migração de fornecedor de fertilizantes (Comigo → Nutrien) <strong>elevou o custo unitário de KCl em 9,4%</strong>. Embora o barter ofereça vantagens cambiais e operacionais, é importante validar se o ganho dessas vantagens supera o custo unitário superior. <strong>Recomenda-se cotar com Comigo nas próximas negociações</strong> mesmo que para forçar contraproposta da Nutrien.</div>
+        </div>
+    </div>
+
+    <!-- IV. MILHO E SORGO -->
+    <div class="card">
+        <div class="card-titulo">
+            <div class="card-titulo-numero">IV</div>
+            <div class="card-titulo-texto">
+                <h2>🌽 Milho e Sorgo — Análise Complementar</h2>
+                <p>Observações sobre as outras culturas da operação</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="insight-titulo">📌 Limitação Metodológica</div>
+            <div class="insight-texto">
+                Os dados disponibilizados de <strong>milho</strong> apresentam os <strong>mesmos valores nas duas safras (24/25 e 25/26)</strong>, sugerindo que: (a) os contratos foram replicados; (b) houve consolidação de uma única base de dados para as duas safras; ou (c) o detalhamento da safra 25/26 ainda não foi finalizado. Por isso, não é possível fazer análise comparativa robusta para essa cultura no momento. Para o <strong>sorgo</strong>, não foram apresentados dados suficientes — análise será incluída em complementação futura.
+            </div>
+        </div>
+
+        <h3 style="color: var(--verde-escuro); margin: 20px 0 14px; font-size: 16px;">🌽 Composição do Milho (291 ha) — Dados Apresentados</h3>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Valor (R$)</th>
+                        <th>% Total</th>
+                        <th>R$/ha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🧪 Fertilizantes (CHS + ADM)</td>
+                        <td class="numero">316.064</td>
+                        <td class="numero destaque">50,9%</td>
+                        <td class="numero">1.086</td>
+                    </tr>
+                    <tr>
+                        <td>🛡️ Defensivos (diversos)</td>
+                        <td class="numero">152.184</td>
+                        <td class="numero destaque">24,5%</td>
+                        <td class="numero">523</td>
+                    </tr>
+                    <tr>
+                        <td>🌱 Sementes (Brevant + Morgan)</td>
+                        <td class="numero">152.133</td>
+                        <td class="numero destaque">24,5%</td>
+                        <td class="numero">523</td>
+                    </tr>
+                    <tr class="total">
+                        <td>TOTAL MILHO</td>
+                        <td class="numero">620.381</td>
+                        <td class="numero">100%</td>
+                        <td class="numero">2.132</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="insight-box">
+            <div class="insight-titulo">💡 Observação sobre o Milho</div>
+            <div class="insight-texto">
+                O custo de R$ 2.132/ha do milho é <strong>menor que o da soja (R$ 3.697/ha)</strong>, o que é coerente com o padrão regional. Os <strong>fertilizantes representam 50,9% do custo</strong> — concentração esperada para milho (alta demanda de N). <strong>Recomendação:</strong> assim que os dados detalhados da safra 25/26 forem finalizados, refazer a análise comparativa para identificar tendências.
+            </div>
+        </div>
+    </div>
+
+    <!-- V. MAPEAMENTO DE FORNECEDORES -->
+    <div class="card">
+        <div class="card-titulo">
+            <div class="card-titulo-numero">V</div>
+            <div class="card-titulo-texto">
+                <h2>🏢 Mapeamento de Fornecedores — Soja 25/26</h2>
+                <p>Concentração, dependência e oportunidades comerciais</p>
+            </div>
+        </div>
+
+        <h3 style="color: var(--verde-escuro); margin-bottom: 14px; font-size: 16px;">🔬 Análise Detalhada dos 2 Maiores</h3>
+
+        <div class="comp-grid">
+            <div class="comp-card safra-atual">
+                <div class="comp-titulo">🥇 NUTRIEN — 37,5%</div>
+                <p style="font-size: 13px;"><strong>Pontos Fortes:</strong></p>
+                <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 12px;">
+                    <li>Barter consolidado (proteção cambial)</li>
+                    <li>Combina FERT + Sementes premium</li>
+                    <li>Volume travado em sacas de soja</li>
+                    <li>Flexibilidade de prazo</li>
+                </ul>
+                <p style="font-size: 13px;"><strong>Pontos de Atenção:</strong></p>
+                <ul style="font-size: 13px; padding-left: 20px;">
+                    <li>KCl 9,4% mais caro que Comigo na safra anterior</li>
+                    <li>Trava preço de venda da soja</li>
+                    <li>Dependência única em fertilizantes</li>
+                </ul>
+            </div>
+            <div class="comp-card safra-anterior">
+                <div class="comp-titulo">🥈 BURITI — 32,5%</div>
+                <p style="font-size: 13px;"><strong>Pontos Fortes:</strong></p>
+                <ul style="font-size: 13px; padding-left: 20px; margin-bottom: 12px;">
+                    <li>Atendimento técnico próximo</li>
+                    <li>Portfólio amplo de defensivos</li>
+                    <li>Aceita prazo unificado (30/03)</li>
+                </ul>
+                <p style="font-size: 13px;"><strong>Pontos de Atenção:</strong></p>
+                <ul style="font-size: 13px; padding-left: 20px;">
+                    <li>Domina 33% do custo total — risco crítico</li>
+                    <li>Defensivos premium com preço alto (Fox Xpro R$ 270)</li>
+                    <li>Sem barter — pagamento integral em dinheiro</li>
+                    <li>Categoria que mais cresceu (+52,9%)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="insight-titulo">💼 Recomendação Comercial Estratégica</div>
+            <div class="insight-texto">Para a safra 26/27, sugiro estruturar a negociação em <strong>3 frentes paralelas</strong>: <strong>(1)</strong> renegociar barter Nutrien forçando cotação paralela com Comigo (recuperar o KCl mais barato); <strong>(2)</strong> abrir 1-2 alternativas à Buriti em defensivos (Agrogalaxy, Lavoro, Sumitomo Direct) para reduzir dependência crítica de 33%; <strong>(3)</strong> avaliar consolidação do calcário com transportador alternativo (frete = 59% do custo de calagem).</div>
+        </div>
+    </div>
+
+    <!-- VI. RISCOS IDENTIFICADOS -->
+    <div class="card">
+        <div class="card-titulo">
+            <div class="card-titulo-numero">VI</div>
+            <div class="card-titulo-texto">
+                <h2>⚠️ Riscos Identificados</h2>
+                <p>Mapa dos principais pontos de vulnerabilidade na operação de insumos</p>
+            </div>
+        </div>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Risco</th>
+                        <th>Probabilidade</th>
+                        <th>Impacto</th>
+                        <th>Severidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Concentração Nutrien + Buriti (70%)</td><td>Alta</td><td>Alto</td><td class="alerta">🔴 Crítica</td></tr>
+                    <tr><td>2</td><td>Defensivos subiram +52,9% em 1 safra</td><td>Confirmado</td><td>Alto</td><td class="alerta">🔴 Crítica</td></tr>
+                    <tr><td>3</td><td>Barter Nutrien trava preço de venda da soja</td><td>Alta</td><td>Médio</td><td class="alerta">🟠 Alta</td></tr>
+                    <tr><td>4</td><td>Frete calcário = 59% do custo de calagem</td><td>Confirmado</td><td>Médio</td><td>🟠 Alta</td></tr>
+                    <tr><td>5</td><td>Dependência única de Buriti em defensivos</td><td>Alta</td><td>Alto</td><td class="alerta">🔴 Crítica</td></tr>
+                    <tr><td>6</td><td>Vencimentos concentrados em mar/26</td><td>Alta</td><td>Médio</td><td>🟠 Alta</td></tr>
+                    <tr><td>7</td><td>Itens sem cotação fechada (Acefato, 2,4D etc.)</td><td>Média</td><td>Médio</td><td>🟡 Média</td></tr>
+                    <tr><td>8</td><td>Dependência cambial (insumos dolarizados)</td><td>Média</td><td>Alto</td><td>🟠 Alta</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alerta-box">
+            <div class="insight-titulo">🚨 Top 3 Riscos para Ação Imediata</div>
+            <div class="insight-texto">
+                <strong>1. Explosão de defensivos (+52,9%):</strong> abrir cotação com mínimo 3 fornecedores alternativos antes de jul/26.<br>
+                <strong>2. Concentração Buriti (33%):</strong> reduzir para ≤ 20% até a safra 26/27.<br>
+                <strong>3. Vencimentos concentrados:</strong> renegociar 30% dos pagamentos para jun-jul/26 (alívio de fluxo).
+            </div>
+        </div>
+    </div>
+
+    <!-- VII. OPORTUNIDADES DE OTIMIZAÇÃO -->
+    <div class="card">
+        <div class="card-titulo">
+            <div class="card-titulo-numero">VII</div>
+            <div class="card-titulo-texto">
+                <h2>💎 Oportunidades de Otimização</h2>
+                <p>5 frentes concretas para reduzir custos em 10-15% na safra 26/27</p>
+            </div>
+        </div>
+
+        <div class="reco-card">
+            <div class="reco-numero">1</div>
+            <div class="reco-titulo">🛡️ Cotar Defensivos com Alternativas à Buriti</div>
+            <div class="reco-descricao">A categoria explodiu <strong>+52,9% (R$ 326 mil)</strong> — esse é o <strong>principal vilão da safra 25/26</strong>. Buriti concentra 33% do custo total. Defensivos premium como Fox Xpro (R$ 108 mil), Aproach Premium (R$ 30,6 mil), Azimut (R$ 16,1 mil) podem ser cotados com <strong>Agrogalaxy, Lavoro Agro, Sumitomo Direct ou direto com fabricantes</strong>. Histórico do mercado mostra economia média de 8-15% em fungicidas premium.</div>
+            <div class="reco-tags">
+                <span class="reco-tag economia">Economia: R$ 80-140 mil</span>
+                <span class="reco-tag prazo">Prazo: Jul/26</span>
+                <span class="reco-tag urgente">PRIORIDADE MÁXIMA</span>
+            </div>
+        </div>
+
+        <div class="reco-card">
+            <div class="reco-numero">2</div>
+            <div class="reco-titulo">🤝 Forçar Contraproposta no Barter Nutrien (KCl)</div>
+            <div class="reco-descricao">O KCl da Nutrien (barter) saiu 9,4% mais caro que o da Comigo na safra anterior. Cotando paralelamente com Comigo e LDC, é possível forçar Nutrien a equalizar preços ou conseguir desconto adicional. Considerando que KCl representa <strong>R$ 233 mil</strong> do custo, mesmo 5% de economia = R$ 12 mil. Combinado com P2O5 (R$ 819 mil) — economia potencial robusta.</div>
+            <div class="reco-tags">
+                <span class="reco-tag economia">Economia: R$ 50-80 mil</span>
+                <span class="reco-tag prazo">Prazo: Ago/26</span>
+                <span class="reco-tag urgente">Alta prioridade</span>
+            </div>
+        </div>
+
+        <div class="reco-card">
+            <div class="reco-numero">3</div>
+            <div class="reco-titulo">🚛 Cotar Transportador Alternativo para Calagem</div>
+            <div class="reco-descricao">O frete do calcário representa <strong>R$ 105.525 (59% do custo de calagem)</strong>. Negociar com 2-3 transportadores alternativos pode trazer economia de 10-20%. Considerar também: aplicação a granel direto na lavoura (sem armazenagem intermediária) e contratação de frete-retorno.</div>
+            <div class="reco-tags">
+                <span class="reco-tag economia">Economia: R$ 15-25 mil</span>
+                <span class="reco-tag prazo">Prazo: Jun/26</span>
+                <span class="reco-tag">Logística</span>
+            </div>
+        </div>
+
+        <div class="reco-card">
+            <div class="reco-numero">4</div>
+            <div class="reco-titulo">🌿 Ampliar Uso de Biológicos (Substituição Parcial)</div>
+            <div class="reco-descricao">Em 25/26 entraram bioinsumos (Spraytec Nodofix R$ 936, Simbiose Azospirillum R$ 370, Biotrop) com custo unitário muito baixo. Pode-se substituir <strong>20-30% dos fungicidas químicos</strong> (Fox Xpro, Orkestra, Sphere Max) por programas biológicos preventivos, reduzindo custo total e melhorando solo.</div>
+            <div class="reco-tags">
+                <span class="reco-tag economia">Economia: R$ 60-100 mil</span>
+                <span class="reco-tag prazo">Prazo: Out/26</span>
+                <span class="reco-tag">Sustentabilidade</span>
+            </div>
+        </div>
+
+        <div class="reco-card">
+            <div class="reco-numero">5</div>
+            <div class="reco-titulo">⏱️ Antecipar Negociação de Fertilizantes para Julho/26</div>
+            <div class="reco-descricao">Histórico do mercado de fertilizantes mostra que negociações fechadas em <strong>julho-agosto</strong> têm preço médio 8-12% menor que as fechadas em outubro-novembro. Antecipando a compra de P2O5 (R$ 819 mil) e KCl (R$ 233 mil), há oportunidade clara de redução. Mesmo 5% de economia sobre R$ 1,05 mi = R$ 52 mil.</div>
+            <div class="reco-tags">
+                <span class="reco-tag economia">Economia: R$ 75-110 mil</span>
+                <span class="reco-tag prazo">Prazo: Jul/26</span>
+                <span class="reco-tag urgente">Janela curta</span>
+            </div>
+        </div>
+
+        <div class="sucesso-box">
+            <div class="insight-titulo">💰 Economia Total Potencial Consolidada</div>
+            <div class="insight-texto">Se executarmos as <strong>5 oportunidades em conjunto</strong>, o potencial de economia para a safra 26/27 fica entre <strong>R$ 280 mil (cenário conservador)</strong> e <strong>R$ 420 mil (cenário otimista)</strong>. Isso representa entre <strong>10% e 15% do custo atual de insumos da soja</strong> — equivalente a <strong>R$ 368-553/ha</strong> a menos no custo total de produção.</div>
+        </div>
+    </div>
+
+    <!-- VIII. PLANO DE AÇÃO -->
+    <div class="card">
+        <div class="card-titulo">
+            <div class="card-titulo-numero">VIII</div>
+            <div class="card-titulo-texto">
+                <h2>✅ Plano de Ação para Safra 26/27</h2>
+                <p>Cronograma executivo para implementação das otimizações</p>
+            </div>
+        </div>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mês</th>
+                        <th>Ação</th>
+                        <th>Responsável</th>
+                        <th>Resultado Esperado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Jun/26</strong></td><td>Cotar transportadores alternativos para calagem</td><td>Thiago + Sidney</td><td>3 propostas em mãos</td></tr>
+                    <tr><td><strong>Jul/26</strong></td><td>Abrir cotação de defensivos (Agrogalaxy, Lavoro, Sumitomo)</td><td>Thiago</td><td>Mínimo 3 cotações</td></tr>
+                    <tr><td><strong>Jul/26</strong></td><td>Antecipar negociação de fertilizantes (P2O5 + KCl)</td><td>Thiago + Nutrien</td><td>Travar preço 26/27</td></tr>
+                    <tr><td><strong>Ago/26</strong></td><td>Forçar contraproposta KCl Nutrien vs Comigo</td><td>Thiago</td><td>Equalização ou troca</td></tr>
+                    <tr><td><strong>Set/26</strong></td><td>Definir programa biológico (substituir 20% fungicidas)</td><td>Sidney + Eng. Agrônomo</td><td>Plano técnico aprovado</td></tr>
+                    <tr><td><strong>Out/26</strong></td><td>Fechar contratos finais com economia consolidada</td><td>Thiago</td><td>Economia ≥ R$ 280 mil</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-box">
+            <div class="insight-titulo">📊 Próximos Passos Após Esta Análise</div>
+            <div class="insight-texto">
+                <strong>1.</strong> Validar com Eng. Agrônomo os produtos críticos que NÃO podem ser substituídos (manter Buriti como exclusividade técnica em alguns itens).<br>
+                <strong>2.</strong> Estruturar planilha de cotação comparativa (Doc #11 já entregue).<br>
+                <strong>3.</strong> Refazer análise de milho assim que os dados detalhados da safra 25/26 forem finalizados.<br>
+                <strong>4.</strong> Acompanhar mensalmente a evolução das cotações no Doc #11 (ferramenta interativa).
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- BOTÃO VOLTAR -->
+<a href="portal.html" class="voltar-portal">← Voltar ao Portal</a>
+
+<!-- RODAPÉ -->
+<div class="footer">
+    <div class="footer-content">
+        <div class="footer-label">Análise elaborada por</div>
+        <div class="footer-nome">Dr. Sidney Souza</div>
+        <div class="footer-titulo">Economista e Adm. Agrícola — Estrategista Econômico do Produtor</div>
+        <div class="footer-divisor"></div>
+        <p style="font-style: italic; opacity: 0.95; font-size: 13px;">"Transformamos dados da fazenda em decisões econômicas"</p>
+        <div class="footer-contatos">
+            <div class="footer-contato">✉️ sidneyagro@gmail.com</div>
+            <div class="footer-contato">📱 (64) 9 9226-6886</div>
+            <div class="footer-contato">📸 @ruralin.ai</div>
+        </div>
+        <div style="margin-top: 22px; font-size: 11px; opacity: 0.7;">
+            Doc #10 · Análise Estratégica de Insumos · Faz. Água Rica · Maio/2026<br>
+            Material confidencial — uso exclusivo de Thiago Carvalho Matias
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
